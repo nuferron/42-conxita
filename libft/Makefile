@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/21 15:43:54 by blvilarn          #+#    #+#              #
-#    Updated: 2023/09/22 17:09:49 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/02 14:39:44 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(SRC:.c=.o)
 #RULES
 
 %.o: %.c $(HEADER)
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 all: $(NAME)
 
@@ -45,4 +45,5 @@ fclean: clean
 re: fclean all
 
 #PHONY
+.SILENT: fclean clean $(NAME) all
 .PHONY: all clean fclean re bonus

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+         #
+#    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/02 14:25:48 by nuferron         ###   ########.fr        #
+#    Updated: 2023/10/02 14:35:16 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS = conxita.c
 
 SRCDIR = src/
 OBJDIR = obj/
-HEADER = pipex.h
+HEADER = conxita.h
 LIB = libft/libft.a
 CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
@@ -37,7 +37,7 @@ ${NAME}: ${OBJS}
 	printf "${WHITE}CONXITA: ${GREEN}Binary compiled!${RESET}\n"
 
 make_libs:
-	make bonus -C libft --no-print-directory
+	make -C libft --no-print-directory
 
 ${OBJDIR}%.o: ${SRCDIR}%.c ${HEADER}
 	@printf "${WHITE}CONXITA: ${CYAN}Compiling files: ${WHITE}$(notdir $<)...${RESET}\r"
