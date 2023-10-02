@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:48:44 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/02 13:12:32 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:16:11 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	print_conxita(void)
 	close(fd);
 }
 
-int main(void)
+int	main(void)
 {
 	print_conxita();
 	return (0);
