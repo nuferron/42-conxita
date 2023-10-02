@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/02 15:19:41 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/02 19:38:38 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,25 +19,31 @@ CYAN = \033[1;36m
 WHITE = \033[1;37m
 RESET = \033[0m
 
-SRCS = conxita.c
+SRCS = conxita.c signal_handler.c prompt_handler.c
 
 SRCDIR = src/
 OBJDIR = obj/
 HEADER = conxita.h
-LIB = libft/libft.a
+LIB = libs/libft/
 CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
 NAME = conxita
 COLUMNS = $(shell tput cols)
 
+RLINE_DIR   := libs/readline/
+RLINE		:= $(addprefix $(RLINE_DIR),libreadline.a)
+RLINE_H		:= $(addprefix $(RLINE_DIR),libhistory.a)
+RLINE_FL    := -lreadline -ltermcap -lft
+
 all: make_libs ${NAME}
 
 ${NAME}: ${OBJS}
-	cc ${CFLAGS} -lreadline ${OBJS} ${LIB} -o $@
+	# cc ${CFLAGS} -lreadline ${OBJS} ${LIB} -o $@
+	@$(CC) $(OBJS) -o $(NAME) $(RLINE_H) $(RLINE) $(RLINE_FL) -L $(LIB) -lft
 	printf "${WHITE}CONXITA: ${GREEN}Binary compiled!${RESET}\n"
 
 make_libs:
-	make -C libft --no-print-directory
+	make -C libs/libft --no-print-directory
 
 ${OBJDIR}%.o: ${SRCDIR}%.c ${HEADER}
 	@printf "${WHITE}CONXITA: ${CYAN}Compiling files: ${WHITE}$(notdir $<)...${RESET}\r"
