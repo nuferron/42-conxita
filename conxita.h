@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <sys/ioctl.h>
+#include <termios.h>
+#include <curses.h>
