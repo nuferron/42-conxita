@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/02 14:35:16 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/02 15:19:41 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ COLUMNS = $(shell tput cols)
 all: make_libs ${NAME}
 
 ${NAME}: ${OBJS}
-	cc ${CFLAGS} ${OBJS} ${LIB} -o $@
+	cc ${CFLAGS} -lreadline ${OBJS} ${LIB} -o $@
 	printf "${WHITE}CONXITA: ${GREEN}Binary compiled!${RESET}\n"
 
 make_libs:

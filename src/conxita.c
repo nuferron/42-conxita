@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:48:44 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/02 14:16:57 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:06:30 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	main(void)
 	print_conxita();
 	while ("Conxita")
 	{
-		printf("%s", "conxita$ ");
 		prompt = readline("conxita$ ");
 		if (prompt)
 			printf("%s\n", prompt);
