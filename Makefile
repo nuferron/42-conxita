@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/03 16:38:00 by nuferron         ###   ########.fr        #
+#    Updated: 2023/10/03 17:52:47 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CYAN = \033[1;36m
 WHITE = \033[1;37m
 RESET = \033[0m
 
-SRCS = signal_handler.c prompt_handler.c conxita_handler.c parsing.c
+SRCS = conxita.c signal_handler.c prompt_handler.c conxita_handler.c bool_utils.c
 
 SRCDIR = src/
 OBJDIR = obj/

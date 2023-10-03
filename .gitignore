@@ -3,4 +3,5 @@ conxita
 **/.vscode
 **/.DS_Store
 libs/libft/*.o
+**/libft.a
 **/*.swp
