@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 16:34:08 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/03 19:26:30 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@
 #include <tcl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdbool.h>
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
 
+#define LINE_DEL "\033[A"
 
 typedef struct s_redirect
 {
@@ -42,11 +44,9 @@ typedef struct s_redirect
 
 typedef struct s_parsing
 {
-	int			o_double;
-	int			c_double;
-	int			o_simple;
-	int			c_simple;
-	t_redirect *redirect;
+	bool			o_simple;
+	bool			o_double;
+	t_redirect		*redirect;
 }				t_parsing;
 
 //Signal Handler
@@ -58,3 +58,6 @@ int		handle_prompt(char *prompt);
 
 //Conxita Handler
 void	print_conxita(void);
+
+//Bool Utils
+void	b_invert(bool *b);
