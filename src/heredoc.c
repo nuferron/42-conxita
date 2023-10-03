@@ -6,13 +6,13 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:17:38 by nuferron          #+#    #+#             */
-/*   Updated: 2023/10/03 20:07:07 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/03 20:15:18 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../conxita.h"
 
-int	getting_doc(char *key)
+int	here_doc(char *key)
 {
 	char	*line;
 	int		fd_pipe[2];
@@ -33,14 +33,3 @@ int	getting_doc(char *key)
 	return (0);
 }
 
-int	here_doc(char *key)
-{
-
-	getting_doc(key);
-	return (0);
-}
-
-int main()
-{
-	here_doc("eof");
-}
