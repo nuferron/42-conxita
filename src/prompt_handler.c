@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:23:30 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 15:03:41 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:14:31 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	handle_prompt(char *prompt)
 {
 	if (!prompt)
 	{
-		rl_replace_line("conxita$ exit", 0);
+		printf("\033[A");
+		printf("%s\n", "conxita$ exit");
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
@@ -28,6 +29,7 @@ int	handle_prompt(char *prompt)
 	if (!ft_strncmp(prompt, "exit", 5))
 	{
 		free(prompt);
+		printf("%s\n", "exit");
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "conxita", 8))

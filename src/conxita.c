@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:48:44 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 12:37:03 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:28:11 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	main(void)
 	setup_signals();
 	while ("Conxita")
 	{
-		prompt = readline("conxita$ ");
-		
+		prompt = readline("> ");
 		handle_prompt(prompt);
 	}
 	return (0);

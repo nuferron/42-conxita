@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 12:49:15 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:24:30 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 #include <sys/stat.h>
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
+
+#define LINE_DEL "\033[A"
 
 //Signal Handler
 void	signal_hook(int sig);
