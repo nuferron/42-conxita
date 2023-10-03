@@ -6,13 +6,13 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:17:38 by nuferron          #+#    #+#             */
-/*   Updated: 2023/10/03 16:27:55 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:57:36 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../conxita.h"
 
-int	here_doc(char *key)
+int	getting_doc(char *key)
 {
 	char	*line;
 	char	*result;
@@ -22,24 +22,34 @@ int	here_doc(char *key)
 	tmp = NULL;
 	while (line)
 	{
-		if (ft_strlen(key) == ft_strlen(line) - 1
+		if (ft_strlen(key) == ft_strlen(line)
 			&& ft_strncmp(line, key, ft_strlen(key) - 1) == 0)
-		{
 			break ;
-		}
 		result = ft_strjoin(tmp, line);
+		free(line);
 		free(tmp);
 		tmp = result;
-		free(line);
-		line = get_next_line(0);
+		result = ft_strjoin(tmp, "\n");
+		free(tmp);
+		tmp = result;
+		line = readline("> ");
 	}
 	free(line);
 	printf("%s", result);
 	return (0);
 }
 
+int	here_doc(char *key)
+{
+	int	fd_pipe[2];
+
+	if (pipe(fd_pipe) == -1)
+		return (-1);
+	if (dup2(fd_pipe[1], 1))
+	return (0);
+}
+
 int main()
 {
-	//printf("%s", here_doc("eof"));
 	here_doc("eof");
 }
