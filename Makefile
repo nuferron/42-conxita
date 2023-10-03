@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/02 19:38:38 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/03 12:06:28 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,13 +33,13 @@ COLUMNS = $(shell tput cols)
 RLINE_DIR   := libs/readline/
 RLINE		:= $(addprefix $(RLINE_DIR),libreadline.a)
 RLINE_H		:= $(addprefix $(RLINE_DIR),libhistory.a)
-RLINE_FL    := -lreadline -ltermcap -lft
+RLINE_FL    := -lreadline -ltermcap -lhistory
 
 all: make_libs ${NAME}
 
 ${NAME}: ${OBJS}
 	# cc ${CFLAGS} -lreadline ${OBJS} ${LIB} -o $@
-	@$(CC) $(OBJS) -o $(NAME) $(RLINE_H) $(RLINE) $(RLINE_FL) -L $(LIB) -lft
+	@$(CC) -ltermcap $(RLINE_H) $(RLINE) -L $(LIB) -lft $(OBJS) -o $(NAME)
 	printf "${WHITE}CONXITA: ${GREEN}Binary compiled!${RESET}\n"
 
 make_libs:
@@ -52,7 +52,7 @@ ${OBJDIR}%.o: ${SRCDIR}%.c ${HEADER}
 	@printf "\r%-${COLUMNS}s\r"
 
 leaks: ${NAME}
-	leaks -atExit -- ./${NAME} $ARGS}
+	leaks -atExit -- ./${NAME} ${ARGS}
 
 norm:
 	make -C libft norm --no-print-directory
@@ -66,7 +66,7 @@ clean:
 		rm -rf ${OBJDIR} ; \
 		printf "${WHITE}CONXITA: ${RED}Objects have been deleted${RESET}\n"; \
 	fi
-	make -C libft clean --no-print-directory
+	make -C libs/libft clean --no-print-directory
 
 fclean: 	clean
 	if [ -e ${NAME} ] ; then \
@@ -74,7 +74,7 @@ fclean: 	clean
 		printf "${WHITE}CONXITA: ${RED}All existing binaries have been deleted${RESET}\n" ; \
 	else printf "${WHITE}CONXITA: ${PURPLE}Already cleaned${RESET}\n" ; \
 	fi
-	make -C libft fclean --no-print-directory
+	make -C libs/libft fclean --no-print-directory
 
 re:	fclean all
 

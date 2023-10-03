@@ -6,13 +6,13 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/02 20:04:21 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:05:23 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+#define READLINE_LIBRARY
 #include "libs/libft/libft.h"
-// #include "libs/readline/readline.h"
-// #include "libs/readline/history.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -24,8 +24,13 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <curses.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include <errno.h>
+#include <term.h>
+#include <tcl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "libs/readline/readline.h"
+#include "libs/readline/history.h"
 
 //Signal Handler
 void	signal_hook(int sig);

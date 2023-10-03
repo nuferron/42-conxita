@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:48:44 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/02 17:43:03 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:15:41 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(void)
 	while ("Conxita")
 	{
 		prompt = readline("conxita$ ");
+		
 		handle_prompt(prompt);
 	}
 	return (0);
