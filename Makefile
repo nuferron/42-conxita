@@ -6,20 +6,21 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/03 17:52:47 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/03 22:00:19 by nuferron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-RED = \033[1;31m
-GREEN = \033[1;32m
+RED =	\033[1;31m
+GREEN =	\033[1;32m
 YELLOW = \033[1;33m
-BLUE = \033[1;34m
+BLUE =	\033[1;34m
 PURPLE = \033[1;35m
-CYAN = \033[1;36m
-WHITE = \033[1;37m
-RESET = \033[0m
+CYAN =	\033[1;36m
+WHITE =	\033[1;37m
+RESET =	\033[0m
 
-SRCS = conxita.c signal_handler.c prompt_handler.c conxita_handler.c bool_utils.c
+SRCS =	signal_handler.c prompt_handler.c conxita_handler.c bool_utils.c \
+		chevrons.c #conxita.c
 
 SRCDIR = src/
 OBJDIR = obj/

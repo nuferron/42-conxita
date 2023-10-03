@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 19:26:30 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:57:13 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@
 
 #define LINE_DEL "\033[A"
 
-typedef struct s_redirect
+typedef struct s_cmd
 {
-	int	fd_pipe[2];
-	int	aux_fd;
-	int	fd;
-}				t_redirect;
+	char	*cmd;
+	char	*flags;
+	int		fd_pipe[2];
+	int		fdr_aux;
+}			t_cmd;
 
 typedef struct s_parsing
 {
 	bool			o_simple;
 	bool			o_double;
-	t_redirect		*redirect;
 }				t_parsing;
 
 //Signal Handler
@@ -61,3 +61,8 @@ void	print_conxita(void);
 
 //Bool Utils
 void	b_invert(bool *b);
+
+// Chevrons Functions
+int	here_doc(t_cmd *cmd, char *key);
+int	open_chev(t_cmd *cmd, char *file);
+int	close_chev(t_cmd *cmd, char *file, int append);
