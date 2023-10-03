@@ -1,0 +1,5 @@
+obj
+conxita
+**/.vscode
+**/.DS_Store
+libs/libft/*.o
