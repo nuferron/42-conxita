@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/21 15:43:54 by blvilarn          #+#    #+#              #
-#    Updated: 2023/10/02 14:39:44 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/02 17:47:13 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,6 @@ fclean: clean
 
 re: fclean all
 
+.SILENT: clean fclean all $(NAME)
 #PHONY
-.SILENT: fclean clean $(NAME) all
 .PHONY: all clean fclean re bonus
