@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 16:24:30 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:26:01 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,22 @@
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
 
-#define LINE_DEL "\033[A"
+
+typedef struct s_redirect
+{
+	int	fd_pipe[2];
+	int	aux_fd;
+	int	fd;
+}				t_redirect;
+
+typedef struct s_parsing
+{
+	int			o_double;
+	int			c_double;
+	int			o_simple;
+	int			c_simple;
+	t_redirect *redirect;
+}				t_parsing;
 
 //Signal Handler
 void	signal_hook(int sig);
