@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 15:58:31 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:34:08 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,3 +55,6 @@ void	setup_signals(void);
 
 //Prompt Handler
 int		handle_prompt(char *prompt);
+
+//Conxita Handler
+void	print_conxita(void);
