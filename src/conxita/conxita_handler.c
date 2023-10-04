@@ -6,11 +6,11 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:36:37 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 15:01:26 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:41:55 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../conxita.h"
+#include "../../conxita.h"
 
 void	print_conxita(void)
 {
