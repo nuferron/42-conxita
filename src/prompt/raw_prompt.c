@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:44:20 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/04 19:56:55 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/04 20:07:36 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	get_comp_num(char *prompt)
 			i++;
 		if (prompt[i] == '\'' || prompt[i] == '"')
 			handle_quotes_len(prompt, &i, &len);
-		printf("MIDDLE: %")
+		//printf("MIDDLE: %")
 		if (prompt[i] && ft_strchr("'\" ", prompt[i]) == NULL)
 			len++;
 		while (prompt[i] && ft_strchr("'\" ", prompt[i]) == NULL)
