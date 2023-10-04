@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 21:57:13 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:32:44 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,22 @@
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	*flags;
+	char	**cmd;
+	char	*arg;
 	int		fd_pipe[2];
 	int		fdr_aux;
+	int		std[2];
 }			t_cmd;
 
 typedef struct s_parsing
 {
-	bool			o_simple;
-	bool			o_double;
+	bool	o_simple;
+	bool	o_double;
+	bool	heredoc;
+	char	*eof;
+	bool	re_input;
+	bool	re_output;
+	int		append;
 }				t_parsing;
 
 //Signal Handler
@@ -64,5 +70,5 @@ void	b_invert(bool *b);
 
 // Chevrons Functions
 int	here_doc(t_cmd *cmd, char *key);
-int	open_chev(t_cmd *cmd, char *file);
-int	close_chev(t_cmd *cmd, char *file, int append);
+int	open_chev(t_cmd *cmd);
+int	close_chev(t_cmd *cmd, int append);
