@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/03 22:00:19 by nuferron         ###   ########.fr        #
+#    Updated: 2023/10/04 19:32:47 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,16 @@ CYAN =	\033[1;36m
 WHITE =	\033[1;37m
 RESET =	\033[0m
 
-SRCS =	signal_handler.c prompt_handler.c conxita_handler.c bool_utils.c \
-		chevrons.c #conxita.c
+SRCS_CONXITA = conxita.c conxita_handler.c
+SRCS_PROMPT = prompt_handler.c raw_prompt.c
+SRCS_UTILS = bool_utils.c
+SRCS_SIGNALS = signal_handler.c
+SRCS_NURIA = chevrons.c
+#Núria pls canvia el nom d'aquest directori lol
+
+SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
+	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
+	   $(addprefix whatevernuriaisdoing/,$(SRCS_NURIA))
 
 SRCDIR = src/
 OBJDIR = obj/

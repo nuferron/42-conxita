@@ -6,11 +6,11 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:23:30 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 20:14:41 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/04 20:02:01 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../conxita.h"
+#include "../../conxita.h"
 
 int	temporal_prompt_handle(char *prompt);
 
@@ -38,7 +38,6 @@ int	handle_prompt(char *prompt)
 	t_parsing	_quotes;
 
 	temporal_prompt_handle(prompt);
-	_quotes = _get_quotes(prompt);
 	return (0);
 }
 
