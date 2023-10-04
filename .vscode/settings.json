@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"unistd.h": "c",
-		"signal.h": "c",
-		"term.h": "c",
-		"conxita.h": "c"
-	}
-}

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   conxita.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/04 17:32:44 by nuferron         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 #define READLINE_LIBRARY
 #include "libs/libft/libft.h"
@@ -35,6 +23,9 @@
 
 #define LINE_DEL "\033[A"
 
+enum	e_arg_type {ukn = 0, file = 1, red = 2, arg = 3, \
+	s_quote = 4, d_quote = 5, cmd = 6};
+
 typedef struct s_cmd
 {
 	char	**cmd;
@@ -42,7 +33,7 @@ typedef struct s_cmd
 	int		fd_pipe[2];
 	int		fdr_aux;
 	int		std[2];
-}			t_cmd;
+}	t_cmd;
 
 typedef struct s_parsing
 {
@@ -53,7 +44,13 @@ typedef struct s_parsing
 	bool	re_input;
 	bool	re_output;
 	int		append;
-}				t_parsing;
+}	t_parsing;
+
+typedef struct s_comp
+{
+	enum e_arg_type	type;
+	char			*val;
+}	t_comp;
 
 //Signal Handler
 void	signal_hook(int sig);
@@ -61,6 +58,7 @@ void	setup_signals(void);
 
 //Prompt Handler
 int		handle_prompt(char *prompt);
+int		glorified_ft_split(char *prompt);
 
 //Conxita Handler
 void	print_conxita(void);
