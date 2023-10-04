@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   chevrons.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:17:38 by nuferron          #+#    #+#             */
-/*   Updated: 2023/10/03 22:09:37 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:42:16 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../conxita.h"
+#include "../../conxita.h"
 
 /*cmd->fd_pipe MUST BE INITIALIZED BEFORE ENTERING ANY OF THESE FUNCTIONS*/
 

@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 14:31:13 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 21:57:13 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/10/04 20:01:17 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,33 @@
 
 #define LINE_DEL "\033[A"
 
+enum	e_arg_type {ukn = 0, file = 1, red = 2, arg = 3, \
+	s_quote = 4, d_quote = 5, cmd = 6};
+
 typedef struct s_cmd
 {
 	char	*cmd;
 	char	*flags;
 	int		fd_pipe[2];
 	int		fdr_aux;
-}			t_cmd;
+}	t_cmd;
 
 typedef struct s_parsing
 {
-	bool			o_simple;
-	bool			o_double;
-}				t_parsing;
+	bool	o_simple;
+	bool	o_double;
+	bool	heredoc;
+	char	*eof;
+	bool	re_input;
+	bool	re_output;
+	int		append;
+}	t_parsing;
+
+typedef struct s_comp
+{
+	enum e_arg_type	type;
+	char			*val;
+}	t_comp;
 
 //Signal Handler
 void	signal_hook(int sig);
@@ -55,6 +69,7 @@ void	setup_signals(void);
 
 //Prompt Handler
 int		handle_prompt(char *prompt);
+int		glorified_ft_split(char *prompt);
 
 //Conxita Handler
 void	print_conxita(void);
@@ -63,6 +78,6 @@ void	print_conxita(void);
 void	b_invert(bool *b);
 
 // Chevrons Functions
-int	here_doc(t_cmd *cmd, char *key);
-int	open_chev(t_cmd *cmd, char *file);
-int	close_chev(t_cmd *cmd, char *file, int append);
+int		here_doc(t_cmd *cmd, char *key);
+int		open_chev(t_cmd *cmd, char *file);
+int		close_chev(t_cmd *cmd, char *file, int append);

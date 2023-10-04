@@ -6,11 +6,11 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:10:25 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/03 12:07:56 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/04 16:42:04 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../conxita.h"
+#include "../../conxita.h"
 
 void	signal_hook(int sig)
 {
