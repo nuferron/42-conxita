@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/04 19:32:47 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/04 20:30:31 by nuferron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,11 @@ SRCS_CONXITA = conxita.c conxita_handler.c
 SRCS_PROMPT = prompt_handler.c raw_prompt.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
-SRCS_NURIA = chevrons.c
-#Núria pls canvia el nom d'aquest directori lol
+SRCS_PIPEX = chevrons.c pipes.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
-	   $(addprefix whatevernuriaisdoing/,$(SRCS_NURIA))
+	   $(addprefix redirections/,$(SRCS_NURIA))
 
 SRCDIR = src/
 OBJDIR = obj/
@@ -61,10 +60,9 @@ ${OBJDIR}%.o: ${SRCDIR}%.c ${HEADER}
 	@printf "\r%-${COLUMNS}s\r"
 
 leaks: ${NAME}
-	leaks -atExit -- ./${NAME} ${ARGS}
+	leaks -atExit -- ./${NAME}
 
 norm:
-	make -C libft norm --no-print-directory
 	printf "${WHITE}CONXITA\n${RESET}"
 	norminette $(addprefix ${SRCDIR},$(SRCS)) ${HEADER} | grep -v "OK" \
 	| awk '{if($$2 == "Error!") print "${RED}"$$1" "$$2; \
