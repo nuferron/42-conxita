@@ -67,6 +67,6 @@ void	print_conxita(void);
 void	b_invert(bool *b);
 
 // Chevrons Functions
-int	here_doc(t_cmd *cmd, char *key);
-int	open_chev(t_cmd *cmd);
-int	close_chev(t_cmd *cmd, int append);
+int		here_doc(t_cmd *cmd, char *key);
+int		open_chev(t_cmd *cmd);
+int		close_chev(t_cmd *cmd, int append);
