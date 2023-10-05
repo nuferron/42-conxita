@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/04 19:32:47 by blvilarn         ###   ########.fr        #
+#    Updated: 2023/10/05 19:53:10 by blvilarn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,14 @@ WHITE =	\033[1;37m
 RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c
-SRCS_PROMPT = prompt_handler.c raw_prompt.c
+SRCS_PROMPT = prompt_handler.c raw_prompt.c comp_counter.c quote_handler.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
-SRCS_NURIA = chevrons.c
-#Núria pls canvia el nom d'aquest directori lol
+SRCS_REDIRECTIONS = chevrons.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
-	   $(addprefix whatevernuriaisdoing/,$(SRCS_NURIA))
+	   $(addprefix redirections/,$(SRCS_NURIA))
 
 SRCDIR = src/
 OBJDIR = obj/
