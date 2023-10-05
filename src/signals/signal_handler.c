@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:10:25 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/04 16:42:04 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:08:51 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ void	signal_hook(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (sig == 4)
-		printf("THIS ONE");
 }
 
 void	setup_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_hook);
-	signal(4, signal_hook);
 }
