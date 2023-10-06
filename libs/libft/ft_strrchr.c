@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 19:07:37 by blvilarn          #+#    #+#             */
-/*   Updated: 2022/10/24 16:23:55 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:06:55 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strrchr(const char *s, int c)
 	int	i;
 	int	slen;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	slen = ft_strlen(s);
 	while (i <= slen)

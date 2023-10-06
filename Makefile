@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/05 19:02:21 by nuferron         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 RED =	\033[1;31m
 GREEN =	\033[1;32m
 YELLOW = \033[1;33m
@@ -20,7 +8,7 @@ WHITE =	\033[1;37m
 RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c
-SRCS_PROMPT = prompt_handler.c raw_prompt.c
+SRCS_PROMPT = prompt_handler.c raw_prompt.c comp_counter.c quote_handler.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_REDIRS = chevrons.c pipes.c
