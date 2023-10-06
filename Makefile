@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 14:21:33 by nuferron          #+#    #+#              #
-#    Updated: 2023/10/04 20:30:31 by nuferron         ###   ########.fr        #
+#    Updated: 2023/10/05 19:02:21 by nuferron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,11 +23,11 @@ SRCS_CONXITA = conxita.c conxita_handler.c
 SRCS_PROMPT = prompt_handler.c raw_prompt.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
-SRCS_PIPEX = chevrons.c pipes.c
+SRCS_REDIRS = chevrons.c pipes.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
-	   $(addprefix redirections/,$(SRCS_NURIA))
+	   $(addprefix redirections/,$(SRCS_REDIRS))
 
 SRCDIR = src/
 OBJDIR = obj/
