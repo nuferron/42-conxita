@@ -4,7 +4,7 @@
 
 /*This function saves the input in a new fd. It should be called right
   before the execution function*/
-int	here_doc(t_cmd *cmd, char *key)
+int	here_doc(t_cmd *cmd, char *key) //must be changed so its information is saved in a special place (it shoudln't be overwritten)
 {
 	char	*line;
 
