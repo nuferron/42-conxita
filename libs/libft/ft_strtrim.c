@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 11:34:32 by blvilarn          #+#    #+#             */
-/*   Updated: 2022/11/01 18:49:53 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:52:25 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	prelen = 0;
 	poslen = 0;
-	if (!s1)
+	if (!s1 || !set)
 		return (NULL);
 	if (s1[0] == '\0' || set[0] == '\0' || !set)
 	{
