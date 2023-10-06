@@ -8,7 +8,7 @@ WHITE =	\033[1;37m
 RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c
-SRCS_PROMPT = prompt_handler.c raw_prompt.c comp_counter.c quote_handler.c
+SRCS_PROMPT = prompt_handler.c raw_prompt.c #comp_counter.c quote_handler.c populate_comps.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_REDIRS = chevrons.c pipes.c
@@ -21,7 +21,7 @@ SRCDIR = src/
 OBJDIR = obj/
 HEADER = conxita.h
 LIB = libs/libft/
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
 NAME = conxita
 COLUMNS = $(shell tput cols)
@@ -34,8 +34,7 @@ RLINE_FL    := -lreadline -ltermcap -lhistory
 all: make_libs ${NAME}
 
 ${NAME}: ${OBJS}
-	# cc ${CFLAGS} -lreadline ${OBJS} ${LIB} -o $@
-	@$(CC) -ltermcap $(RLINE_H) $(RLINE) -L $(LIB) -lft $(OBJS) -o $(NAME)
+	@$(CC) ${CFLAGS} -ltermcap $(RLINE_H) $(RLINE) -L $(LIB) -lft $(OBJS) -o $(NAME)
 	printf "${WHITE}CONXITA: ${GREEN}Binary compiled!${RESET}\n"
 
 make_libs:

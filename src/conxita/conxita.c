@@ -1,20 +1,22 @@
 #include "../../conxita.h"
 
-/*int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	char	*prompt;
 	char	*prompt_text;
 
 	(void)argv;
+	(void)env;
 	if (argc > 1)
 		return (printf("Too many arguments\n"));
 	print_conxita();
 	setup_signals();
-	prompt_text = ft_strjoin(getenv("USER"), "@conxita$ ");
 	while ("Conxita")
 	{
+		prompt_text = ft_strjoin(getenv("USER"), "@conxita$ ");
 		prompt = readline(prompt_text);
-		handle_prompt(ft_strtrim(prompt, " "));
+		free(prompt_text);
+		handle_prompt(prompt);
 	}
 	return (0);
-}*/
+}

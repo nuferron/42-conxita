@@ -46,7 +46,7 @@ typedef struct s_parsing
 	int		append;
 }	t_parsing;
 
-typedef struct s_comp
+typedef struct s_token
 {
 	enum e_arg_type	type;
 	char			*val;
@@ -59,12 +59,13 @@ void		setup_signals(void);
 //Prompt Handler
 int			handle_prompt(char *prompt);
 t_comp		*glorified_ft_split(char *prompt);
-void		handle_quotes_len(char *prompt, int *i, int *len);
-int			get_comp_num(char *prompt);
-int			get_word_len(char *prompt, int i, char *delimiters);
-void		handle_single(char *prompt, t_comp *comps, int *i, int *comp_i);
-void		write_word(char *prompt, t_comp *comps, int	*i, int *comp_i);
-void		write_single(t_comp *comps, int *i, char c, enum e_arg_type type);
+// void		handle_quotes_len(char *prompt, int *i, int *len);
+// int			get_comp_num(char *prompt);
+// int			get_word_len(char *prompt, int i, char *delimiters);
+// void		handle_single(char *prompt, t_comp *comps, int *i, int *comp_i);
+// void		write_word(char *prompt, t_comp *comps, int	*i, int *comp_i);
+// void		write_single(t_comp *comps, int *i, char c, enum e_arg_type type);
+// void		populate_comps(char *prompt, t_comp *comps);
 
 //Conxita Handler
 void		print_conxita(void);

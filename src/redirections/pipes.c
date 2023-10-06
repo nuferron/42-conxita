@@ -6,7 +6,7 @@ int	get_path()
 	char	*user;
 	char	*pwd;
 	char	*path;
-	char	*tmp;
+	//char	*tmp;
 	char	*all_paths;
 
 	user = getenv("USER");
@@ -31,15 +31,15 @@ int	get_path()
 	{
 		return (-1);
 	}
-	all_paths = ft_strjoin(user, );
+	//all_paths = ft_strjoin(user, );
 	printf("path %s\n", path);
 	return (0);
 }
 
-int	main()
-{
-	get_path();
-}
+// int	main()
+// {
+// 	get_path();
+// }
 
 
 

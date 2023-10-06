@@ -1,21 +1,14 @@
 #include "../../conxita.h"
 
-void	handle_quotes_len(char *prompt, int *i, int *len)
+void	handle_quotes(char *prompt, int *i, int *len)
 {
 	char	quote;
 
 	quote = prompt[*i];
 	(*i)++;
-	(*len)++;
-	if (prompt[*i] && prompt[*i] != quote)
-		(*len)++;
 	while (prompt[*i] && prompt[*i] != quote)
 		(*i)++;
-	if (prompt[*i] == quote)
-	{
-		(*i)++;
-		(*len)++;
-	}
+	(*i)++;
 }
 
 //Get number of components for a raw prompt
@@ -23,9 +16,27 @@ int	get_comp_num(char *prompt)
 {
 	int		i;
 	int		len;
+	bool	o_quotes;
 
 	i = 0;
 	len = 0;
+	o_quotes = FALSE;
+	while(prompt[i])
+	{
+		while (prompt[i] == ' ')
+			i++;
+		while (!ft_strchr("'\" ", prompt[i]))
+			i++;
+		if (prompt[i] == '\'')
+		{
+			b_invert(o_quotes);
+			i++;
+			while (prompt[i] && prompt[i] != '\'')
+				len++;
+			b_invert(o_quotes)
+		}
+	}
+	
 	while (prompt[i])
 	{
 		if (prompt[i] == ' ')
