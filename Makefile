@@ -8,7 +8,7 @@ WHITE =	\033[1;37m
 RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c
-SRCS_PROMPT = prompt_handler.c raw_prompt.c #comp_counter.c quote_handler.c populate_comps.c
+SRCS_PROMPT = prompt_handler.c raw_prompt.c token_counter.c #comp_counter.c quote_handler.c populate_comps.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_REDIRS = chevrons.c pipes.c
@@ -49,6 +49,9 @@ ${OBJDIR}%.o: ${SRCDIR}%.c ${HEADER}
 leaks: ${NAME}
 	leaks -atExit -- ./${NAME}
 
+exec: ${NAME}
+	./conxita
+
 norm:
 	printf "${WHITE}CONXITA\n${RESET}"
 	norminette $(addprefix ${SRCDIR},$(SRCS)) ${HEADER} | grep -v "OK" \
@@ -72,5 +75,5 @@ fclean: 	clean
 
 re:	fclean all
 
-.SILENT: ${NAME} make_libs all clean fclean norm do_bonus
+.SILENT: ${NAME} make_libs all clean fclean norm do_bonus exec
 .PHONY: all make_libs

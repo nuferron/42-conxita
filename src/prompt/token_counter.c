@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-void	handle_quotes(char *prompt, int *i, int *len)
+static void	handle_quotes(char *prompt, int *i)
 {
 	char	quote;
 
@@ -11,32 +11,16 @@ void	handle_quotes(char *prompt, int *i, int *len)
 	(*i)++;
 }
 
-//Get number of components for a raw prompt
-int	get_comp_num(char *prompt)
+//Get number of tokens for a raw prompt
+int	get_token_num(char *prompt)
 {
 	int		i;
 	int		len;
-	bool	o_quotes;
 
 	i = 0;
 	len = 0;
-	o_quotes = FALSE;
-	while(prompt[i])
-	{
-		while (prompt[i] == ' ')
-			i++;
-		while (!ft_strchr("'\" ", prompt[i]))
-			i++;
-		if (prompt[i] == '\'')
-		{
-			b_invert(o_quotes);
-			i++;
-			while (prompt[i] && prompt[i] != '\'')
-				len++;
-			b_invert(o_quotes)
-		}
-	}
-	
+	if (prompt[0])
+		len++;
 	while (prompt[i])
 	{
 		if (prompt[i] == ' ')
@@ -44,10 +28,8 @@ int	get_comp_num(char *prompt)
 		while (prompt[i] == ' ')
 			i++;
 		if (prompt[i] == '\'' || prompt[i] == '"')
-			handle_quotes_len(prompt, &i, &len);
-		if (prompt[i] && ft_strchr("'\" ", prompt[i]) == NULL)
-			len++;
-		while (prompt[i] && ft_strchr("'\" ", prompt[i]) == NULL)
+			handle_quotes(prompt, &i);
+		while (!ft_strchr("'\" ", prompt[i]))
 			i++;
 	}
 	return (len);

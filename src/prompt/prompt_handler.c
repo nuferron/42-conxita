@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   prompt_handler.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 16:23:30 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/06 20:30:59 by blvilarn         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../conxita.h"
 
 int	temporal_prompt_handle(char *prompt);
@@ -41,7 +29,7 @@ int	handle_prompt(char *prompt)
 	return (0);
 }
 
-void	check_o_quotes(char *prompt)
+int	check_o_quotes(char *prompt)
 {
 	int		i;
 	bool	o_simple;
@@ -61,9 +49,9 @@ void	check_o_quotes(char *prompt)
 	if (o_simple || o_double)
 	{
 		printf("ERROR: Open quotes\n");
-		printf("exit\n");
-		exit(1);
+		return(1);
 	}
+	return (0);
 }
 
 int	temporal_prompt_handle(char *prompt)
@@ -74,13 +62,11 @@ int	temporal_prompt_handle(char *prompt)
 		printf("%s%s\n", getenv("USER"), "@conxita$ exit");
 		exit(0);
 	}
-	check_o_quotes(prompt);
 	if (!ft_strncmp(prompt, "", 2))
-	{
-		free(prompt);
-		return (0);
-	}
+		return(1);
 	add_history(prompt);
+	if (check_o_quotes(prompt))
+		return (0);
 	if (!ft_strncmp(prompt, "exit", 5))
 	{
 		free(prompt);

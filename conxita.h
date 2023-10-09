@@ -50,7 +50,7 @@ typedef struct s_token
 {
 	enum e_arg_type	type;
 	char			*val;
-}	t_comp;
+}	t_token;
 
 //Signal Handler
 void		signal_hook(int sig);
@@ -58,7 +58,8 @@ void		setup_signals(void);
 
 //Prompt Handler
 int			handle_prompt(char *prompt);
-t_comp		*glorified_ft_split(char *prompt);
+t_token		*glorified_ft_split(char *prompt);
+int			get_token_num(char *prompt);
 // void		handle_quotes_len(char *prompt, int *i, int *len);
 // int			get_comp_num(char *prompt);
 // int			get_word_len(char *prompt, int i, char *delimiters);
