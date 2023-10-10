@@ -46,11 +46,11 @@ typedef struct s_parsing
 	int		append;
 }	t_parsing;
 
-typedef struct s_token
+typedef struct s_oken
 {
 	enum e_arg_type	type;
 	char			*val;
-}	t_token;
+}	t_oken;
 
 //Signal Handler
 void		signal_hook(int sig);
@@ -58,7 +58,7 @@ void		setup_signals(void);
 
 //Prompt Handler
 int			handle_prompt(char *prompt);
-t_token		*glorified_ft_split(char *prompt);
+t_oken		*glorified_ft_split(char *prompt);
 int			get_token_num(char *prompt);
 // void		handle_quotes_len(char *prompt, int *i, int *len);
 // int			get_comp_num(char *prompt);

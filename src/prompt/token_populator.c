@@ -1,11 +1,39 @@
 #include "../../conxita.h"
 
-void	populate_tokens(char *prompt, t_token *tokens)
+int	get_word_len(char *prompt, int i)
+{
+	int	len;
+
+	len = 0;
+	while (prompt[i] && prompt[i] != ' ')
+	{
+	}
+}
+
+void	write_word(char *prompt, t_oken *tokens, int *i, int t_pos)
+{
+	int	word_len;
+
+	word_len = get_word_len(prompt, *i);
+	while (prompt[*i] && prompt[*i] != ' ')
+	{
+		if (ft_strchr("'\"", prompt[*i]))
+			handle_quotes();
+	}
+}
+
+void	populate_tokens(char *prompt, t_oken *tokens)
 {
 	int	i;
 	int	t_pos;
 
 	while (prompt[i])
 	{
+		if (prompt[i] == ' ')
+			t_pos++;
+		while (prompt[i] == ' ')
+			i++;
+		if (!ft_strchr("'\" ", prompt[i]))
+			write_word(prompt, tokens, &i, t_pos);
 	}
 }
