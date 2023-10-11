@@ -26,13 +26,6 @@
 enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, \
 	s_quote = 4, d_quote = 5, cmd = 6, spc = 7};
 
-typedef struct s_env
-{
-	char	*key;
-	char	*path;
-	void	*next;
-}	t_env;
-
 typedef struct s_cmd
 {
 	char	**cmd;
