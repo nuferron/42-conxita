@@ -78,11 +78,6 @@ void		print_conxita(void);
 /*Bool Utils*/
 void		b_invert(bool *b);
 
-/*List Utils*/
-t_env		*new_node(char *key, char *path);
-t_env		*last_env(t_env *env);
-void		env_addback(t_env **env, t_env *new);
-
 /*Environment Utils*/
 char		*search_env(char **env, char *key);
 int			len_to_char(char *str, char c);
