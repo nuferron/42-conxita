@@ -58,15 +58,13 @@ void		setup_signals(void);
 
 //Prompt Handler
 int			handle_prompt(char *prompt);
+
+//Tokenizer
 t_oken		*glorified_ft_split(char *prompt);
 int			get_token_num(char *prompt);
-// void		handle_quotes_len(char *prompt, int *i, int *len);
-// int			get_comp_num(char *prompt);
-// int			get_word_len(char *prompt, int i, char *delimiters);
-// void		handle_single(char *prompt, t_comp *comps, int *i, int *comp_i);
-// void		write_word(char *prompt, t_comp *comps, int	*i, int *comp_i);
-// void		write_single(t_comp *comps, int *i, char c, enum e_arg_type type);
-// void		populate_comps(char *prompt, t_comp *comps);
+void		populate_tokens(char *prompt, t_oken *tokens);
+void		s_quote_len(char *prompt, int *i, int *len);
+void		d_quote_len(char *prompt, int *i, int *len);
 
 //Conxita Handler
 void		print_conxita(void);

@@ -8,20 +8,21 @@ WHITE =	\033[1;37m
 RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c
-SRCS_PROMPT = prompt_handler.c raw_prompt.c token_counter.c #comp_counter.c quote_handler.c populate_comps.c
+SRCS_PROMPT = prompt_handler.c
+SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_len.c
 SRCS_UTILS = bool_utils.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_REDIRS = chevrons.c pipes.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
-	   $(addprefix redirections/,$(SRCS_REDIRS))
+	   $(addprefix redirections/,$(SRCS_REDIRS)) $(addprefix tokenizer/,$(SRCS_TOKENIZER)) \
 
 SRCDIR = src/
 OBJDIR = obj/
 HEADER = conxita.h
 LIB = libs/libft/
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
 NAME = conxita
 COLUMNS = $(shell tput cols)
