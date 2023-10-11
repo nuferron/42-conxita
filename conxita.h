@@ -26,10 +26,20 @@
 enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, \
 	s_quote = 4, d_quote = 5, cmd = 6, spc = 7};
 
+typedef struct s_env
+{
+	char	*key;
+	char	*path;
+	void	*next;
+}	t_env;
+
 typedef struct s_cmd
 {
 	char	**cmd;
-	char	*arg;
+	char	*heredoc;
+	char	*re_input;
+	char	*re_output;
+	bool	append;
 	int		fd_pipe[2];
 	int		fdr_aux;
 	int		std[2];
@@ -39,11 +49,7 @@ typedef struct s_parsing
 {
 	bool	o_simple;
 	bool	o_double;
-	bool	heredoc;
-	char	*eof;
-	bool	re_input;
-	bool	re_output;
-	int		append;
+	t_cmd	*cmd;
 }	t_parsing;
 
 typedef struct s_comp
@@ -52,11 +58,11 @@ typedef struct s_comp
 	char			*val;
 }	t_comp;
 
-//Signal Handler
+/*Signal Handler*/
 void		signal_hook(int sig);
 void		setup_signals(void);
 
-//Prompt Handler
+/*Prompt Handler*/
 int			handle_prompt(char *prompt);
 t_comp		*glorified_ft_split(char *prompt);
 void		handle_quotes_len(char *prompt, int *i, int *len);
@@ -66,13 +72,24 @@ void		handle_single(char *prompt, t_comp *comps, int *i, int *comp_i);
 void		write_word(char *prompt, t_comp *comps, int	*i, int *comp_i);
 void		write_single(t_comp *comps, int *i, char c, enum e_arg_type type);
 
-//Conxita Handler
+/*Conxita Handler*/
 void		print_conxita(void);
 
-//Bool Utils
+/*Bool Utils*/
 void		b_invert(bool *b);
 
-// Chevrons Functions
+/*List Utils*/
+t_env		*new_node(char *key, char *path);
+t_env		*last_env(t_env *env);
+void		env_addback(t_env **env, t_env *new);
+
+/*Environment Utils*/
+char		*search_env(char **env, char *key);
+int			len_to_char(char *str, char c);
+char		*mini_split(char *path, int count);
+int			path_count(const char *s, char c);
+
+/*Chevrons Functions*/
 int			here_doc(t_cmd *cmd, char *key);
 int			open_chev(t_cmd *cmd);
 int			close_chev(t_cmd *cmd, int append);
