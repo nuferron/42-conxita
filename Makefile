@@ -9,9 +9,9 @@ RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c
 SRCS_PROMPT = prompt_handler.c raw_prompt.c comp_counter.c quote_handler.c
-SRCS_UTILS = bool_utils.c
+SRCS_UTILS = bool_utils.c env_utils.c
 SRCS_SIGNALS = signal_handler.c
-SRCS_REDIRS = chevrons.c pipes.c
+SRCS_REDIRS = pipes.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
