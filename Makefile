@@ -7,7 +7,7 @@ CYAN =	\033[1;36m
 WHITE =	\033[1;37m
 RESET =	\033[0m
 
-SRCS_CONXITA = conxita.c conxita_handler.c
+SRCS_CONXITA = conxita.c conxita_handler.c conxita_input.c
 SRCS_PROMPT = prompt_handler.c raw_prompt.c comp_counter.c quote_handler.c
 SRCS_UTILS = bool_utils.c env_utils.c
 SRCS_SIGNALS = signal_handler.c
