@@ -6,7 +6,10 @@ void	cat(char *file)
 	int		fd;
 	char	*line;
 
-	fd = open(file, O_RDONLY);
+	if (!file)
+		fd = 0;
+	else
+		fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return ;
 	line = get_next_line(fd);
@@ -17,4 +20,22 @@ void	cat(char *file)
 		line = get_next_line(fd);
 	}
 	close(fd);
+}
+
+int	main(int argc, char **argv)
+{
+	int	i;
+
+	i = 1;
+	if (argc < 2)
+		cat(NULL);
+	else
+	{
+		while (i < argc)
+		{
+			cat(argv[i]);
+			i++;
+		}
+	}
+	return (0);
 }
