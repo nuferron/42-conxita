@@ -23,4 +23,3 @@ void	d_quote_len(char *prompt, int *i, int *len)
 	}
 	(*i)++;
 }
-hola que 
