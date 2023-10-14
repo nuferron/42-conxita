@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-int skip_sp(char *str)
+int	skip_sp(char *str)
 {
 	int	i;
 
@@ -8,6 +8,21 @@ int skip_sp(char *str)
 	while (i >= 0 && ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' ')))
 		i--;
 	return (i);
+}
+
+int	checking_chevrons(char *input, int i)
+{
+	if (i && input[i] == '<' && input[i - 1] == '>')
+		return (0);
+	else if (i && input[i] == '>' && input[i - 1] == '<')
+		return (0);
+	else if (i > 1 && input[i] == '>'
+		&& input[i - 1] == '>' && input[i - 2] == '>')
+		return (0);
+	else if (i > 1 && input[i] == '<'
+		&& input[i - 1] == '<' && input[i - 2] == '<')
+		return (0);
+	return (1);
 }
 
 int	valid_input(char *input)
@@ -28,26 +43,17 @@ int	valid_input(char *input)
 			parse.o_double = 0;
 		else if (input[i] == '\"' && !parse.o_double)
 			parse.o_double = 1;
-		else if (i && input[i] == '<' && input[i - 1] == '>')
-			return (0);
-		else if (i && input[i] == '>' && input[i - 1] == '<')
-			return (0);
-		else if (i > 1 && input[i] == '>' && input[i - 1] == '>' && input[i - 2] == '>')
-			return (0);
-		else if (i > 1 && input[i] == '<' && input[i - 1] == '<' && input[i - 2] == '<')
+		else if (!checking_chevrons(input, i))
 			return (0);
 		i++;
 	}
 	i = skip_sp(input);
-	if (i == -1)
-		return (0);
-	if (input[i] == '>' || input[i] == '<' || input[i] == '|')
-		return (0);
-	if (parse.o_simple || parse.o_double)
+	if (i == -1 || input[i] == '>' || input[i] == '<' || input[i] == '|'
+		|| parse.o_simple || parse.o_double)
 		return (0);
 	return (1);
 }
-
+/*
 void	test(char *str)
 {
 	int	argc;
@@ -61,8 +67,9 @@ void	test(char *str)
 
 int	main(int argc, char **argv)
 {
-	int	i = 1;
+	int	i;
 
+	i = 1;
 	while (i < argc)
 	{
 		argv[0] = ft_strjoin(argv[0], argv[i]);
@@ -86,4 +93,4 @@ int	main(int argc, char **argv)
 	test("a>a|a");
 	test("a>>a<<a");
 	return (0);
-}
+}*/

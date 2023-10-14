@@ -58,7 +58,8 @@ int	main(int argc, char **argv, char **env)
 	cmd->cmd[2] = NULL;
 	
 	res = get_path(env, cmd);
-	printf("is exec? %d\ncmd changed? cmd %s\tflags %s\n", res, cmd->cmd[0], cmd->cmd[1]);
+	printf("is exec? %d\ncmd changed? cmd %s\tflags %s\n", res, \
+	cmd->cmd[0], cmd->cmd[1]);
 	free(cmd->cmd[0]);
 	free(cmd->cmd[1]);
 	free(cmd->cmd);
