@@ -15,11 +15,11 @@
 //Prompt tokenizer
 t_oken	*glorified_ft_split(char *prompt)
 {
-	int		i;
+	//int		i;
 	int		token_num;
 	t_oken	*tokens;
 
-	i = 0;
+	//i = 0;
 	token_num = get_token_num(prompt);
 	printf("%i\n", token_num);
 	tokens = ft_calloc(token_num + 1, sizeof(t_oken));
