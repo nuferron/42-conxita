@@ -38,7 +38,7 @@ int	len_to_char(char *str, char c)
 	return (i);
 }
 
-char	*mini_split(char *path, int count)
+char	*mini_split(char *path, int	count)
 {
 	int		i;
 	int		skip;
