@@ -1,35 +1,36 @@
 #include "../../conxita.h"
 
-
-int	get_path()
+int	test_paths(char *path, t_cmd *cmd)
 {
+<<<<<<< HEAD
 	char	*user;
 	char	*pwd;
 	char	*path;
 	//char	*tmp;
 	char	*all_paths;
+=======
+	int		total;
+	int		count;
+	char	*test;
+	char	*split;
+>>>>>>> main
 
-	user = getenv("USER");
-	if (user)
+	count = -1;
+	total = path_count(path, ':');
+	while (++count < total)
 	{
-		all_paths = ft_strjoin(user, ":");
-		free(user);
-		if (!all_paths)
-			return (-1);
+		split = mini_split(path, count);
+		if (!split)
+			return (-2);
+		test = ft_strjoin(split, cmd->cmd[0]);
+		free(split);
+		if (access(test, X_OK) == 0)
+			break ;
+		free(test);
 	}
-	pwd = getenv("PWD");
-	if (pwd)
-	{
-		user = ft_strjoin(pwd, ":");
-		free(pwd);
-		if (!user)
-			return (-1);
-
-	}
-	path = getenv("PATH");
-	if (!user && !pwd && !path)
-	{
+	if (count == total)
 		return (-1);
+<<<<<<< HEAD
 	}
 	//all_paths = ft_strjoin(user, );
 	printf("path %s\n", path);
@@ -42,76 +43,47 @@ int	get_path()
 // }
 
 
-
-/*
-void	redirecting_fd(int cmd_id, int argc, t_data *data)
-{
-	if (cmd_id == 2 && data->fd1 != -1)
-	{
-		dup2(data->fd1, 0);
-		dup2(data->fd_pipe[1], 1);
-	}
-	else if (cmd_id == 2)
-	{
-		dup2(data->fd_pipe[1], 1);
-	}
-	else if (cmd_id == argc - 2)
-	{
-		dup2(data->pipe_tmp, 0);
-		dup2(data->fd2, 1);
-	}
-	else
-	{
-		dup2(data->pipe_tmp, 0);
-		dup2(data->fd_pipe[1], 1);
-		close(data->fd1);
-	}
+=======
+	cmd->cmd[0] = ft_strdup(test);
+	free(test);
+	return (0);
 }
 
-int	pipex(int argc, char **argv, char **env, t_data *data)
+int	get_path(char **env, t_cmd *cmd)
 {
-	int		i;
-	char	**tmp;
+	char	*path;
+	int		error;
+>>>>>>> main
 
-	i = 2;
-	data->pipe_tmp = -1;
-	while (i < argc - 1)
-	{
-		pipe(data->fd_pipe);
-		data->path = getting_full_path(argv[i++], get_path(env));
-		if (fork() == 0)
-		{
-			tmp = ft_split(argv[i], ' ');
-			redirecting_fd(i, argc, data);
-			if (execve(data->path, tmp, env) == -1)
-			{
-				ft_printf(2, "Error: %s: command not found\n", tmp[0]);
-				exit(1);
-			}
-		}
-		close(data->fd_pipe[1]);
-		close(data->pipe_tmp);
-		data->pipe_tmp = data->fd_pipe[0];
-		free(data->path);
-	}
-	close(data->pipe_tmp);
-	return (1);
-}*/
+	if (ft_strchr(cmd->cmd[0], '/') && access(cmd->cmd[0], X_OK) == 0)
+		return (0);
+	else if (ft_strchr(cmd->cmd[0], '/') && access(cmd->cmd[0], X_OK) != 0)
+		return (-1);
+	path = search_env(env, "PATH=");
+	if (!path)
+		return (-2);
+	error = test_paths(path, cmd);
+	return (error);
+}
 /*
 int	main(int argc, char **argv, char **env)
 {
-	t_data	data;
+	t_cmd	*cmd;
+	int		res;
 
-	if (argc < 5)
-		return (ft_errors("arg"));
-	data.fd1 = open(argv[1], O_RDONLY);
-	data.fd2 = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (data.fd1 == -1)
-		ft_errors(argv[1]);
-	if (data.fd2 == -1)
-		ft_errors(argv[argc - 1]);
-	pipex(argc, argv, env, &data);
-	close(data.fd2);
-	waitpid(0, &data.status, 0);
-	return (WEXITSTATUS(data.status));
+	(void)argc;
+	(void)argv;
+
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	cmd->cmd = (char **)malloc(sizeof(char *) * 3);
+	cmd->cmd[0] = ft_strdup("asdf");
+	cmd->cmd[1] = ft_strdup("-e");
+	cmd->cmd[2] = NULL;
+	
+	res = get_path(env, cmd);
+	printf("is exec? %d\ncmd changed? cmd %s\tflags %s\n", res, cmd->cmd[0], cmd->cmd[1]);
+	free(cmd->cmd[0]);
+	free(cmd->cmd[1]);
+	free(cmd->cmd);
+	free(cmd);
 }*/

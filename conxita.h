@@ -29,7 +29,10 @@ enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, \
 typedef struct s_cmd
 {
 	char	**cmd;
-	char	*arg;
+	char	*heredoc;
+	char	*re_input;
+	char	*re_output;
+	bool	append;
 	int		fd_pipe[2];
 	int		fdr_aux;
 	int		std[2];
@@ -39,11 +42,7 @@ typedef struct s_parsing
 {
 	bool	o_simple;
 	bool	o_double;
-	bool	heredoc;
-	char	*eof;
-	bool	re_input;
-	bool	re_output;
-	int		append;
+	t_cmd	*cmd;
 }	t_parsing;
 
 typedef struct s_oken
@@ -52,11 +51,11 @@ typedef struct s_oken
 	char			*val;
 }	t_oken;
 
-//Signal Handler
+/*Signal Handler*/
 void		signal_hook(int sig);
 void		setup_signals(void);
 
-//Prompt Handler
+/*Prompt Handler*/
 int			handle_prompt(char *prompt);
 
 //Tokenizer
@@ -66,13 +65,19 @@ void		populate_tokens(char *prompt, t_oken *tokens);
 void		s_quote_len(char *prompt, int *i, int *len);
 void		d_quote_len(char *prompt, int *i, int *len);
 
-//Conxita Handler
+/*Conxita Handler*/
 void		print_conxita(void);
 
-//Bool Utils
+/*Bool Utils*/
 void		b_invert(bool *b);
 
-// Chevrons Functions
+/*Environment Utils*/
+char		*search_env(char **env, char *key);
+int			len_to_char(char *str, char c);
+char		*mini_split(char *path, int count);
+int			path_count(const char *s, char c);
+
+/*Chevrons Functions*/
 int			here_doc(t_cmd *cmd, char *key);
 int			open_chev(t_cmd *cmd);
 int			close_chev(t_cmd *cmd, int append);
