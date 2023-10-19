@@ -2,18 +2,10 @@
 
 int	test_paths(char *path, t_cmd *cmd)
 {
-<<<<<<< HEAD
-	char	*user;
-	char	*pwd;
-	char	*path;
-	//char	*tmp;
-	char	*all_paths;
-=======
 	int		total;
 	int		count;
 	char	*test;
 	char	*split;
->>>>>>> main
 
 	count = -1;
 	total = path_count(path, ':');
@@ -30,20 +22,6 @@ int	test_paths(char *path, t_cmd *cmd)
 	}
 	if (count == total)
 		return (-1);
-<<<<<<< HEAD
-	}
-	//all_paths = ft_strjoin(user, );
-	printf("path %s\n", path);
-	return (0);
-}
-
-// int	main()
-// {
-// 	get_path();
-// }
-
-
-=======
 	cmd->cmd[0] = ft_strdup(test);
 	free(test);
 	return (0);
@@ -53,7 +31,6 @@ int	get_path(char **env, t_cmd *cmd)
 {
 	char	*path;
 	int		error;
->>>>>>> main
 
 	if (ft_strchr(cmd->cmd[0], '/') && access(cmd->cmd[0], X_OK) == 0)
 		return (0);

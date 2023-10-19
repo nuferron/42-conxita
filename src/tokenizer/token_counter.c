@@ -34,8 +34,8 @@ static void	handle_delimiter(char *prompt, int *i, int *len)
 //Get number of tokens for a raw prompt
 int	get_token_num(char *prompt)
 {
-	int		i;
-	int		len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = 0;

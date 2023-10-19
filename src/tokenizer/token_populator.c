@@ -41,7 +41,7 @@ void	write_word(char *prompt, t_oken *tokens, int *i, int t_pos)
 	// }
 }
 
-static void	handle_delimiter(char *prompt, t_oken *tokens, int *i, int *t_pos)
+static void	handle_delimiter(char *prompt, t_oken *tokens, int *i, int *pos)
 {
 	char	c;
 
@@ -54,21 +54,41 @@ static void	handle_delimiter(char *prompt, t_oken *tokens, int *i, int *t_pos)
 		if (prompt[*i + 1] == c)
 		{
 			(*i)++;
-			tokens[*t_pos].val = ft_calloc(3, sizeof(char));
-			tokens[*t_pos].val[1] = c;
+			tokens[*pos].val = ft_calloc(3, sizeof(char));
+			tokens[*pos].val[1] = c;
 		}
 		else
-			tokens[*t_pos].val = ft_calloc(2, sizeof(char));
-		tokens[*t_pos].val[0] = c;
+			tokens[*pos].val = ft_calloc(2, sizeof(char));
+		tokens[*pos].val[0] = c;
 		(*i)++;
-		(*t_pos)++;
+		(*pos)++;
 	}
 	while (prompt[*i] == ' ')
 		(*i)++;
-	(*t_pos)++;
+	(*pos)++;
 }
 
 void	populate_tokens(char *prompt, t_oken *tokens)
+{
+	int	i;
+	int	pos;
+
+	i = 0;
+	pos = 0;
+	if (prompt[0])
+		pos++;
+	while (prompt[i])
+	{
+		if (ft_strchr("<>| ", prompt[i]))
+			handle_delimiter(prompt, tokens, &i, &pos);
+		// if (prompt[i] == '\'' || prompt[i] == '"')
+		// 	handle_quotes(prompt, &i);//todo
+		// if (!ft_strchr(" <>|", prompt[i]))
+		// 	handle_word();//todo
+	}
+}
+
+void	_populate_tokens(char *prompt, t_oken *tokens)
 {
 	int	i;
 	int	t_pos;

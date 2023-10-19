@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:44:20 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/10/11 13:39:53 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/10/19 19:22:10 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ t_oken	*glorified_ft_split(char *prompt)
 	// {
 	// 	printf("%i. [%s]\n", i, tokens[i].val);
 	// 	i++;
-	// }
+	// }x
 	return (tokens);
 }
