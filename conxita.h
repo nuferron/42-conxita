@@ -33,10 +33,10 @@ typedef struct s_cmd
 {
 	char			**cmd;
 	char			*heredoc;
-	//char			*infile; //OJU! This is the last file mentioned!
-	int				infile;
-	int				outfile;
-	//char			*outfile; // OJU! This is the last file mentioned! The others must be created but not written
+	char			*infile; //OJU! This is the last file mentioned!
+	int				infd;
+	char			*outfile; // OJU! This is the last file mentioned! The others must be created but not written
+	int				outfd;
 	enum e_output	output;
 	enum e_input	input;
 }	t_cmd;
