@@ -115,11 +115,12 @@ t_cmd	*init_cmd_test(void)
 	cmd[0].cmd[2] = NULL;
 	cmd[0].cmd[3] = NULL;
 	cmd[0].heredoc = NULL;
-	cmd[0].infile = -1;
-	cmd[0].infile = open("file1", O_RDONLY);
-	if (cmd[0].infile < 0)
+	cmd[0].infile = ft_strdup("file1");
+	cmd[0].infd = open(cmd[0].infile, O_RDONLY);
+	if (cmd[0].infd < 0)
 		exit(printf("open cmd[0] potxo\n"));
-	cmd[0].outfile = -1;
+	cmd[0].outfile = NULL;
+	cmd[0].outfd = -1;
 	cmd[0].output = opipe;
 	cmd[0].input = infile;
 
@@ -127,19 +128,23 @@ t_cmd	*init_cmd_test(void)
 	cmd[1].cmd[0] = ft_strdup("/usr/bin/wc");
 	cmd[1].cmd[1] = NULL;
 	cmd[1].heredoc = NULL;
-	cmd[1].infile = -1;
-	cmd[1].outfile = -1;
+	cmd[1].infile = NULL;
+	cmd[1].infd = -1;
+	cmd[1].outfile = NULL;
+	cmd[1].outfd = -1;
 	cmd[1].output = opipe;
 	cmd[1].input = ipipe;
 
 	cmd[2].cmd = (char **)malloc(sizeof(char *) * 3);
 	cmd[2].cmd[0] = ft_strdup("/bin/ls");
-	cmd[2].cmd[1] = ft_strdup("outfile");
+	cmd[2].cmd[1] = NULL;
 	cmd[2].cmd[2] = NULL;
 	cmd[2].heredoc = NULL;
-	cmd[2].infile = -1;
-	cmd[2].outfile = -1;
-	cmd[2].output = stdo;
+	cmd[2].infile = NULL;
+	cmd[2].infd = -1;
+	cmd[2].outfile = ft_strdup("outfile");
+	cmd[2].outfd = -1;
+	cmd[2].output = f_trunc;
 	cmd[2].input = ipipe;
 	return (cmd);
 }
@@ -148,33 +153,19 @@ int redirections(t_cmd *cmd, t_redir *redir)
 {
 	if (cmd->input == infile)
 	{
-		dup2(cmd->infile, 0);
-		close(cmd->infile);
+		dup2(cmd->infd, 0);
+		close(cmd->infd);
 	}
 	else if (cmd->input == ipipe)
-	{
 		dup2(redir->fdr_aux, 0);
-	}
 	else if (cmd->input == stdi)
-	{
-		write(2, "stdin\t", 6);
-		dprintf(2, "%s reading from %d\n", cmd->cmd[0], redir->saved_std[0]);
 		dup2(redir->saved_std[0], 0);
-		//return (0);
-	}
 	if (cmd->output == opipe)
-	{
 		dup2(redir->fd_pipe[1], 1);
-	}
 	else if (cmd->output == stdo)
-	{
 		dup2(redir->saved_std[1], 1);
-	}
 	else if (cmd->output == f_trunc || cmd->output == f_append)
-	{
-		dprintf(2, "red to outfile\n");
-		dup2(cmd->outfile, 1);
-	}
+		dup2(cmd->outfd, 1);
 	close(redir->saved_std[0]);
 	close(redir->saved_std[1]);
 	close(redir->fd_pipe[0]);
@@ -202,12 +193,11 @@ int	main(void)
 	{
 		if (pipe(redir.fd_pipe) == -1)
 			return (-1);
-		dprintf(2, "wtf is going on here?!\n");
 		if (cmd[i].output == f_trunc)
 		{
 			dprintf(2, "hello f_trunc\n");
-			cmd[i].outfile = open(cmd[i].cmd[1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			if (cmd[i].outfile == -1)
+			cmd[i].outfd = open(cmd[i].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			if (cmd[i].outfd == -1)
 			{
 				printf("Bad file descriptor\n");
 				exit(127);
@@ -216,8 +206,8 @@ int	main(void)
 		else if (cmd[i].output == f_append)
 		{
 			dprintf(2, "hello f_append\n");
-			cmd[i].outfile = open(cmd[i].cmd[1], O_WRONLY | O_CREAT | O_APPEND, 0664);
-			if (cmd[i].outfile == -1)
+			cmd[i].outfd = open(cmd[i].outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
+			if (cmd[i].outfd == -1)
 			{
 				printf("Bad file descriptor\n");
 				exit(127);
@@ -235,7 +225,7 @@ int	main(void)
 				exit(1);
 			}
 		}
-		close(cmd[i].outfile);
+		close(cmd[i].outfd);
 		close(redir.fd_pipe[1]);
 		close(redir.fdr_aux);
 		redir.fdr_aux = redir.fd_pipe[0];
