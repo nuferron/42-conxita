@@ -43,65 +43,8 @@ int	get_path(char **env, t_cmd *cmd)
 	return (error);
 }
 
-/* passar redir com a parametre per no tenir un punter a cada cmd */
-/* At this point, all files must already exist */
-
-/*int	redirections(t_cmd *cmd, t_redir *redir)
-{
-	int	fd;
-
-	if (cmd->input == infile)
-	{
-		write(2, "infile\n", 7);
-		fd = open(cmd->infile, O_RDONLY);
-		if (fd < 0)
-			return (-1);
-		dup2(fd, 0);
-		close(fd);
-	}
-	else if (cmd->input == stdi)
-	{
-		write(2, "stdi\n", 5);
-		dup2(redir->saved_std[0], 0);
-	}
-	else if (cmd->input == ipipe)
-	{
-		write(2, "ipipe\n", 6);
-		dup2(redir->fd_pipe[0], 0);
-	}
-	if (cmd->output == stdo)
-	{
-		write(2, "stdo\n", 5);
-		dup2(redir->saved_std[1], 1);
-	}
-	else if (cmd->output == f_trunc)
-	{
-		write(2, "trunc\n", 6);
-		fd = open(cmd->outfile, O_WRONLY);
-		if (fd < 0)
-			return (-1);
-		dup2(fd, 1);
-	}
-	else if (cmd->output == f_append)
-	{
-		write(2, "append\n", 7);
-		fd = open(cmd->outfile, O_WRONLY | O_APPEND);
-		if (fd < 0)
-			return (-1);
-		dup2(fd, 1);
-	}
-	else if (cmd->output == opipe)
-	{
-		write(2, "opipe\n", 6);
-		dup2(redir->fd_pipe[1], 1);
-	}
-	close(redir->fd_pipe[0]);
-	close(redir->fd_pipe[1]);
-	return (0);
-}*/
-
 t_cmd	*init_cmd_test(void)
-{	
+{
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd) * 3);
@@ -149,97 +92,120 @@ t_cmd	*init_cmd_test(void)
 	return (cmd);
 }
 
-int redirections(t_cmd *cmd, t_redir *redir)
+int	redirections(t_cmd *cmd, t_redir *redir)
 {
+	int	err;
+
+	err = 0;
 	if (cmd->input == infile)
-	{
-		dup2(cmd->infd, 0);
-		close(cmd->infd);
-	}
+		err = dup2(cmd->infd, 0);
 	else if (cmd->input == ipipe)
-		dup2(redir->fdr_aux, 0);
+		err = dup2(redir->fdr_aux, 0);
 	else if (cmd->input == stdi)
-		dup2(redir->saved_std[0], 0);
+		err = dup2(redir->saved_std[0], 0);
+	if (err == -1)
+		return (-1);
 	if (cmd->output == opipe)
-		dup2(redir->fd_pipe[1], 1);
+		err = dup2(redir->fd_pipe[1], 1);
 	else if (cmd->output == stdo)
-		dup2(redir->saved_std[1], 1);
+		err = dup2(redir->saved_std[1], 1);
 	else if (cmd->output == f_trunc || cmd->output == f_append)
-		dup2(cmd->outfd, 1);
-	close(redir->saved_std[0]);
-	close(redir->saved_std[1]);
-	close(redir->fd_pipe[0]);
-	close(redir->fd_pipe[1]);
+		err = dup2(cmd->outfd, 1);
+	if (err == -1)
+		return (-1);
+	if (close(redir->saved_std[0]) == -1 || close(redir->saved_std[1]) == -1
+		|| close(redir->fd_pipe[0]) == -1 || close(redir->fd_pipe[1]) == -1)
+		return (-1);
 	return (0);
 }
 
-//obrir outfile dins del child fora de redirections
-
-int	main(void)
+int	get_out_fd(t_cmd *cmd)
 {
-	t_cmd	*cmd;
-	t_redir	redir;
-	int	i = 0;
-	int	total = 3;
-	int	status;
-	int	pid;
+	int	fd;
 
-	cmd = init_cmd_test();
+	if (cmd->output == f_trunc)
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	else if (cmd->output == f_append)
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
+	if ((cmd->output == f_trunc || cmd->output == f_append) && fd == -1)
+	{
+		printf("Bad file descriptor\n");
+		exit(127);
+	}
+	return (fd);
+}
+
+pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+	{
+		redirections(cmd, redir);
+		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
+		{
+			printf("Woops, it failed\n");
+			exit(1);
+		}
+	}
+	return (pid);
+}
+
+int	ft_waitpid(int pid)
+{
+	int	status;
+	int	exit_status;
+
+	exit_status = -1;
+	if (waitpid(-1, &status, 0) == pid)
+	{
+		if (WIFEXITED(status))
+		{
+			exit_status = WEXITSTATUS(status);
+			printf("Exit status of the child was %d\n", exit_status);
+		}
+	}
+	return (exit_status);
+}
+
+int	lets_execute(t_cmd *cmd, int len)
+{
+	int		i;
+	pid_t	pid;
+	t_redir	redir;
+
+	i = 0;
 	redir.saved_std[0] = dup(0);
 	redir.saved_std[1] = dup(1);
-
 	redir.fdr_aux = -1;
-	while (i < total)
+	while (i < len)
 	{
 		if (pipe(redir.fd_pipe) == -1)
 			return (-1);
-		if (cmd[i].output == f_trunc)
-		{
-			dprintf(2, "hello f_trunc\n");
-			cmd[i].outfd = open(cmd[i].outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			if (cmd[i].outfd == -1)
-			{
-				printf("Bad file descriptor\n");
-				exit(127);
-			}
-		}
-		else if (cmd[i].output == f_append)
-		{
-			dprintf(2, "hello f_append\n");
-			cmd[i].outfd = open(cmd[i].outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
-			if (cmd[i].outfd == -1)
-			{
-				printf("Bad file descriptor\n");
-				exit(127);
-			}
-		}
-		pid = fork();
-		if (pid == -1)
-			return (-1);
-		if (pid == 0)
-		{
-			redirections(&cmd[i], &redir);
-			if (execve(cmd[i].cmd[0], cmd[i].cmd, NULL) == -1)
-			{
-				printf("wops it failed\n");
-				exit(1);
-			}
-		}
+		cmd[i].outfd = get_out_fd(&cmd[i]);
+		pid = exec_cmd(&cmd[i], &redir);
 		close(cmd[i].outfd);
 		close(redir.fd_pipe[1]);
 		close(redir.fdr_aux);
 		redir.fdr_aux = redir.fd_pipe[0];
-		//write(2, "after execution\n", 21);
 		i++;
 	}
-	close(redir.saved_std[0]);
-	close(redir.saved_std[1]);
-	i = 0;
-	while (i < total)
-	{
-		if (waitpid(-1, &status, 0) == pid)
-			exit(1); //fer tot allo de WIFEXITED etc
-		i++;
-	}
-	exit(status);
+	if (close(redir.saved_std[0]) == -1 || close(redir.saved_std[1]) == -1
+		|| close(redir.fd_pipe[0]) == -1)
+		return (-1);
+	return (pid);
 }
+/*
+int	main(void)
+{
+	t_cmd	*cmd;
+	int		pid;
+
+	cmd = init_cmd_test();
+	pid = lets_execute(cmd, 3);
+	ft_waitpid(pid);
+	exit(1);
+}*/
