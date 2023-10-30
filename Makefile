@@ -10,13 +10,15 @@ RESET =	\033[0m
 SRCS_CONXITA = conxita.c conxita_handler.c conxita_input.c
 SRCS_PROMPT = prompt_handler.c
 SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_len.c
-SRCS_UTILS = bool_utils.c env_utils.c
+SRCS_UTILS = bool_utils.c env_utils.c struct_conversion.c
 SRCS_SIGNALS = signal_handler.c
-SRCS_REDIRS = pipes.c chevrons.c
+SRCS_REDIRS = pipes.c
+SRCS_ERRORS = errors.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
 	   $(addprefix redirections/,$(SRCS_REDIRS)) $(addprefix tokenizer/,$(SRCS_TOKENIZER)) \
+	   $(addprefix errors/,$(SRCS_ERRORS))
 
 SRCDIR = src/
 OBJDIR = obj/
