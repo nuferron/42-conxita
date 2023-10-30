@@ -21,9 +21,10 @@
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
 
-#define LINE_DEL "\033[A"
+#define LINE_DEL	"\033[A"
+#define SYNTAX		"syntax error near unexpected token"
 
-enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, cmd = 4};
+enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, bin = 4};
 
 enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
 enum	e_input {stdi = 0, infile = 1, ipipe = 2};
@@ -90,3 +91,6 @@ int			path_count(const char *s, char c);
 int			here_doc(t_cmd *cmd, char *key);
 int			open_chev(t_cmd *cmd);
 int			close_chev(t_cmd *cmd, int append);
+
+/*Errors*/
+int			print_errors(char *); // error code 258 for syntax error near unexpected token '|' // 'newline'
