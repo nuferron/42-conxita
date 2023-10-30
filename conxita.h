@@ -25,17 +25,27 @@
 
 enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, cmd = 4};
 
+enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
+enum	e_input {stdi = 0, infile = 1, ipipe = 2};
+
 typedef struct s_cmd
 {
-	char	**cmd;
-	char	*heredoc;
-	char	*re_input;
-	char	*re_output;
-	bool	append;
+	char			**cmd;
+	char			*heredoc;
+	char			*infile; //OJU! This is the last file mentioned!
+	int				infd;
+	char			*outfile; // OJU! This is the last file mentioned! The others must be created but not written
+	int				outfd;
+	enum e_output	output;
+	enum e_input	input;
+}	t_cmd;
+
+typedef struct s_redir
+{
 	int		fd_pipe[2];
 	int		fdr_aux;
-	int		std[2];
-}	t_cmd;
+	int		saved_std[2];
+}	t_redir;
 
 typedef struct s_parsing
 {
