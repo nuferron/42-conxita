@@ -4,7 +4,9 @@
 
 /*This function saves the input in a new fd. It should be called right
   before the execution function*/
-int	here_doc(t_cmd *cmd, char *key) //must be changed so its information is saved in a special place (it shoudln't be overwritten)
+/*must be changed so its information is saved in a special
+  place (it shouldn't be overwritten)*/
+int	here_doc(t_cmd *cmd, char *key)
 {
 	char	*line;
 
@@ -61,6 +63,12 @@ int	close_chev(t_cmd *cmd, int append)
 	return (0);
 }
 
+int	print_error()
+{
+	perror("conxita");
+	return (-1);
+}
+
 int	executor(t_parsing *parsing, t_cmd *cmd)
 {
 	int		status;
@@ -68,19 +76,13 @@ int	executor(t_parsing *parsing, t_cmd *cmd)
 
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
+		return (print_error());
 	else if (pid == 0)
 	{
 		if (parsing->heredoc)
 		{
 			if (here_doc(cmd, "eof") == -1)
-			{
-				perror("heredoc");
 				exit(EXIT_FAILURE);
-			}
 			if (dup2(cmd->fd_pipe[0], 0) == -1)
 				return (-1);
 			close(cmd->fd_pipe[1]);
@@ -97,7 +99,7 @@ int	executor(t_parsing *parsing, t_cmd *cmd)
 		exit(EXIT_FAILURE);
 	}
 	else
-	{    
+	{
 		pid = waitpid(pid, &status, WUNTRACED | WCONTINUED);
 		/*if (pid == -1)
 		{
