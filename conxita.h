@@ -23,7 +23,7 @@
 
 #define LINE_DEL "\033[A"
 
-enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, cmd = 4};
+enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, bin = 4};
 
 enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
 enum	e_input {stdi = 0, infile = 1, ipipe = 2};
@@ -32,9 +32,9 @@ typedef struct s_cmd
 {
 	char			**cmd;
 	char			*heredoc;
-	char			*infile; //OJU! This is the last file mentioned!
+	char			*infile;  //! OJU! This is the last file mentioned!
 	int				infd;
-	char			*outfile; // OJU! This is the last file mentioned! The others must be created but not written
+	char			*outfile; //! OJU! This is the last file mentioned! The others must be created but not written
 	int				outfd;
 	enum e_output	output;
 	enum e_input	input;
@@ -60,19 +60,30 @@ typedef struct s_oken
 	char			*val;
 }	t_oken;
 
+typedef struct s_data
+{
+	char	*prompt;
+	t_oken	*tokens;
+	int		i;
+	int		pos;
+}	t_data;
+
 /*Signal Handler*/
 void		signal_hook(int sig);
 void		setup_signals(void);
 
 /*Prompt Handler*/
-int			handle_prompt(char *prompt);
+int			handle_prompt(char *prompt, char **env);
 
-//Tokenizer
-t_oken		*glorified_ft_split(char *prompt);
+/*Tokenizer*/
+t_oken		*glorified_ft_split(char *prompt, char **env);
 int			get_token_num(char *prompt);
-void		populate_tokens(char *prompt, t_oken *tokens);
+void		populate_tokens(char *prompt, t_oken *tokens, char **env);
 void		s_quote_len(char *prompt, int *i, int *len);
-void		d_quote_len(char *prompt, int *i, int *len);
+void		d_quote_len(char *prompt, int *i, int *len, char **env);
+void		fill_s_quotes(t_data *d, int *j);
+void		fill_d_quotes(t_data *d, int *j, char **env);
+char		*extract_env_name(char *s, int i);
 
 /*Conxita Handler*/
 void		print_conxita(void);
