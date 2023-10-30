@@ -23,8 +23,7 @@
 
 #define LINE_DEL "\033[A"
 
-enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, \
-	s_quote = 4, d_quote = 5, cmd = 6, spc = 7};
+enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, cmd = 4};
 
 enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
 enum	e_input {stdi = 0, infile = 1, ipipe = 2};
@@ -55,11 +54,11 @@ typedef struct s_parsing
 	t_cmd	*cmd;
 }	t_parsing;
 
-typedef struct s_comp
+typedef struct s_oken
 {
 	enum e_arg_type	type;
 	char			*val;
-}	t_comp;
+}	t_oken;
 
 /*Signal Handler*/
 void		signal_hook(int sig);
@@ -67,13 +66,13 @@ void		setup_signals(void);
 
 /*Prompt Handler*/
 int			handle_prompt(char *prompt);
-t_comp		*glorified_ft_split(char *prompt);
-void		handle_quotes_len(char *prompt, int *i, int *len);
-int			get_comp_num(char *prompt);
-int			get_word_len(char *prompt, int i, char *delimiters);
-void		handle_single(char *prompt, t_comp *comps, int *i, int *comp_i);
-void		write_word(char *prompt, t_comp *comps, int	*i, int *comp_i);
-void		write_single(t_comp *comps, int *i, char c, enum e_arg_type type);
+
+//Tokenizer
+t_oken		*glorified_ft_split(char *prompt);
+int			get_token_num(char *prompt);
+void		populate_tokens(char *prompt, t_oken *tokens);
+void		s_quote_len(char *prompt, int *i, int *len);
+void		d_quote_len(char *prompt, int *i, int *len);
 
 /*Conxita Handler*/
 void		print_conxita(void);

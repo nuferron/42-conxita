@@ -8,20 +8,21 @@ WHITE =	\033[1;37m
 RESET =	\033[0m
 
 SRCS_CONXITA = conxita.c conxita_handler.c conxita_input.c
-SRCS_PROMPT = prompt_handler.c raw_prompt.c comp_counter.c quote_handler.c
+SRCS_PROMPT = prompt_handler.c
+SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_len.c
 SRCS_UTILS = bool_utils.c env_utils.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_REDIRS = pipes.c chevrons.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
-	   $(addprefix redirections/,$(SRCS_REDIRS))
+	   $(addprefix redirections/,$(SRCS_REDIRS)) $(addprefix tokenizer/,$(SRCS_TOKENIZER)) \
 
 SRCDIR = src/
 OBJDIR = obj/
 HEADER = conxita.h
 LIB = libs/libft/
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-g -fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
 NAME = conxita
 COLUMNS = $(shell tput cols)
@@ -34,8 +35,7 @@ RLINE_FL    := -lreadline -ltermcap -lhistory
 all: make_libs ${NAME}
 
 ${NAME}: ${OBJS}
-	# cc ${CFLAGS} -lreadline ${OBJS} ${LIB} -o $@
-	@$(CC) -ltermcap $(RLINE_H) $(RLINE) -L $(LIB) -lft $(OBJS) -o $(NAME)
+	@$(CC) ${CFLAGS} -ltermcap $(RLINE_H) $(RLINE) -L $(LIB) -lft $(OBJS) -o $(NAME)
 	printf "${WHITE}CONXITA: ${GREEN}Binary compiled!${RESET}\n"
 
 make_libs:
@@ -49,6 +49,9 @@ ${OBJDIR}%.o: ${SRCDIR}%.c ${HEADER}
 
 leaks: ${NAME}
 	leaks -atExit -- ./${NAME}
+
+exec: ${NAME}
+	./conxita
 
 norm:
 	printf "${WHITE}CONXITA\n${RESET}"
@@ -73,5 +76,5 @@ fclean: 	clean
 
 re:	fclean all
 
-.SILENT: ${NAME} make_libs all clean fclean norm do_bonus
+.SILENT: ${NAME} make_libs all clean fclean norm do_bonus exec
 .PHONY: all make_libs
