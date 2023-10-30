@@ -1,11 +1,11 @@
 #include "../../conxita.h"
 
-//Add len everything but the quotes and leave i to point 
+//Adds len everything but the quotes and leaves i to point 
 //at the last quote position + 1
 void	s_quote_len(char *prompt, int *i, int *len)
 {
 	(*i)++;
-	while (prompt[*i] != '\'')
+	while (prompt[*i] && prompt[*i] != '\'')
 	{
 		(*len)++;
 		(*i)++;
@@ -16,7 +16,7 @@ void	s_quote_len(char *prompt, int *i, int *len)
 void	d_quote_len(char *prompt, int *i, int *len)
 {
 	(*i)++;
-	while (prompt[*i] != '"')
+	while (prompt[*i] && prompt[*i] != '"')
 	{
 		(*len)++;
 		(*i)++;

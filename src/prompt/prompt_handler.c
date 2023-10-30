@@ -23,8 +23,9 @@ t_parsing	_get_quotes(char *prompt)
 
 int	handle_prompt(char *prompt)
 {
-	temporal_prompt_handle(prompt);
-	glorified_ft_split(ft_strtrim(prompt, " "));
+	if (temporal_prompt_handle(prompt) == -1)
+		return (0);
+	//glorified_ft_split(ft_strtrim(prompt, " "));
 	free(prompt);
 	return (0);
 }
@@ -63,10 +64,10 @@ int	temporal_prompt_handle(char *prompt)
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
-		return(1);
+		return (-1);
 	add_history(prompt);
 	if (check_o_quotes(prompt))
-		return (0);
+		return (-1);
 	if (!ft_strncmp(prompt, "exit", 5))
 	{
 		free(prompt);

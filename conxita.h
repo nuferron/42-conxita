@@ -23,8 +23,7 @@
 
 #define LINE_DEL "\033[A"
 
-enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, \
-	s_quote = 4, d_quote = 5, cmd = 6, spc = 7};
+enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, cmd = 4};
 
 typedef struct s_cmd
 {
