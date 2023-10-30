@@ -63,12 +63,6 @@ int	close_chev(t_cmd *cmd, int append)
 	return (0);
 }
 
-int	print_error()
-{
-	perror("conxita");
-	return (-1);
-}
-
 int	executor(t_parsing *parsing, t_cmd *cmd)
 {
 	int		status;
@@ -126,7 +120,7 @@ int	executor(t_parsing *parsing, t_cmd *cmd)
 	}
 	return (0);
 }
-/*
+
 int	main()
 {
 	t_parsing	parsing;
@@ -147,4 +141,4 @@ int	main()
 	cmd.std[1] = dup(1);
 
 	executor(&parsing, &cmd);
-}*/
+}
