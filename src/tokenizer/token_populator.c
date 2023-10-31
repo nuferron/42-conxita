@@ -27,7 +27,7 @@ void	handle_word(t_data *d, char **env)
 
 	word_len = get_word_len(d->prompt, d->i, env);
 	j = 0;
-	d->tokens[d->pos].val = ft_calloc(word_len, sizeof(char *));
+	d->tokens[d->pos].val = ft_calloc(word_len + 1, sizeof(char *));
 	if (!d->tokens[d->pos].val)
 		return ;//!FREE ALL - MEMORY LEAKS
 	while (!ft_strchr("<>| ", d->prompt[d->i]))
