@@ -16,7 +16,7 @@
 		prompt_text = ft_strjoin(getenv("USER"), "@conxita$ ");
 		prompt = readline(prompt_text);
 		free(prompt_text);
-		handle_prompt(prompt);
+		handle_prompt(prompt, env);
 	}
 	return (0);
 }*/

@@ -2,30 +2,11 @@
 
 int	temporal_prompt_handle(char *prompt);
 
-t_parsing	_get_quotes(char *prompt)
-{
-	int			i;
-	t_parsing	_quotes;
-
-	i = 0;
-	_quotes.o_simple = FALSE;
-	_quotes.o_double = FALSE;
-	while (prompt[i])
-	{
-		if (prompt[i] == '\'' && !_quotes.o_double)
-			b_invert(&(_quotes.o_simple));
-		if (prompt[i] == '\"' && !_quotes.o_simple)
-			b_invert(&(_quotes.o_double));
-		i++;
-	}
-	return (_quotes);
-}
-
-int	handle_prompt(char *prompt)
+int	handle_prompt(char *prompt, char **env)
 {
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
-	//glorified_ft_split(ft_strtrim(prompt, " "));
+	glorified_ft_split(ft_strtrim(prompt, " "), env);
 	free(prompt);
 	return (0);
 }
