@@ -24,10 +24,10 @@
 #define LINE_DEL	"\033[A"
 #define SYNTAX		"syntax error near unexpected token"
 
-enum	e_arg_type {unk = 0, file = 1, red = 2, arg = 3, bin = 4};
+enum	e_arg_type {last = 0, red = 1, arg = 2};
 
 enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
-enum	e_input {stdi = 0, infile = 1, ipipe = 2};
+enum	e_input {stdi = 0, infile = 1, ipipe = 2, heredoc = 3};
 
 typedef struct s_cmd
 {
