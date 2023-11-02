@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-int	get_word_len(char *prompt, int i, char **env)
+int	get_word_len(char *prompt, int i)
 {
 	int	len;
 
@@ -8,9 +8,7 @@ int	get_word_len(char *prompt, int i, char **env)
 	while (!ft_strchr(" <>|", prompt[i]))
 	{
 		if (prompt[i] == '\'')
-			s_quote_len(prompt, &i, &len);
-		if (prompt[i] == '"')
-			d_quote_len(prompt, &i, &len, env);
+			quote_len(prompt, &i, &len);
 		if (!ft_strchr("'\" <>|", prompt[i]))
 		{
 			len++;
@@ -25,7 +23,7 @@ void	handle_word(t_data *d, char **env)
 	int	word_len;
 	int	j;
 
-	word_len = get_word_len(d->prompt, d->i, env);
+	word_len = get_word_len(d->prompt, d->i);
 	j = 0;
 	d->tokens[d->pos].val = ft_calloc(word_len + 1, sizeof(char *));
 	if (!d->tokens[d->pos].val)
@@ -56,7 +54,7 @@ static void	handle_delimiter(t_data *d)
 	if (ft_strchr("<>|", d->prompt[d->i]))
 	{
 		c = d->prompt[d->i];
-		if (d->prompt[d->i + 1] == c)
+		if (c && d->prompt[d->i + 1] == c)
 		{
 			d->i++;
 			d->tokens[d->pos].val = ft_calloc(3, sizeof(char));
@@ -65,7 +63,8 @@ static void	handle_delimiter(t_data *d)
 		else
 			d->tokens[d->pos].val = ft_calloc(2, sizeof(char));
 		d->tokens[d->pos].val[0] = c;
-		d->i++;
+		if (c)
+			d->i++;
 		d->tokens[d->pos].type = red;
 		d->pos++;
 	}

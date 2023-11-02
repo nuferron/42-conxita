@@ -8,21 +8,20 @@ static void	handle_quotes_len(char *prompt, int *i)
 	(*i)++;
 	while (prompt[*i] && prompt[*i] != quote)
 		(*i)++;
-	(*i)++;
+	if (prompt[*i] != '\0')
+		(*i)++;
 }
 
 static void	handle_delimiter(char *prompt, int *i, int *len)
 {
 	char	c;
 
-	c = 0;
 	while (prompt[*i] == ' ')
 		(*i)++;
 	if (ft_strchr("<>|", prompt[*i]))
 	{
 		c = prompt[*i];
-		(*i)++;
-		if (prompt[*i] == c)
+		if (c != '\0' && prompt[*i] == c)
 			(*i)++;
 		(*len)++;
 	}

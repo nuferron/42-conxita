@@ -79,11 +79,10 @@ int			handle_prompt(char *prompt, char **env);
 t_oken		*glorified_ft_split(char *prompt, char **env);
 int			get_token_num(char *prompt);
 void		populate_tokens(char *prompt, t_oken *tokens, char **env);
-void		s_quote_len(char *prompt, int *i, int *len);
-void		d_quote_len(char *prompt, int *i, int *len, char **env);
+void		quote_len(char *prompt, int *i, int *len);
 void		fill_s_quotes(t_data *d, int *j);
 void		fill_d_quotes(t_data *d, int *j, char **env);
-char		*extract_env_name(char *s, int i);
+char		*expand_env(char **env, char *prompt);
 
 /*Conxita Handler*/
 void		print_conxita(void);
