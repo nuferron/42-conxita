@@ -14,7 +14,7 @@ char	*ft_strjoin3_free(char *str1, char *str2, char *str3)
 	free(str1);
 	free(str2);
 	result = ft_strjoin(tmp, str3);
-	free(str3);
+	//free(str3);
 	free(tmp);
 	return (result);
 }
@@ -31,13 +31,12 @@ int	here_doc(t_redir *redir, char *key)
 		if (ft_strlen(key) == ft_strlen(line)
 			&& ft_strncmp(line, key, ft_strlen(key) - 1) == 0)
 			break ;
-		tmp = ft_strjoin3_free(line, tmp, "\n");
+		tmp = ft_strjoin3_free(tmp, line, "\n");
 		if (!tmp)
 			return (print_errors(NULL));
 		line = readline("> ");
 	}
 	write(redir->fd_pipe[1], tmp, ft_strlen(tmp));
-	write(redir->fd_pipe[1], "\n", 1);
 	free(tmp);
 	free(line);
 	return (0);
