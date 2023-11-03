@@ -1,35 +1,40 @@
 #include "../../conxita.h"
 
-/*cmd->fd_pipe MUST BE INITIALIZED BEFORE ENTERING ANY OF THESE FUNCTIONS*/
-
 /*This function saves the input in a new fd. It should be called right
   before the execution function*/
 /*must be changed so its information is saved in a special
   place (it shouldn't be overwritten)*/
-int	here_doc(t_cmd *cmd, char *key)
+int	here_doc(t_redir *redir, char *key)
 {
 	char	*line;
+	char	*tmp;
+	char	*aux;
 
 	line = readline("> ");
-	if (pipe(cmd->fd_pipe) == -1)
-		return (-1);
+	tmp = NULL;
 	while (line)
 	{
 		if (ft_strlen(key) == ft_strlen(line)
 			&& ft_strncmp(line, key, ft_strlen(key) - 1) == 0)
 			break ;
-		write(cmd->fd_pipe[1], line, ft_strlen(line));
+		aux = ft_strjoin(tmp, line);
 		free(line);
-		write(cmd->fd_pipe[1], "\n", 1);
+		if (tmp)
+			free(tmp);
+		tmp = aux;
+		aux = ft_strjoin(tmp, "\n");
+		free(tmp);
+		tmp = aux;
 		line = readline("> ");
 	}
+	write(redir->fd_pipe[1], tmp, ft_strlen(tmp));
+	write(redir->fd_pipe[1], "\n", 1);
+	free(tmp);
 	free(line);
-	close(cmd->fd_pipe[1]);
 	return (0);
 }
 
-/*This function redirects the reading fd to the one specified*/
-int	open_chev(t_cmd *cmd)
+/*int	open_chev(t_cmd *cmd)
 {
 	cmd->fd_pipe[0] = open(cmd->arg, O_RDONLY);
 	if (cmd->fd_pipe[0] == -1)
@@ -43,9 +48,6 @@ int	open_chev(t_cmd *cmd)
 	return (0);
 }
 
-/*This function redirects the writing fd to the one specified and, depending
-  on the append value, it will delete the previous content of the file or append
-  the new text to it*/
 int	close_chev(t_cmd *cmd, int append)
 {
 	if (!append)
@@ -95,50 +97,28 @@ int	executor(t_parsing *parsing, t_cmd *cmd)
 	else
 	{
 		pid = waitpid(pid, &status, WUNTRACED | WCONTINUED);
-		/*if (pid == -1)
-		{
-			perror("waitpid");
-			exit(EXIT_FAILURE);
-		}
-		if (WIFEXITED(status))
-		{
-			printf("exited, status=%d\n", WEXITSTATUS(status));
-		}
-		else if (WIFSIGNALED(status))
-		{
-			printf("killed by signal %d\n", WTERMSIG(status));
-		}
-		else if (WIFSTOPPED(status))
-		{
-			printf("stopped by signal %d\n", WSTOPSIG(status));
-		}
-		else if (WIFCONTINUED(status))
-		{
-			printf("continued\n");
-		}
-        exit(EXIT_SUCCESS);*/
 	}
 	return (0);
-}
+}*/
 
 int	main()
 {
-	t_parsing	parsing;
-	t_cmd		cmd;
+	//t_cmd		cmd;
+	t_redir		redir;
 
-	parsing.heredoc = 1;
-	parsing.eof = ft_strdup("eof");
-	parsing.re_input = 0;
-	parsing.re_output = 0;
+	//cmd.cmd = malloc(sizeof(char **));
+	//cmd.cmd[0] = ft_strdup("/bin/cat");
+	//cmd.cmd[1] = ft_strdup("file5");
+	//cmd.cmd[1] = NULL;
 
-	cmd.cmd = malloc(sizeof(char **));
-	cmd.cmd[0] = ft_strdup("/bin/cat");
-	cmd.cmd[1] = NULL;
-	cmd.arg = ft_strdup("file2");
-	cmd.fd_pipe[0] = 0;
-	cmd.fd_pipe[1] = 1;
-	cmd.std[0] = dup(0);
-	cmd.std[1] = dup(1);
+	redir.fd_pipe[0] = dup(0);
+	redir.fd_pipe[1] = dup(1);
+	//close(redir.fd_pipe[0]);
+	//close(redir.fd_pipe[1]);
+	//redir.saved_std[0] = dup(0);
+	//redir.saved_std[1] = dup(1);
 
-	executor(&parsing, &cmd);
+	//executor(&cmd, &redir);
+	here_doc(&redir, "eof");
+
 }

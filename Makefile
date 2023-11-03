@@ -12,7 +12,7 @@ SRCS_PROMPT = prompt_handler.c
 SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_utils.c
 SRCS_UTILS = bool_utils.c env_utils.c struct_conversion.c
 SRCS_SIGNALS = signal_handler.c
-SRCS_REDIRS = pipes.c
+SRCS_REDIRS = pipes.c chevrons.c
 SRCS_ERRORS = errors.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \

@@ -55,6 +55,17 @@ typedef struct s_parsing
 	t_cmd	*cmd;
 }	t_parsing;
 
+/*OLD	s_parsing
+{
+	bool	o_simple;
+	bool	o_double;
+	bool	heredoc;
+	char	*eof;
+	bool	re_input;
+	bool	re_ouput;
+	int		append;
+}*/
+
 typedef struct s_oken
 {
 	enum e_arg_type	type;
@@ -99,7 +110,7 @@ char		*mini_split(char *path, int count);
 int			path_count(const char *s, char c);
 
 /*Chevrons Functions*/
-int			here_doc(t_cmd *cmd, char *key);
+int			here_doc(t_redir *redir, char *key);
 int			open_chev(t_cmd *cmd);
 int			close_chev(t_cmd *cmd, int append);
 

@@ -164,7 +164,7 @@ t_cmd	*token_to_cmd(t_oken *token)
 	}
 	return (cmd);
 }
-
+/*
 int	main()
 {
 	t_oken	*token;
@@ -212,4 +212,4 @@ int	main()
 		i++;
 	}
 	exit(1);
-}
+}*/
