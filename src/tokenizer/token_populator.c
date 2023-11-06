@@ -1,13 +1,13 @@
 #include "../../conxita.h"
 
-int	get_word_len(char *prompt, int i)
+static int	get_word_len(char *prompt, int i)
 {
 	int	len;
 
 	len = 0;
 	while (!ft_strchr(" <>|", prompt[i]))
 	{
-		if (prompt[i] == '\'')
+		if (prompt[i] == '\'' || prompt[i] == '"')
 			quote_len(prompt, &i, &len);
 		if (!ft_strchr("'\" <>|", prompt[i]))
 		{
@@ -18,7 +18,7 @@ int	get_word_len(char *prompt, int i)
 	return (len);
 }
 
-void	handle_word(t_data *d, char **env)
+static void	handle_word(t_data *d)
 {
 	int	word_len;
 	int	j;
@@ -30,10 +30,8 @@ void	handle_word(t_data *d, char **env)
 		return ;//!FREE ALL - MEMORY LEAKS
 	while (!ft_strchr("<>| ", d->prompt[d->i]))
 	{
-		if (d->prompt[d->i] == '\'')
-			fill_s_quotes(d, &j);
-		if (d->prompt[d->i] == '"')
-			fill_d_quotes(d, &j, env);
+		if (d->prompt[d->i] == '\'' || d->prompt[d->i] == '"')
+			fill_quotes(d, &j);
 		if (!ft_strchr("<>|'\" ", d->prompt[d->i]))
 		{
 			d->tokens[d->pos].val[j] = d->prompt[d->i];
@@ -72,7 +70,7 @@ static void	handle_delimiter(t_data *d)
 		d->i++;
 }
 
-void	populate_tokens(char *prompt, t_oken *tokens, char **env)
+void	populate_tokens(char *prompt, t_oken *tokens)
 {
 	t_data	data;
 
@@ -85,6 +83,6 @@ void	populate_tokens(char *prompt, t_oken *tokens, char **env)
 		if (ft_strchr("<>| ", prompt[data.i]))
 			handle_delimiter(&data);
 		if (!ft_strchr(" <>|", prompt[data.i]))
-			handle_word(&data, env);
+			handle_word(&data);
 	}
 }

@@ -8,13 +8,13 @@ static char	*get_env_name(char *prompt)
 
 	len = 1;
 	i = 1;
-	while (!ft_strchr("<>|$ ", prompt[len]))
+	while (!ft_strchr("<>|$ '\"", prompt[len]))
 		len++;
 	name = ft_calloc(len + 1, sizeof(char));
 	if (!name)
 		return (NULL);
 	name[0] = '$';
-	while (!ft_strchr("<>|$ ", prompt[i]))
+	while (!ft_strchr("<>|$ '\"", prompt[i]))
 	{
 		name[i] = prompt[i];
 		i++;
@@ -40,7 +40,7 @@ static char	*replace_env(char **env, char *prompt, int *i)
 
 	name = get_env_name(&prompt[*i]);
 	val = get_val(env, &name[1]);
-	new_prompt = ft_strreplace(prompt, name, val);
+	new_prompt = replace_variable(prompt, name, val);
 	*i += ft_strlen(val);
 	free(name);
 	free(prompt);
@@ -62,7 +62,7 @@ char	*expand_env(char **env, char *prompt)
 				i++;
 			i++;
 		}
-		if (prompt[i] == '$' && !ft_strchr("<>|$ ", prompt[i + 1]))
+		if (prompt[i] == '$' && !ft_strchr("<>|$", prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
 		if (prompt && prompt[i] != '\0')
 			i++;

@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:44:20 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/11/02 21:15:39 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:38:40 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	tokens = ft_calloc(token_num + 1, sizeof(t_oken));
 	if (!tokens)
 		return (NULL);
-	populate_tokens(prompt, tokens, env);
+	populate_tokens(prompt, tokens);
 	free (prompt);
 	while (i < token_num)
 	{

@@ -4,8 +4,11 @@
 //at the last quote position + 1
 void	quote_len(char *prompt, int *i, int *len)
 {
+	char	quote;
+
+	quote = prompt[*i];
 	(*i)++;
-	while (prompt[*i] && prompt[*i] != '\'')
+	while (prompt[*i] && prompt[*i] != quote)
 	{
 		(*len)++;
 		(*i)++;
@@ -14,11 +17,13 @@ void	quote_len(char *prompt, int *i, int *len)
 		(*i)++;
 }
 
-
-void	fill_s_quotes(t_data *d, int *j)
+void	fill_quotes(t_data *d, int *j)
 {
+	char	quote;
+
+	quote = d->prompt[d->i];
 	d->i++;
-	while (d->prompt[d->i] && d->prompt[d->i] != '\'')
+	while (d->prompt[d->i] && d->prompt[d->i] != quote)
 	{
 		d->tokens[d->pos].val[*j] = d->prompt[d->i];
 		d->i++;
@@ -27,15 +32,3 @@ void	fill_s_quotes(t_data *d, int *j)
 	d->i++;
 }
 
-void	fill_d_quotes(t_data *d, int *j, char **env)
-{
-	(void) env;
-	d->i++;
-	while (d->prompt[d->i] && d->prompt[d->i] != '"')
-	{
-		d->tokens[d->pos].val[*j] = d->prompt[d->i];
-		d->i++;
-		(*j)++;
-	}
-	d->i++;
-}
