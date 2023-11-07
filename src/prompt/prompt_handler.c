@@ -4,10 +4,18 @@ int	temporal_prompt_handle(char *prompt);
 
 int	handle_prompt(char *prompt, char **env)
 {
+	t_oken	*tokens;
+	int		prot;
+
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
-	glorified_ft_split(ft_strtrim(prompt, " "), env);
+	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
+	printf("handle prompt: whats up!\n");
+	prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 0));
+	if (prot == -1)
+		return (-1);
 	free(prompt);
+	printf("handle prompt: bruh!\n");
 	return (0);
 }
 
