@@ -100,8 +100,12 @@ int			path_count(const char *s, char c);
 
 /*Chevrons Functions*/
 int			here_doc(t_redir *redir, char *key);
-int			open_chev(t_cmd *cmd);
-int			close_chev(t_cmd *cmd, int append);
+//int			open_chev(t_cmd *cmd);
+//int			close_chev(t_cmd *cmd, int append);
+int			lets_execute(t_cmd *cmd, t_redir *redir, int len);
+t_cmd		*token_to_cmd(t_oken *token);
+t_redir		*init_redir(void);
+int			arg_len(t_oken *token, int i);
 
 /*Errors*/
 int			print_errors(char *); // error code 258 for syntax error near unexpected token '|' // 'newline'
