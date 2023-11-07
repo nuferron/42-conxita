@@ -12,8 +12,11 @@
 
 int	arg_len(t_oken *token, int i)
 {
-	while (token[i].val && token[i].val[0] != '|')
-		i++;
+	while (token[i].val)
+	{
+		if (token[i].val[0] == '|')
+			i++;
+	}
 	return (i);
 }
 
