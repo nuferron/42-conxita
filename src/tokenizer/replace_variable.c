@@ -1,31 +1,5 @@
 #include "../../conxita.h"
 
-static int	get_len(char *str, char *old, char *new)
-{
-	int		len;
-	char	*pos;
-
-	len = ft_strlen(str);
-	pos = ft_strnstr(str, old, ft_strlen(str));
-	while (pos)
-	{
-		len -= ft_strlen(old);
-		len += ft_strlen(new);
-		pos = ft_strnstr(pos + 1, old, ft_strlen(pos + 1));
-	}
-	return (len);
-}
-
-static void	fill_end(char *str, char *new_str)
-{
-	while (*str)
-	{
-		*new_str = *str;
-		str++;
-		new_str++;
-	}
-}
-
 static char	*get_pos(char *str, char *old)
 {
 	int	i;
@@ -55,7 +29,33 @@ static char	*get_pos(char *str, char *old)
 	return (NULL);
 }
 
-static void replace(char *str, char *new_str, char *old, char *new)
+static int	get_len(char *str, char *old, char *new)
+{
+	int		len;
+	char	*pos;
+
+	len = ft_strlen(str);
+	pos = get_pos(str, old);
+	while (pos)
+	{
+		len -= ft_strlen(old);
+		len += ft_strlen(new);
+		pos = get_pos(pos + 1, old);
+	}
+	return (len);
+}
+
+static void	fill_end(char *str, char *new_str)
+{
+	while (*str)
+	{
+		*new_str = *str;
+		str++;
+		new_str++;
+	}
+}
+
+static void	replace(char *str, char *new_str, char *old, char *new)
 {
 	int		i;
 	char	*pos;

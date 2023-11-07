@@ -58,11 +58,12 @@ char	*expand_env(char **env, char *prompt)
 		if (prompt[i] == '\'')
 		{
 			i++;
-			while (prompt[i] != '\'')
+			while (prompt[i] && prompt[i] != '\'')
 				i++;
-			i++;
+			if (prompt[i])
+				i++;
 		}
-		if (prompt[i] == '$' && !ft_strchr("<>|$", prompt[i + 1]))
+		if (prompt[i] == '$' && !ft_strchr("<>|$'\"", prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
 		if (prompt && prompt[i] != '\0')
 			i++;
