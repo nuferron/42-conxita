@@ -10,11 +10,8 @@
 // cmd >> file
 // >> file cmd
 
-int	token_len(t_oken *token)
+int	arg_len(t_oken *token, int i)
 {
-	int	i;
-
-	i = 0;
 	while (token[i].val && token[i].val[0] != '|')
 		i++;
 	return (i);
@@ -73,7 +70,7 @@ void	init_pipe(t_cmd *cmd, int is_pipe)
 		cmd->output = opipe;
 }
 
-int	init_redir(t_oken *token, t_cmd *cmd, int i)
+int	init_cmd(t_oken *token, t_cmd *cmd, int i)
 {
 	int			ret;
 	static int	is_pipe = 0;
@@ -91,13 +88,6 @@ int	init_redir(t_oken *token, t_cmd *cmd, int i)
 	else
 		is_pipe = 0;
 	return (ret);
-}
-
-int	arg_len(t_oken *token, int i)
-{
-	while (token[i].val && token[i].type == arg)
-		i++;
-	return (i);
 }
 
 void	*free_matrix(t_cmd *cmd, int i)
@@ -136,20 +126,27 @@ t_cmd	*token_to_cmd(t_oken *token)
 	t_cmd	*cmd;
 	int		i;
 	int		j;
+	int		len;
 
 	i = 0;
 	j = 0;
-	cmd = malloc(sizeof(t_cmd) * token_len(token) + 1);
+	len = arg_len(token, 0);
+	printf("ttcmd len %d\n", len);
+	cmd = malloc(sizeof(t_cmd) * (len + 1));
 	if (!cmd)
 	{
 		print_errors(NULL);
 		return (NULL); // Needs proper call to a proper error function
 	}
-	while (token[i].val)
+	printf("ttcmd says hi");
+	//while (token[i].val)
+	exit(1);
+	while (i < len)
 	{
+		write(2, "WTF\n", 4);
 		if (token[i].type == red)
 		{
-			init_redir(token, &cmd[j], i++);
+			init_cmd(token, &cmd[j], i++);
 			if (token[i - 1].val[0] != '|')
 				i++;
 		}
@@ -162,6 +159,7 @@ t_cmd	*token_to_cmd(t_oken *token)
 		if (token[i].val && token[i].val[0] == '|')
 			j++;
 	}
+	printf("ttcmd says bye");
 	return (cmd);
 }
 /*

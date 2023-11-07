@@ -43,7 +43,7 @@ int	get_path(char **env, t_cmd *cmd)
 	return (error);
 }
 
-t_cmd	*init_cmd_test(void)
+/*t_cmd	*init_cmd_test(void)
 {
 	t_cmd	*cmd;
 
@@ -90,7 +90,7 @@ t_cmd	*init_cmd_test(void)
 	cmd[2].output = f_trunc;
 	cmd[2].input = ipipe;
 	return (cmd);
-}
+}*/
 
 int	redirections(t_cmd *cmd, t_redir *redir)
 {
@@ -171,7 +171,49 @@ int	ft_waitpid(int pid)
 	return (exit_status);
 }
 
-int	lets_execute(t_cmd *cmd, int len)
+t_redir	*init_redir()
+{
+	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->saved_std[0] = dup(0);
+	redir->saved_std[1] = dup(1);
+	if (redir->saved_std[0] == -1 || redir->saved_std[1] == -1)
+		return (NULL);
+	redir->fdr_aux = -1;
+	return (redir);
+}
+
+int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
+{
+	int		i;
+	pid_t	pid;
+
+	i = 0;
+	if (!cmd || !redir)
+		return (print_errors(NULL));
+	printf("lets execute: len %d\n", len);
+	while (i < len)
+	{
+		if (pipe(redir->fd_pipe) == -1)
+			return (-1);
+		cmd[i].outfd = get_out_fd(&cmd[i]);
+		pid = exec_cmd(&cmd[i], redir);
+		if (close(cmd[i].outfd) == -1 || close(redir->fd_pipe[1])
+			|| close(redir->fdr_aux))
+			return (print_errors(NULL));
+		redir->fdr_aux = redir->fd_pipe[0];
+		i++;
+	}
+	if (close(redir->saved_std[0]) == -1 || close(redir->saved_std[1]) == -1
+		|| close(redir->fd_pipe[0]) == -1)
+		return (-1);
+	return (pid);
+}
+
+/*int	lets_execute(t_cmd *cmd, int len)
 {
 	int		i;
 	pid_t	pid;
@@ -187,6 +229,9 @@ int	lets_execute(t_cmd *cmd, int len)
 			return (-1);
 		cmd[i].outfd = get_out_fd(&cmd[i]);
 		pid = exec_cmd(&cmd[i], &redir);
+		if (close(cmd[i].outfd) == -1 || close(redir.fd_pipe[1])
+			|| close(redir.fdr_aux))
+			return (print_errors(NULL));
 		close(cmd[i].outfd);
 		close(redir.fd_pipe[1]);
 		close(redir.fdr_aux);
@@ -197,7 +242,7 @@ int	lets_execute(t_cmd *cmd, int len)
 		|| close(redir.fd_pipe[0]) == -1)
 		return (-1);
 	return (pid);
-}
+}*/
 /*
 int	main(void)
 {
