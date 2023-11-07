@@ -49,7 +49,7 @@ int	temporal_prompt_handle(char *prompt)
 	add_history(prompt);
 	if (check_o_quotes(prompt))
 		return (-1);
-	if (!ft_strncmp(prompt, "exit", 5))
+	if (!ft_strncmp(prompt, "exit", 5) || !ft_strncmp(prompt, "make", 4))
 	{
 		free(prompt);
 		printf("%s\n", "exit");

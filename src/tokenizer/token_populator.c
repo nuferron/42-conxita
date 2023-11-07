@@ -1,16 +1,14 @@
 #include "../../conxita.h"
 
-int	get_word_len(char *prompt, int i, char **env)
+static int	get_word_len(char *prompt, int i)
 {
 	int	len;
 
 	len = 0;
 	while (!ft_strchr(" <>|", prompt[i]))
 	{
-		if (prompt[i] == '\'')
-			s_quote_len(prompt, &i, &len);
-		if (prompt[i] == '"')
-			d_quote_len(prompt, &i, &len, env);
+		if (prompt[i] == '\'' || prompt[i] == '"')
+			quote_len(prompt, &i, &len);
 		if (!ft_strchr("'\" <>|", prompt[i]))
 		{
 			len++;
@@ -20,22 +18,20 @@ int	get_word_len(char *prompt, int i, char **env)
 	return (len);
 }
 
-void	handle_word(t_data *d, char **env)
+static void	handle_word(t_data *d)
 {
 	int	word_len;
 	int	j;
 
-	word_len = get_word_len(d->prompt, d->i, env);
+	word_len = get_word_len(d->prompt, d->i);
 	j = 0;
 	d->tokens[d->pos].val = ft_calloc(word_len + 1, sizeof(char *));
 	if (!d->tokens[d->pos].val)
 		return ;//!FREE ALL - MEMORY LEAKS
 	while (!ft_strchr("<>| ", d->prompt[d->i]))
 	{
-		if (d->prompt[d->i] == '\'')
-			fill_s_quotes(d, &j);
-		if (d->prompt[d->i] == '"')
-			fill_d_quotes(d, &j, env);
+		if (d->prompt[d->i] == '\'' || d->prompt[d->i] == '"')
+			fill_quotes(d, &j);
 		if (!ft_strchr("<>|'\" ", d->prompt[d->i]))
 		{
 			d->tokens[d->pos].val[j] = d->prompt[d->i];
@@ -56,7 +52,7 @@ static void	handle_delimiter(t_data *d)
 	if (ft_strchr("<>|", d->prompt[d->i]))
 	{
 		c = d->prompt[d->i];
-		if (d->prompt[d->i + 1] == c)
+		if (c && d->prompt[d->i + 1] == c)
 		{
 			d->i++;
 			d->tokens[d->pos].val = ft_calloc(3, sizeof(char));
@@ -65,7 +61,8 @@ static void	handle_delimiter(t_data *d)
 		else
 			d->tokens[d->pos].val = ft_calloc(2, sizeof(char));
 		d->tokens[d->pos].val[0] = c;
-		d->i++;
+		if (c)
+			d->i++;
 		d->tokens[d->pos].type = red;
 		d->pos++;
 	}
@@ -73,7 +70,7 @@ static void	handle_delimiter(t_data *d)
 		d->i++;
 }
 
-void	populate_tokens(char *prompt, t_oken *tokens, char **env)
+void	populate_tokens(char *prompt, t_oken *tokens)
 {
 	t_data	data;
 
@@ -86,6 +83,6 @@ void	populate_tokens(char *prompt, t_oken *tokens, char **env)
 		if (ft_strchr("<>| ", prompt[data.i]))
 			handle_delimiter(&data);
 		if (!ft_strchr(" <>|", prompt[data.i]))
-			handle_word(&data, env);
+			handle_word(&data);
 	}
 }

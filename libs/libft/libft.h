@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 19:00:54 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/09/22 17:10:18 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:37:40 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_endswith(char *str, char *end);
 int		ft_memcontains(void *mem, int x, int size);
+char	*ft_strreplace(char *str, char *old, char *new);
 
 //ft_printf
 int		ft_printf(const char *str, ...);

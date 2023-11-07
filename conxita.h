@@ -90,12 +90,12 @@ int			handle_prompt(char *prompt, char **env);
 /*Tokenizer*/
 t_oken		*glorified_ft_split(char *prompt, char **env);
 int			get_token_num(char *prompt);
-void		populate_tokens(char *prompt, t_oken *tokens, char **env);
-void		s_quote_len(char *prompt, int *i, int *len);
-void		d_quote_len(char *prompt, int *i, int *len, char **env);
-void		fill_s_quotes(t_data *d, int *j);
-void		fill_d_quotes(t_data *d, int *j, char **env);
-char		*extract_env_name(char *s, int i);
+void		populate_tokens(char *prompt, t_oken *tokens);
+void		quote_len(char *prompt, int *i, int *len);
+void		fill_quotes(t_data *d, int *j);
+char		*expand_env(char **env, char *prompt);
+char		*replace_variable(char *str, char *old, char *new);
+
 
 /*Conxita Handler*/
 void		print_conxita(void);
