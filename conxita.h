@@ -55,17 +55,6 @@ typedef struct s_parsing
 	t_cmd	*cmd;
 }	t_parsing;
 
-/*OLD	s_parsing
-{
-	bool	o_simple;
-	bool	o_double;
-	bool	heredoc;
-	char	*eof;
-	bool	re_input;
-	bool	re_ouput;
-	int		append;
-}*/
-
 typedef struct s_oken
 {
 	enum e_arg_type	type;
