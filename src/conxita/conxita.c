@@ -6,7 +6,6 @@ int	main(int argc, char **argv, char **env)
 	char	*prompt_text;
 
 	(void)argv;
-	(void)env;
 	if (argc > 1)
 		return (printf("Too many arguments\n"));
 	print_conxita();

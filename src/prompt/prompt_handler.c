@@ -4,10 +4,11 @@ int	temporal_prompt_handle(char *prompt);
 
 int	handle_prompt(char *prompt, char **env)
 {
+
+	(void)env;
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
-	glorified_ft_split(ft_strtrim(prompt, " "), env);
-	free(prompt);
+	glorified_ft_split(ft_strtrim_free(prompt, " "), env);
 	return (0);
 }
 
@@ -31,7 +32,7 @@ int	check_o_quotes(char *prompt)
 	if (o_simple || o_double)
 	{
 		printf("ERROR: Open quotes\n");
-		return(1);
+		return (1);
 	}
 	return (0);
 }

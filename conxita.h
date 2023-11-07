@@ -84,12 +84,12 @@ void		fill_quotes(t_data *d, int *j);
 char		*expand_env(char **env, char *prompt);
 char		*replace_variable(char *str, char *old, char *new);
 
-
 /*Conxita Handler*/
 void		print_conxita(void);
 
-/*Bool Utils*/
+/*Utils*/
 void		b_invert(bool *b);
+char		*ft_strtrim_free(char *s1, char *set);
 
 /*Environment Utils*/
 char		*search_env(char **env, char *key);
