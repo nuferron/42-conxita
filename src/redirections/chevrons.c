@@ -108,7 +108,7 @@ int	executor(t_parsing *parsing, t_cmd *cmd)
 	}
 	return (0);
 }*/
-
+/*
 int	main()
 {
 	//t_cmd		cmd;
@@ -129,4 +129,4 @@ int	main()
 	//executor(&cmd, &redir);
 	here_doc(&redir, "eof");
 
-}
+}*/
