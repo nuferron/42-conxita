@@ -13,12 +13,12 @@ int	main(int argc, char **argv, char **env)
 	setup_signals();
 	while ("Conxita")
 	{
-		printf("conxita: looooooooop\n");
 		prompt_text = ft_strjoin(getenv("USER"), "@conxita$ ");
 		prompt = readline(prompt_text);
 		free(prompt_text);
-		printf("conxita: looooooooop 2\n");
+		write(2, "main loop\n", 10);
 		handle_prompt(prompt, env);
+		write(2, "main loop 2\n", 12);
 	}
 	return (0);
 }
