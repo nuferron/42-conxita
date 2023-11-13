@@ -1,25 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/04 16:44:20 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/11/13 17:06:56 by nuferron         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../conxita.h" 
 
 //Prompt tokenizer
 t_oken	*glorified_ft_split(char *prompt, char **env)
 {
-	int		i;
+	//int		i;
 	int		token_num;
 	t_oken	*tokens;
 
-	i = 0;
+	//i = 0;
 	prompt = ft_strtrim(expand_env(env, prompt), " ");
 	//printf("%s\n", prompt);
 	token_num = get_token_num(prompt);
