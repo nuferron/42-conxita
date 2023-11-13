@@ -12,10 +12,14 @@
 
 int	arg_len(t_oken *token, int i)
 {
-	while (token[i].val)
+	int	j;
+
+	j = 0;
+	while (token[j].val)
 	{
-		if (token[i].val[0] == '|')
+		if (token[j].val[0] == '|')
 			i++;
+		j++;
 	}
 	return (i);
 }
@@ -124,7 +128,7 @@ int	init_arg(t_oken *token, t_cmd *cmd, int i)
 	return (i);
 }
 
-t_cmd	*token_to_cmd(t_oken *token)
+t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 {
 	t_cmd	*cmd;
 	int		i;
@@ -133,23 +137,19 @@ t_cmd	*token_to_cmd(t_oken *token)
 
 	i = 0;
 	j = 0;
-	len = arg_len(token, 0);
-	printf("ttcmd len %d\n", len);
-	cmd = malloc(sizeof(t_cmd) * (len + 1));
+	len = arg_len(token, 0) + 1;
+	printf("t->c token: %s\tlen %d\n", token[0].val, len);
+	cmd = malloc(sizeof(t_cmd) * len);
 	if (!cmd)
 	{
 		print_errors(NULL);
 		return (NULL); // Needs proper call to a proper error function
 	}
-	printf("ttcmd says hi");
-	//while (token[i].val)
-	exit(1);
 	while (i < len)
 	{
-		write(2, "WTF\n", 4);
 		if (token[i].type == red)
 		{
-			init_cmd(token, &cmd[j], i++);
+			init_cmd(token, &cmd[j], i);
 			if (token[i - 1].val[0] != '|')
 				i++;
 		}
@@ -161,8 +161,11 @@ t_cmd	*token_to_cmd(t_oken *token)
 		}
 		if (token[i].val && token[i].val[0] == '|')
 			j++;
+		printf("t->c cmd: %s\n", cmd[j - 1].cmd[0]);
+		i++;
 	}
-	printf("ttcmd says bye");
+	printf("t->c cmd: %s\n", cmd[0].cmd[0]);
+	exit(printf("\033[1;31mexit in token to cmd\033]0m\n"));
 	return (cmd);
 }
 /*
