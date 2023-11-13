@@ -119,6 +119,7 @@ int	init_arg(t_oken *token, t_cmd *cmd, int i)
 		return (print_errors(NULL));
 	while (token[i].val && token[i].type == arg)
 	{
+		write(2, "init_arg\n", 9);
 		cmd->cmd[j] = ft_strdup(token[i++].val);
 		if (!cmd->cmd[j])
 		{
@@ -180,6 +181,14 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 
 	i = 0;
 	j = 0;
+
+	int	k = 0;
+	while (token[k].val && k < 5)
+	{
+		printf("ttc token[%d].val %s\ttype %d\n", k, token[k].val, token[k].type);
+		k++;
+	}
+
 	len = arg_len(token, 0) + 1;
 	cmd = malloc(sizeof(t_cmd) * len);
 	if (!cmd)
@@ -189,12 +198,9 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 	}
 	while (j < len)
 	{
+		//write(2, "ttc\n", 4);
 		if (token[i].type == red)
-		{
 			init_cmd(token, &cmd[j], &i);
-			if (token[i - 1].val[0] != '|')
-				i += 2;
-		}
 		if (token[i].type == arg)
 		{
 			i = init_arg(token, &cmd[j], i);
@@ -202,7 +208,10 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 				return (NULL); // free stuff
 		}
 		if (!token[i].val || (token[i].val && token[i].val[0] == '|'))
+		{
 			j++;
+			write(2, "j inc\n", 6);
+		}
 	}
 	return (cmd);
 }
