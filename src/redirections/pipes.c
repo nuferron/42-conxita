@@ -139,6 +139,7 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 {
 	pid_t	pid;
 
+	//printf("exec_cmd: cmd->cmd[0] = %s\n", cmd->cmd[0]);
 	pid = fork();
 	if (pid == -1)
 		return (-1);
@@ -147,7 +148,7 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 		redirections(cmd, redir);
 		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
 		{
-			printf("Woops, it failed\n");
+			printf("Woops, it failed\n"); // def not this message
 			exit(1);
 		}
 	}
@@ -194,7 +195,7 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 	i = 0;
 	if (!cmd || !redir)
 		return (print_errors(NULL));
-	printf("lets execute: len %d\n", len);
+	printf("\033[1;36mlets execute: len %d\033[0m\n", len);
 	while (i < len)
 	{
 		if (pipe(redir->fd_pipe) == -1)
