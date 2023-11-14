@@ -19,9 +19,9 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	while (i < token_num)
 	{
 		printf("tokenizer-> glorified %i. [%s]\ttype %d\n", i, tokens[i].val, tokens[i].type);
-		free(tokens[i].val);
+		//free(tokens[i].val);
 		i++;
 	}
-	free(tokens);
-	return (NULL);
+	//free(tokens);
+	return (tokens);
 }

@@ -82,13 +82,13 @@ void	populate_tokens(char *prompt, t_oken *tokens)
 	{
 		if (ft_strchr("<>| ", prompt[data.i]))
 		{
+			printf("populate_tok: %c -> handle_del\n", prompt[data.i]);
 			handle_delimiter(&data);
-			data.tokens[data.i].type = red;
 		}
 		if (!ft_strchr(" <>|", prompt[data.i]))
 		{
+			printf("populate_tok: %c -> handle_word\n", prompt[data.i]);
 			handle_word(&data);
-			data.tokens[data.i].type = arg;
 		}
 	}
 }
