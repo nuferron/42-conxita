@@ -198,52 +198,25 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 	printf("\033[1;36mlets execute: len %d\033[0m\n", len);
 	while (i < len)
 	{
+		write(2, "1 lets_exec\n", 12);
 		if (pipe(redir->fd_pipe) == -1)
 			return (-1);
 		cmd[i].outfd = get_out_fd(&cmd[i]);
+		write(2, "2 lets_exec\n", 12);
 		pid = exec_cmd(&cmd[i], redir);
+		write(2, "3 lets_exec\n", 12);
 		if (close(cmd[i].outfd) == -1 || close(redir->fd_pipe[1])
 			|| close(redir->fdr_aux))
 			return (print_errors(NULL));
 		redir->fdr_aux = redir->fd_pipe[0];
 		i++;
+		write(2, "4 lets_exec\n", 12);
 	}
 	if (close(redir->saved_std[0]) == -1 || close(redir->saved_std[1]) == -1
 		|| close(redir->fd_pipe[0]) == -1)
 		return (-1);
 	return (pid);
 }
-
-/*int	lets_execute(t_cmd *cmd, int len)
-{
-	int		i;
-	pid_t	pid;
-	t_redir	redir;
-
-	i = 0;
-	redir.saved_std[0] = dup(0);
-	redir.saved_std[1] = dup(1);
-	redir.fdr_aux = -1;
-	while (i < len)
-	{
-		if (pipe(redir.fd_pipe) == -1)
-			return (-1);
-		cmd[i].outfd = get_out_fd(&cmd[i]);
-		pid = exec_cmd(&cmd[i], &redir);
-		if (close(cmd[i].outfd) == -1 || close(redir.fd_pipe[1])
-			|| close(redir.fdr_aux))
-			return (print_errors(NULL));
-		close(cmd[i].outfd);
-		close(redir.fd_pipe[1]);
-		close(redir.fdr_aux);
-		redir.fdr_aux = redir.fd_pipe[0];
-		i++;
-	}
-	if (close(redir.saved_std[0]) == -1 || close(redir.saved_std[1]) == -1
-		|| close(redir.fd_pipe[0]) == -1)
-		return (-1);
-	return (pid);
-}*/
 /*
 int	main(void)
 {
