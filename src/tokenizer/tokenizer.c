@@ -3,9 +3,11 @@
 //Prompt tokenizer
 t_oken	*glorified_ft_split(char *prompt, char **env)
 {
+	int		i;
 	int		token_num;
 	t_oken	*tokens;
 
+	i = 0;
 	prompt = ft_strtrim_free(expand_env(env, prompt), " ");
 	if (!prompt)
 		return (NULL);
@@ -15,13 +17,13 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 		return (NULL);
 	populate_tokens(prompt, tokens);
 	free (prompt);
-	int	i = 0;
 	while (i < token_num)
 	{
-		printf("tokenizer-> glorified %i. [%s]\ttype %d\n", i, tokens[i].val, tokens[i].type);
-		//free(tokens[i].val);
+		printf("%i. [%s]", i, tokens[i].val);
+		if (tokens[i].type == red)
+			printf (" [red]");
+		printf("\n");
 		i++;
 	}
-	//free(tokens);
 	return (tokens);
 }
