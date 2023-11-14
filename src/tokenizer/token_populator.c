@@ -39,6 +39,7 @@ static void	handle_word(t_data *d)
 			j++;
 		}
 	}
+	d->tokens[d->pos].type = arg;
 	d->pos++;
 }
 
@@ -64,6 +65,7 @@ static void	handle_delimiter(t_data *d)
 		if (c)
 			d->i++;
 		d->tokens[d->pos].type = red;
+		printf("handle_delimiter: %s is redirection\n", d->tokens[d->pos].val);
 		d->pos++;
 	}
 	while (d->prompt[d->i] == ' ')
@@ -81,14 +83,8 @@ void	populate_tokens(char *prompt, t_oken *tokens)
 	while (prompt[data.i])
 	{
 		if (ft_strchr("<>| ", prompt[data.i]))
-		{
-			printf("populate_tok: %c -> handle_del\n", prompt[data.i]);
 			handle_delimiter(&data);
-		}
 		if (!ft_strchr(" <>|", prompt[data.i]))
-		{
-			printf("populate_tok: %c -> handle_word\n", prompt[data.i]);
 			handle_word(&data);
-		}
 	}
 }

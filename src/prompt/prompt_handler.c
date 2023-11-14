@@ -5,7 +5,7 @@ int	temporal_prompt_handle(char *prompt);
 int	handle_prompt(char *prompt, char **env)
 {
 	t_oken	*tokens;
-	int		prot;
+	// int		prot;
 
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
@@ -18,9 +18,9 @@ int	handle_prompt(char *prompt, char **env)
 		k++;
 	}
 
-	prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
-	if (prot == -1)
-		return (-1);
+	// prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
+	// if (prot == -1)
+	// 	return (-1);
 	free(prompt);
 	return (0);
 }
