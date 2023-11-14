@@ -81,8 +81,14 @@ void	populate_tokens(char *prompt, t_oken *tokens)
 	while (prompt[data.i])
 	{
 		if (ft_strchr("<>| ", prompt[data.i]))
+		{
 			handle_delimiter(&data);
+			data.tokens[data.i].type = red;
+		}
 		if (!ft_strchr(" <>|", prompt[data.i]))
+		{
 			handle_word(&data);
+			data.tokens[data.i].type = arg;
+		}
 	}
 }
