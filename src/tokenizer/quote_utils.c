@@ -17,18 +17,18 @@ void	quote_len(char *prompt, int *i, int *len)
 		(*i)++;
 }
 
-void	fill_quotes(t_data *d, int *j)
+void	fill_quotes(char *prompt, t_oken *token, int *i, int *j)
 {
 	char	quote;
 
-	quote = d->prompt[d->i];
-	d->i++;
-	while (d->prompt[d->i] && d->prompt[d->i] != quote)
+	quote = prompt[*i];
+	(*i)++;
+	while (prompt[*i] && prompt[*i] != quote)
 	{
-		d->tokens[d->pos].val[*j] = d->prompt[d->i];
-		d->i++;
+		(*token).val[*j] = prompt[*i];
+		(*i)++;
 		(*j)++;
 	}
-	d->i++;
+	(*i)++;
 }
 

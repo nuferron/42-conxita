@@ -64,7 +64,5 @@ int	temporal_prompt_handle(char *prompt)
 	}
 	if (!ft_strncmp(prompt, "conxita", 8))
 		print_conxita();
-	else if (prompt)
-		printf("\033[1;36mtemporal prompt handler: %s\033[0m\n", prompt); // why this? It's printing the input
 	return (0);
 }
