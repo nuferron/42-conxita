@@ -19,7 +19,7 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	free (prompt);
 	while (i < token_num)
 	{
-		printf("tokenizer.c: %i. [%s]", i, tokens[i].val);
+		printf("g_ft_split: %i. [%s]", i, tokens[i].val);
 		if (tokens[i].type == red)
 			printf (" [red]");
 		printf("\n");

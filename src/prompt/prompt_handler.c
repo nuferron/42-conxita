@@ -5,18 +5,11 @@ int	temporal_prompt_handle(char *prompt);
 int	handle_prompt(char *prompt, char **env)
 {
 	t_oken	*tokens;
-	// int		prot;
+	//int		prot;
 
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
-
-	int	k = 0;
-	while (k < 5)
-	{
-		printf("han_prompt: tok %s type %d\n", tokens[k].val, tokens[k].type);
-		k++;
-	}
 
 	// prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
 	// if (prot == -1)
