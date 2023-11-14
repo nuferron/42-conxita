@@ -24,7 +24,7 @@
 #define LINE_DEL	"\033[A"
 #define SYNTAX		"syntax error near unexpected token"
 
-enum	e_arg_type {last = 0, red = 1, arg = 2};
+enum	e_arg_type {red = 0, arg = 1};
 
 enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
 enum	e_input {stdi = 0, infile = 1, ipipe = 2, heredoc = 3};
