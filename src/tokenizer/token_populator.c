@@ -27,7 +27,7 @@ static void	handle_word(char *prompt, t_oken *tokens, int *i, int *pos)
 	j = 0;
 	tokens[*pos].val = ft_calloc(word_len + 1, sizeof(char *));
 	if (!tokens[*pos].val)
-		return ;//!FREE ALL - MEMORY LEAKS
+		return (free_the_tokens(tokens));
 	while (!ft_strchr("<>| ", prompt[*i]))
 	{
 		if (prompt[*i] == '\'' || prompt[*i] == '"')
@@ -71,13 +71,17 @@ static void	handle_delimiter(char *prompt, t_oken *tokens, int *i, int *pos)
 		(*i)++;
 }
 
-void	populate_tokens(char *prompt, t_oken *tokens)
+t_oken	*generate_tokens(char *prompt, int token_num)
 {
-	int	i;
-	int	pos;
+	int		i;
+	int		pos;
+	t_oken	*tokens;
 
 	i = 0;
 	pos = 0;
+	tokens = ft_calloc(token_num + 1, sizeof(t_oken));
+	if (!tokens)
+		return (NULL);
 	while (prompt[i])
 	{
 		if (ft_strchr("<>| ", prompt[i]))
@@ -85,4 +89,5 @@ void	populate_tokens(char *prompt, t_oken *tokens)
 		if (!ft_strchr(" <>|", prompt[i]))
 			handle_word(prompt, tokens, &i, &pos);
 	}
+	return (tokens);
 }

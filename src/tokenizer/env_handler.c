@@ -55,7 +55,7 @@ char	*expand_env(char **env, char *prompt)
 	int		i;
 
 	i = 0;
-	while (prompt[i])
+	while (prompt && prompt[i])
 	{
 		if (prompt[i] == '\'')
 		{
@@ -67,8 +67,6 @@ char	*expand_env(char **env, char *prompt)
 		}
 		if (prompt[i] == '$' && !ft_strchr("<>|$'\"", prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
-		if (!prompt)
-			return (NULL);
 		if (prompt && prompt[i] != '\0')
 			i++;
 	}
