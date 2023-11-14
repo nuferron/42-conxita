@@ -6,8 +6,9 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	int		token_num;
 	t_oken	*tokens;
 
-	prompt = ft_strtrim(expand_env(env, prompt), " ");
-	//printf("%s\n", prompt);
+	prompt = ft_strtrim_free(expand_env(env, prompt), " ");
+	if (!prompt)
+		return (NULL);
 	token_num = get_token_num(prompt);
 	tokens = ft_calloc(token_num + 1, sizeof(t_oken));
 	if (!tokens)
@@ -18,7 +19,9 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	while (i < token_num)
 	{
 		printf("tokenizer-> glorified %i. [%s]\ttype %d\n", i, tokens[i].val, tokens[i].type);
+		free(tokens[i].val);
 		i++;
 	}
-	return (tokens);
+	free(tokens);
+	return (NULL);
 }

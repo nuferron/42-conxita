@@ -41,9 +41,11 @@ static char	*replace_env(char **env, char *prompt, int *i)
 	name = get_env_name(&prompt[*i]);
 	val = get_val(env, &name[1]);
 	new_prompt = replace_variable(prompt, name, val);
-	*i += ft_strlen(val);
 	free(name);
 	free(prompt);
+	if (!new_prompt)
+		return (NULL);
+	*i += ft_strlen(val);
 	return (new_prompt);
 }
 
@@ -65,6 +67,8 @@ char	*expand_env(char **env, char *prompt)
 		}
 		if (prompt[i] == '$' && !ft_strchr("<>|$'\"", prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
+		if (!prompt)
+			return (NULL);
 		if (prompt && prompt[i] != '\0')
 			i++;
 	}

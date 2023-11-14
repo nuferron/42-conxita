@@ -45,7 +45,7 @@ int	check_o_quotes(char *prompt)
 	if (o_simple || o_double)
 	{
 		printf("ERROR: Open quotes\n");
-		return(1);
+		return (1);
 	}
 	return (0);
 }
