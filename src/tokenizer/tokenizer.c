@@ -20,10 +20,11 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	free (prompt);
 	while (i < token_num)
 	{
-		printf("%i. [%s]\n", i, tokens[i].val);
-		free(tokens[i].val);
+		printf("%i. [%s]", i, tokens[i].val);
+		if (tokens[i].type == red)
+			printf (" [red]");
+		printf("\n");
 		i++;
 	}
-	free(tokens);
 	return (NULL);
 }
