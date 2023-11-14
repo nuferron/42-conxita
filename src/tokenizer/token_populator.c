@@ -39,6 +39,7 @@ static void	handle_word(t_data *d)
 			j++;
 		}
 	}
+	d->tokens[d->pos].type = arg;
 	d->pos++;
 }
 
@@ -64,6 +65,7 @@ static void	handle_delimiter(t_data *d)
 		if (c)
 			d->i++;
 		d->tokens[d->pos].type = red;
+		printf("handle_delimiter: %s is redirection\n", d->tokens[d->pos].val);
 		d->pos++;
 	}
 	while (d->prompt[d->i] == ' ')
