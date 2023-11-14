@@ -81,14 +81,8 @@ void	populate_tokens(char *prompt, t_oken *tokens)
 	while (prompt[data.i])
 	{
 		if (ft_strchr("<>| ", prompt[data.i]))
-		{
-			printf("populate_tok: %c -> handle_del\n", prompt[data.i]);
 			handle_delimiter(&data);
-		}
 		if (!ft_strchr(" <>|", prompt[data.i]))
-		{
-			printf("populate_tok: %c -> handle_word\n", prompt[data.i]);
 			handle_word(&data);
-		}
 	}
 }
