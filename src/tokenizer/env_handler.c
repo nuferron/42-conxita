@@ -57,7 +57,7 @@ static char	*replace_env(char **env, char *prompt, int *i)
 	free(prompt);
 	if (!new_prompt)
 		return (NULL);
-	*i += ft_strlen(val);
+	*i += ft_strlen(val) - 1;
 	return (new_prompt);
 }
 
@@ -83,8 +83,10 @@ char	*expand_env(char **env, char *prompt)
 		}
 		if (prompt[i] == '$' && is_env_name(prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
-		if (prompt && prompt[i] != '\0')
+		printf("%s\n", prompt);
+		if (prompt && prompt[i])
 			i++;
+		printf("%c\n", prompt[i]);
 	}
 	return (prompt);
 }
