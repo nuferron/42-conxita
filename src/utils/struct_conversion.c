@@ -130,46 +130,6 @@ int	init_arg(t_oken *token, t_cmd *cmd, int i)
 	cmd->cmd[j] = NULL;
 	return (i);
 }
-/*
-t_cmd	*token_to_cmd(t_oken *token) // not norminetted
-{
-	t_cmd	*cmd;
-	int		i;
-	int		j;
-	int		len;
-
-	i = 0;
-	j = 0;
-	len = arg_len(token, 0) + 1;
-	printf("t->c token: %s\tlen %d\n", token[0].val, len);
-	cmd = malloc(sizeof(t_cmd) * len);
-	if (!cmd)
-	{
-		print_errors(NULL);
-		return (NULL); // Needs proper call to a proper error function
-	}
-	while (i < len)
-	{
-		if (token[i].type == red)
-		{
-			init_cmd(token, &cmd[j], i);
-			if (token[i - 1].val[0] != '|')
-				i++;
-		}
-		if (token[i].type == arg)
-		{
-			i = init_arg(token, &cmd[j], i++);
-			if (i == -1)
-				return (NULL); // free stuff
-		}
-		if (token[i].val && token[i].val[0] == '|')
-			j++;
-		printf("\033[1;36mt->c cmd: %s\tj = %d\n", cmd[j].cmd[0], j);
-	}
-	printf("t->c cmd: %s\n", cmd[0].cmd[0]);
-	exit(printf("\033[1;31mexit in token to cmd\033[0m\n"));
-	return (cmd);
-}*/
 
 t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 {
@@ -189,7 +149,6 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 	}
 	while (j < len)
 	{
-		printf("ttc %s\t->\t%d\n", token[i].val, token[i].type);
 		if (token[i].type == red)
 			init_cmd(token, &cmd[j], &i);
 		if (token[i].type == arg)
