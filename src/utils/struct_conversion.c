@@ -108,16 +108,15 @@ void	*free_matrix(t_cmd *cmd, int i)
 	return (NULL);
 }
 
-int	init_arg(t_oken *token, t_cmd *cmd, int i)
+int	init_arg(t_oken *token, t_cmd *cmd, int i, int len)
 {
 	int	j;
 
 	j = 0;
-	if (!cmd->cmd)
-		cmd->cmd = (char **)malloc(sizeof(char *) * (arg_len(token, i) + 2));
+	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
 		return (print_errors(NULL));
-	while (token[i].val && token[i].type == arg)
+	while (i < len && token[i].val && token[i].type == arg)
 	{
 		cmd->cmd[j] = ft_strdup(token[i++].val);
 		if (!cmd->cmd[j])
@@ -129,6 +128,24 @@ int	init_arg(t_oken *token, t_cmd *cmd, int i)
 	}
 	cmd->cmd[j] = NULL;
 	return (i);
+}
+
+t_cmd	*set_cmd_to_null(t_cmd *cmd, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		cmd[i].cmd = NULL;
+		cmd[i].heredoc = NULL;
+		cmd[i].infile = NULL;
+		cmd[i].outfile = NULL;
+		cmd[i].infd = -1;
+		cmd[i].outfd = -1;
+		i++;
+	}
+	return (cmd);
 }
 
 t_cmd	*token_to_cmd(t_oken *token) // not norminetted
@@ -147,13 +164,14 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 		print_errors(NULL);
 		return (NULL); // Needs proper call to a proper error function
 	}
+	cmd = set_cmd_to_null(cmd, len);
 	while (j < len)
 	{
 		if (token[i].type == red)
 			init_cmd(token, &cmd[j], &i);
 		if (token[i].type == arg)
 		{
-			i = init_arg(token, &cmd[j], i);
+			i = init_arg(token, &cmd[j], i, arg_len(token, i) + 1);
 			if (i == -1)
 				return (NULL); // free stuff
 		}

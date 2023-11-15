@@ -2,25 +2,18 @@
 
 int	temporal_prompt_handle(char *prompt);
 
-int	handle_prompt(char *prompt, char **env)
+int	handle_prompt(char *prompt, t_env *env)
 {
 	t_oken	*tokens;
-	// int		prot;
+	int		prot;
 
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
-
-	int	k = 0;
-	while (k < 5)
-	{
-		printf("han_prompt: tok %s type %d\n", tokens[k].val, tokens[k].type);
-		k++;
-	}
-
-	// prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
-	// if (prot == -1)
-	// 	return (-1);
+	prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
+	if (prot == -1)
+		exit(printf("handle prompt: lets execute is giving errors\n"));
+		//return (-1);
 	free(prompt);
 	return (0);
 }
@@ -71,7 +64,5 @@ int	temporal_prompt_handle(char *prompt)
 	}
 	if (!ft_strncmp(prompt, "conxita", 8))
 		print_conxita();
-	else if (prompt)
-		printf("\033[1;36mtemporal prompt handler: %s\033[0m\n", prompt); // why this? It's printing the input
 	return (0);
 }

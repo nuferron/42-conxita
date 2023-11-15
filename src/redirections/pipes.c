@@ -27,7 +27,7 @@ int	test_paths(char *path, t_cmd *cmd)
 	return (0);
 }
 
-int	get_path(char **env, t_cmd *cmd)
+int	get_path(t_env *env, t_cmd *cmd)
 {
 	char	*path;
 	int		error;
@@ -139,10 +139,15 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 {
 	pid_t	pid;
 
-	//printf("exec_cmd: cmd->cmd[0] = %s\n", cmd->cmd[0]);
 	pid = fork();
 	if (pid == -1)
 		return (-1);
+	int	k = 0;
+	while (cmd->cmd[k])
+	{
+		printf("exec_cmd: cmd->cmd[%d] = %s\n", k, cmd->cmd[k]);
+		k++;
+	}
 	if (pid == 0)
 	{
 		redirections(cmd, redir);
@@ -205,9 +210,27 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 		write(2, "2 lets_exec\n", 12);
 		pid = exec_cmd(&cmd[i], redir);
 		write(2, "3 lets_exec\n", 12);
-		if (close(cmd[i].outfd) == -1 || close(redir->fd_pipe[1])
-			|| close(redir->fdr_aux))
+		/*if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
+			|| close(redir->fd_pipe[1]) == -1 || close(redir->fdr_aux) == -1)
+		{
+			printf("close has failed\n");
 			return (print_errors(NULL));
+		}*/
+		if (cmd[i].outfile && close(cmd[i].outfd) == -1)
+		{
+			printf("lets exec outfile\n");
+			return (-1);
+		}
+		if (close(redir->fd_pipe[1]) == -1)
+		{
+			printf("lets exec fd_pipe 1\n");
+			return (-1);
+		}
+		if (redir->fdr_aux != -1 && close(redir->fdr_aux) == -1)
+		{
+			printf("lets exec fdr_aux = %d\n", redir->fdr_aux);
+			return (-1);
+		}
 		redir->fdr_aux = redir->fd_pipe[0];
 		i++;
 		write(2, "4 lets_exec\n", 12);

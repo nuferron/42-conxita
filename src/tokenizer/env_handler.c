@@ -22,7 +22,7 @@ static char	*get_env_name(char *prompt)
 	return (name);
 }
 
-static char	*get_val(char **env, char *name)
+static char	*get_val(t_env *env, char *name)
 {
 	char	*val;
 
@@ -32,7 +32,7 @@ static char	*get_val(char **env, char *name)
 	return (ft_strchr(val, '=') + 1);
 }
 
-static char	*replace_env(char **env, char *prompt, int *i)
+static char	*replace_env(t_env *env, char *prompt, int *i)
 {
 	char	*new_prompt;
 	char	*name;
@@ -50,7 +50,7 @@ static char	*replace_env(char **env, char *prompt, int *i)
 }
 
 //Replaces prompt 
-char	*expand_env(char **env, char *prompt)
+char	*expand_env(t_env *env, char *prompt)
 {
 	int		i;
 
