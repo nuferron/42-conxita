@@ -10,6 +10,8 @@ int	handle_prompt(char *prompt, char **env)
 	if (temporal_prompt_handle(prompt) == -1)
 		return (0);
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
+	if (!tokens)
+		return (0);
 
 	// prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
 	// if (prot == -1)

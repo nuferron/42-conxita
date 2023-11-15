@@ -12,14 +12,4 @@ int	get_arg_len(char *prompt, int i)
 	}
 	return (len);
 }
-
-void	handle_arg(char *prompt, t_oken *tokens, int *i, int *pos)
-{
-	int	len;
-
-	len = get_arg_len(prompt, *i);
-	while (!ft_strchr("<>| ", prompt[*i]))
-	{
-
-	}
-}
+ 

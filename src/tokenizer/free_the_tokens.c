@@ -2,14 +2,15 @@
 
 void	*free_the_tokens(t_oken *tokens)
 {
-	int	i;
+	int			i;
 
-	i = 0;x`
-	while (tokens[i].val)
+	i = 0;
+	while (tokens && tokens[i].val)
 	{
 		free(tokens[i].val);
 		i++;
 	}
-	free(tokens);
+	if (tokens)
+		free(tokens);
 	return (NULL);
 }

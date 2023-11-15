@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-static int	get_word_len(char *prompt, int i)
+static int	get_arg_len(char *prompt, int i)
 {
 	int	len;
 
@@ -18,16 +18,16 @@ static int	get_word_len(char *prompt, int i)
 	return (len);
 }
 
-static void	handle_word(char *prompt, t_oken *tokens, int *i, int *pos)
+static int	handle_arg(char *prompt, t_oken *tokens, int *i, int *pos)
 {
-	int	word_len;
+	int	arg_len;
 	int	j;
 
-	word_len = get_word_len(prompt, *i);
+	arg_len = get_arg_len(prompt, *i);
 	j = 0;
-	tokens[*pos].val = ft_calloc(word_len + 1, sizeof(char *));
+	tokens[*pos].val = ft_calloc(arg_len + 1, sizeof(char *));
 	if (!tokens[*pos].val)
-		return (free_the_tokens(tokens));
+		return (0);
 	while (!ft_strchr("<>| ", prompt[*i]))
 	{
 		if (prompt[*i] == '\'' || prompt[*i] == '"')
@@ -41,34 +41,47 @@ static void	handle_word(char *prompt, t_oken *tokens, int *i, int *pos)
 	}
 	tokens[*pos].type = arg;
 	(*pos)++;
+	return (1);
 }
 
-static void	handle_delimiter(char *prompt, t_oken *tokens, int *i, int *pos)
+static int	fill_delimiter(char *prompt, t_oken *tokens, int *i, int pos)
 {
 	char	c;
 
-	c = 0;
+	c = prompt[*i];
+	if (c && prompt[*i + 1] == c)
+	{
+		(*i)++;
+		tokens[pos].val = ft_calloc(3, sizeof(char));
+		if (!tokens[pos].val)
+			return (0);
+		tokens[pos].val[1] = c;
+	}
+	else
+	{
+		tokens[pos].val = ft_calloc(2, sizeof(char));
+		if (!tokens[pos].val)
+			return (0);
+	}
+	tokens[pos].val[0] = c;
+	(*i)++;
+	return (1);
+}
+
+static int	handle_delimiter(char *prompt, t_oken *tokens, int *i, int *pos)
+{
 	while (prompt[*i] == ' ')
 		(*i)++;
 	if (ft_strchr("<>|", prompt[*i]))
 	{
-		c = prompt[*i];
-		if (c && prompt[*i + 1] == c)
-		{
-			(*i)++;
-			tokens[*pos].val = ft_calloc(3, sizeof(char));
-			tokens[*pos].val[1] = c;
-		}
-		else
-			tokens[*pos].val = ft_calloc(2, sizeof(char));
-		tokens[*pos].val[0] = c;
-		if (c)
-			(*i)++;
+		if (!fill_delimiter(prompt, tokens, i, *pos))
+			return (0);
 		tokens[*pos].type = red;
 		(*pos)++;
 	}
 	while (prompt[*i] == ' ')
 		(*i)++;
+	return (1);
 }
 
 t_oken	*generate_tokens(char *prompt, int token_num)
@@ -85,9 +98,11 @@ t_oken	*generate_tokens(char *prompt, int token_num)
 	while (prompt[i])
 	{
 		if (ft_strchr("<>| ", prompt[i]))
-			handle_delimiter(prompt, tokens, &i, &pos);
+			if (!handle_delimiter(prompt, tokens, &i, &pos))
+				return (free_the_tokens(tokens));
 		if (!ft_strchr(" <>|", prompt[i]))
-			handle_word(prompt, tokens, &i, &pos);
+			if (!handle_arg(prompt, tokens, &i, &pos))
+				return (free_the_tokens(tokens));
 	}
 	return (tokens);
 }
