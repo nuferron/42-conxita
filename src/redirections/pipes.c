@@ -1,49 +1,33 @@
 #include "../../conxita.h"
 
-int	test_paths(char *path, t_cmd *cmd)
-{
-	int		total;
-	int		count;
-	char	*test;
-	char	*split;
-
-	count = -1;
-	total = path_count(path, ':');
-	while (++count < total)
-	{
-		split = mini_split(path, count);
-		if (!split)
-			return (-2);
-		test = ft_strjoin(split, cmd->cmd[0]);
-		free(split);
-		if (access(test, X_OK) == 0)
-			break ;
-		free(test);
-	}
-	if (count == total)
-		return (-1);
-	cmd->cmd[0] = ft_strdup(test);
-	free(test);
-	return (0);
-}
-
-int	get_path(t_env *env, t_cmd *cmd)
+char	*get_path(t_env *env, char *str)
 {
 	char	*path;
-	int		error;
+	char	*test;
+	int		i;
+	int		total;
 
-	if (ft_strchr(cmd->cmd[0], '/') && access(cmd->cmd[0], X_OK) == 0)
-		return (0);
-	else if (ft_strchr(cmd->cmd[0], '/') && access(cmd->cmd[0], X_OK) != 0)
-		return (-1);
-	path = search_env(env, "PATH=");
-	if (!path)
-		return (-2);
-	error = test_paths(path, cmd);
-	return (error);
+	path = NULL;
+	i = 0;
+	if (access(str, X_OK) == 0)
+		return (str);
+	while (env && ft_strncmp(env->key, "PATH", 4))
+		env = env->next;
+	total = path_count(env->value, ':');
+	while (access(path, X_OK) != 0 && i < total)
+	{
+		free(path);
+		test = minisplit(env->value, i++);
+		path = ft_strjoin(test, str);
+		free(test);
+	}
+	if (access(path, X_OK) == 0)
+		return (path);
+	free(path);
+	return (NULL);
 }
-
-/*t_cmd	*init_cmd_test(void)
+/*
+t_cmd	*init_cmd_test(void)
 {
 	t_cmd	*cmd;
 
@@ -52,10 +36,9 @@ int	get_path(t_env *env, t_cmd *cmd)
 		return (NULL);
 
 	cmd[0].cmd = (char **)malloc(sizeof(char *) * 4);
-	cmd[0].cmd[0] = ft_strdup("/bin/cat");
-	cmd[0].cmd[1] = ft_strdup("-e");
-	cmd[0].cmd[2] = ft_strdup("file1");
-	cmd[0].cmd[2] = NULL;
+	cmd[0].cmd[0] = ft_strdup("/bin/echo");
+	cmd[0].cmd[1] = ft_strdup("hola");
+	cmd[0].cmd[2] = NULL;//ft_strdup("file1");
 	cmd[0].cmd[3] = NULL;
 	cmd[0].heredoc = NULL;
 	cmd[0].infile = ft_strdup("file1");
@@ -142,18 +125,15 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	int	k = 0;
-	while (cmd->cmd[k])
-	{
-		printf("exec_cmd: cmd->cmd[%d] = %s\n", k, cmd->cmd[k]);
-		k++;
-	}
 	if (pid == 0)
 	{
 		redirections(cmd, redir);
 		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
 		{
-			printf("Woops, it failed\n"); // def not this message
+			if (access(cmd->cmd[0], X_OK) == -1)
+				printf("conxita: %s: command not found\n", cmd->cmd[0]);
+			else
+				print_errors(NULL);
 			exit(1);
 		}
 	}
@@ -163,18 +143,21 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 int	ft_waitpid(int pid)
 {
 	int	status;
-	int	exit_status;
+	int	wait;
 
-	exit_status = -1;
-	if (waitpid(-1, &status, 0) == pid)
+	wait = waitpid(-1, &status, 0);
+	if (wait == -1)
+		return (print_errors("waitpid"));
+	if (wait == pid)
 	{
 		if (WIFEXITED(status))
-		{
-			exit_status = WEXITSTATUS(status);
-			printf("Exit status of the child was %d\n", exit_status);
-		}
+			return (WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			return (WTERMSIG(status));
+		else if (WIFSTOPPED(status))
+			return (WSTOPSIG(status));
 	}
-	return (exit_status);
+	return (0);
 }
 
 t_redir	*init_redir()
@@ -200,40 +183,21 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 	i = 0;
 	if (!cmd || !redir)
 		return (print_errors(NULL));
-	printf("\033[1;36mlets execute: len %d\033[0m\n", len);
 	while (i < len)
 	{
-		write(2, "1 lets_exec\n", 12);
 		if (pipe(redir->fd_pipe) == -1)
 			return (-1);
 		cmd[i].outfd = get_out_fd(&cmd[i]);
-		write(2, "2 lets_exec\n", 12);
 		pid = exec_cmd(&cmd[i], redir);
-		write(2, "3 lets_exec\n", 12);
-		/*if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
-			|| close(redir->fd_pipe[1]) == -1 || close(redir->fdr_aux) == -1)
+		if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
+			|| close(redir->fd_pipe[1]) == -1
+			|| (redir->fdr_aux > 0 && close(redir->fdr_aux) == -1))
 		{
 			printf("close has failed\n");
 			return (print_errors(NULL));
-		}*/
-		if (cmd[i].outfile && close(cmd[i].outfd) == -1)
-		{
-			printf("lets exec outfile\n");
-			return (-1);
-		}
-		if (close(redir->fd_pipe[1]) == -1)
-		{
-			printf("lets exec fd_pipe 1\n");
-			return (-1);
-		}
-		if (redir->fdr_aux != -1 && close(redir->fdr_aux) == -1)
-		{
-			printf("lets exec fdr_aux = %d\n", redir->fdr_aux);
-			return (-1);
 		}
 		redir->fdr_aux = redir->fd_pipe[0];
 		i++;
-		write(2, "4 lets_exec\n", 12);
 	}
 	if (close(redir->saved_std[0]) == -1 || close(redir->saved_std[1]) == -1
 		|| close(redir->fd_pipe[0]) == -1)
@@ -244,10 +208,26 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 int	main(void)
 {
 	t_cmd	*cmd;
-	int		pid;
 
 	cmd = init_cmd_test();
-	pid = lets_execute(cmd, 3);
-	ft_waitpid(pid);
+	//int pid = lets_execute(cmd, 3);
+	//ft_waitpid(pid);
+	if (fork() == 0)
+	{
+		if (execve(cmd[0].cmd[0], cmd[0].cmd, NULL))
+		{
+			exit(printf("FUCK\n"));
+		}
+	}
+	exit(1);
+}*/
+/*
+int	main(int argc, char **argv, char **env)
+{
+	(void)argc;
+	(void)argv;
+	t_env *tenv = env_to_lst(env);
+	char	*path = get_path(tenv, "cat");
+	printf("pipes.c: path %s\n", path);
 	exit(1);
 }*/
