@@ -20,7 +20,6 @@ int	handle_prompt(char *prompt, t_env *env)
 	if (pid == -1)
 		return (-1);
 	free(prompt);
-	//printf("handle prompt says hi\n");
 	return (0);
 }
 
