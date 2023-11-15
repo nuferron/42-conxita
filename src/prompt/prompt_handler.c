@@ -1,20 +1,26 @@
 #include "../../conxita.h"
 
-int	temporal_prompt_handle(char *prompt);
+int	temporal_prompt_handle(char *prompt, t_env *env);
 
 int	handle_prompt(char *prompt, t_env *env)
 {
 	t_oken	*tokens;
-	int		prot;
+	t_cmd	*cmd;
+	int		pid;
 
-	if (temporal_prompt_handle(prompt) == -1)
+	if (temporal_prompt_handle(prompt, env) == -1)
 		return (0);
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
-	prot = lets_execute(token_to_cmd(tokens), init_redir(), arg_len(tokens, 1));
-	if (prot == -1)
+	cmd = token_to_cmd(tokens, env);
+	pid = lets_execute(cmd, init_redir(), cmd_count(tokens, 1));
+	if (pid == -1)
 		exit(printf("handle prompt: lets execute is giving errors\n"));
 		//return (-1);
+	pid = ft_waitpid(pid);
+	if (pid == -1)
+		return (-1);
 	free(prompt);
+	//printf("handle prompt says hi\n");
 	return (0);
 }
 
@@ -43,12 +49,12 @@ int	check_o_quotes(char *prompt)
 	return (0);
 }
 
-int	temporal_prompt_handle(char *prompt)
+int	temporal_prompt_handle(char *prompt, t_env *env)
 {
 	if (!prompt)
 	{
 		printf(LINE_DEL);
-		printf("%s%s\n", getenv("USER"), "@conxita$ exit");
+		printf("%s%s\n", search_env(env, "USER"), "@conxita$ exit");
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
