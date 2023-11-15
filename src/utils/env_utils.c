@@ -13,7 +13,7 @@ int	path_count(const char *s, char c)
 			counter++;
 		i++;
 	}
-	return (counter + 1);
+	return (counter);
 }
 
 char	*search_env(t_env *env, char *key)
@@ -35,7 +35,7 @@ int	len_to_char(char *str, char c)
 	return (i);
 }
 
-char	*mini_split(char *path, int	count)
+char	*minisplit(char *path, int count)
 {
 	int		i;
 	int		skip;
@@ -44,13 +44,10 @@ char	*mini_split(char *path, int	count)
 
 	i = 0;
 	skip = 0;
-	while (path[i] != '/')
-		i++;
 	while (skip < count)
 	{
-		if (path[i] == ':')
+		if (path[i++] == ':')
 			skip++;
-		i++;
 	}
 	tmp = ft_substr(path, i, len_to_char(&path[i], ':'));
 	if (!tmp)
