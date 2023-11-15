@@ -29,7 +29,7 @@ static char	*get_val(t_env *env, char *name)
 	val = search_env(env, name);
 	if (!val)
 		return ("");
-	return (ft_strchr(val, '=') + 1);
+	return (val);
 }
 
 static char	*replace_env(t_env *env, char *prompt, int *i)
