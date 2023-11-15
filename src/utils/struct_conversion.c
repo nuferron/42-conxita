@@ -10,7 +10,7 @@
 // cmd >> file
 // >> file cmd
 
-int	arg_len(t_oken *token, int i)
+int	cmd_count(t_oken *token, int i)
 {
 	int	j;
 
@@ -58,7 +58,7 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 		return (print_errors(NULL));
 	fd = open(cmd->outfile, O_WRONLY | O_CREAT, 0664);
 	if (fd == -1)
-		return (print_errors(NULL));
+		return (print_errors("chev out"));
 	if (close(fd) == -1)
 		return (print_errors(NULL));
 	if (token[*i].val[1] == '>' && token[*i + 1].val)
@@ -108,23 +108,42 @@ void	*free_matrix(t_cmd *cmd, int i)
 	return (NULL);
 }
 
-int	init_arg(t_oken *token, t_cmd *cmd, int i, int len)
+int	arg_count(t_oken *token, int start)
+{
+	int	count;
+
+	count = 0;
+	while (token[start].val && token[start].type == arg)
+	{
+		start++;
+		count++;
+	}
+	return (count);
+}
+
+int	init_arg(t_oken *token, t_cmd *cmd, int i, t_env *env)
 {
 	int	j;
+	int	len;
 
 	j = 0;
+	len = arg_count(token, i);
 	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
 		return (print_errors(NULL));
 	while (i < len && token[i].val && token[i].type == arg)
 	{
-		cmd->cmd[j] = ft_strdup(token[i++].val);
+		if (j == 0)
+			cmd->cmd[j] = get_path(env, token[i].val);
+		if (j != 0 || !cmd->cmd[j])
+			cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
 		{
 			cmd->cmd = free_matrix(cmd, j);
 			return (print_errors(NULL));
 		}
 		j++;
+		i++;
 	}
 	cmd->cmd[j] = NULL;
 	return (i);
@@ -148,7 +167,7 @@ t_cmd	*set_cmd_to_null(t_cmd *cmd, int len)
 	return (cmd);
 }
 
-t_cmd	*token_to_cmd(t_oken *token) // not norminetted
+t_cmd	*token_to_cmd(t_oken *token, t_env *env) // not norminetted
 {
 	t_cmd	*cmd;
 	int		i;
@@ -157,7 +176,7 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 
 	i = 0;
 	j = 0;
-	len = arg_len(token, 0) + 1;
+	len = cmd_count(token, 0) + 1;
 	cmd = malloc(sizeof(t_cmd) * len);
 	if (!cmd)
 	{
@@ -169,9 +188,9 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 	{
 		if (token[i].type == red)
 			init_cmd(token, &cmd[j], &i);
-		if (token[i].type == arg)
+		else if (token[i].type == arg)
 		{
-			i = init_arg(token, &cmd[j], i, arg_len(token, i) + 1);
+			i = init_arg(token, &cmd[j], i, env);
 			if (i == -1)
 				return (NULL); // free stuff
 		}
@@ -213,7 +232,7 @@ t_cmd	*token_to_cmd(t_oken *token) // not norminetted
 	cmd = token_to_cmd(token);
 
 	int	i = 0;
-	int	j = arg_len(token, 0);
+	int	j = cmd_count(token, 0);
 	printf("\n\nmain pre while |%s|\n", cmd[i].cmd[0]);
 	int	k = 0;
 	while (i <= j)
