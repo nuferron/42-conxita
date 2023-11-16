@@ -1,64 +1,55 @@
 #include "../../conxita.h"
 
-int	path_count(const char *s, char c)
+/*Searches key as an env variable and returns its value as a string*/
+char	*search_env(t_env *env, char *key)
 {
-	int	i;
-	int	counter;
+	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
+		env = env->next;
+	return (env->value);
+}
 
-	i = 0;
-	counter = 0;
-	while (s[i] != '\0')
+/*Separates the variable name (flag == 0) from its value (flag == 1)*/
+char	*splitting_env(char *env, int flag)
+{
+	char	*str;
+	int		equal;
+
+	equal = 0;
+	while (env[equal] != '=' && env[equal] != '\0')
+		equal++;
+	if (flag == 0)
 	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			counter++;
-		i++;
+		env[equal] = '\0';
+		str = env;
 	}
-	return (counter + 1);
+	else
+		str = &env[equal + 1];
+	return (str);
 }
 
-char	*search_env(char **env, char *key)
+/*Converts the system environment to a t_env variable*/
+t_env	*env_to_lst(char **sys_env)
 {
-	int	i;
-
-	i = 0;
-	while (env[i] && ft_strncmp(key, env[i], ft_strlen(key)))
-		i++;
-	return (env[i]);
-}
-
-int	len_to_char(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0' && str[i] != c)
-		i++;
-	return (i);
-}
-
-char	*mini_split(char *path, int	count)
-{
+	t_env	*env;
+	int		len;
 	int		i;
-	int		skip;
-	char	*tmp;
-	char	*result;
 
 	i = 0;
-	skip = 0;
-	while (path[i] != '/')
-		i++;
-	while (skip < count)
+	len = mat_len(sys_env);
+	env = (t_env *)malloc(sizeof(t_env) * len);
+	if (!env)
 	{
-		if (path[i] == ':')
-			skip++;
+		print_errors(NULL);
+		return (NULL);
+	}
+	while (i < len)
+	{
+		env[i].key = ft_strdup(splitting_env(sys_env[i], 0));
+		env[i].value = ft_strdup(splitting_env(sys_env[i], 1));
+		if (i > 0)
+			env[i - 1].next = &env[i];
+		env[i].next = NULL;
 		i++;
 	}
-	tmp = ft_substr(path, i, len_to_char(&path[i], ':'));
-	if (!tmp)
-		return (NULL);
-	result = ft_strjoin(tmp, "/");
-	free(tmp);
-	return (result);
+	return (env);
 }

@@ -61,20 +61,27 @@ typedef struct s_oken
 	char			*val;
 }	t_oken;
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	void	*next;
+}	t_env;
+
 /*Signal Handler*/
 void	signal_hook(int sig);
 void	setup_signals(void);
 
 /*Prompt Handler*/
-int		handle_prompt(char *prompt, char **env);
+int		handle_prompt(char *prompt, t_env *env);
 
 /*Tokenizer*/
-t_oken	*glorified_ft_split(char *prompt, char **env);
+t_oken	*glorified_ft_split(char *prompt, t_env *env);
 int		get_token_num(char *prompt);
 t_oken	*generate_tokens(char *prompt, int token_num);
 void	quote_len(char *prompt, int *i, int *len);
 void	fill_quotes(char *prompt, t_oken *token, int *i, int *j);
-char	*expand_env(char **env, char *prompt);
+char	*expand_env(t_env *env, char *prompt);
 char	*replace_variable(char *str, char *old, char *new);
 void	*free_the_tokens(t_oken *tokens);
 
@@ -86,20 +93,35 @@ void	b_invert(bool *b);
 char	*ft_strtrim_free(char *s1, char *set);
 
 /*Environment Utils*/
-char	*search_env(char **env, char *key);
-int		en_to_char(char *str, char c);
-char	*mini_split(char *path, int count);
-int		path_count(const char *s, char c);
+char	*search_env(t_env *env, char *key);
+t_env	*env_to_lst(char **env);
+
+/*Length Utils*/
+int		arg_count(t_oken *token, int start);
+int		cmd_count(t_oken *token, int i);
+int		mat_len(char **mat);
+int		path_count(const char *str, char sep);
+
+/*Initializing Utils*/
+int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
+int		init_chev_output(t_oken *token, t_cmd *cmd, int *i);
+int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
+int		init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
+void	init_pipe(t_cmd *cmd, int is_pipe);
+t_redir	*init_redir(void);
+
+/*Path Utils*/
+char	*minisplit(char *path, int count);
 
 /*Chevrons Functions*/
-int		here_doc(t_redir *redir, char *key);
-//int			open_chev(t_cmd *cmd);
-//int			close_chev(t_cmd *cmd, int append);
-int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
-t_cmd	*token_to_cmd(t_oken *token);
+t_cmd	*token_to_cmd(t_oken *token, t_env *env);
 t_redir	*init_redir(void);
-int		arg_len(t_oken *token, int i);
+int		cmd_count(t_oken *token, int i);
+int		ft_waitpid(int pid);
+
+/*Execution*/
+int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
+int		here_doc(t_redir *redir, char *key);
 
 /*Errors*/
-// error code 258 for syntax error near unexpected token '|' // 'newline'
-int		print_errors(char *str);
+int		print_errors(char *str); // error code 258 for syntax error near unexpected token '|' // 'newline'
