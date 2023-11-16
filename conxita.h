@@ -61,14 +61,6 @@ typedef struct s_oken
 	char			*val;
 }	t_oken;
 
-typedef struct s_data
-{
-	char	*prompt;
-	t_oken	*tokens;
-	int		i;
-	int		pos;
-}	t_data;
-
 typedef struct s_env
 {
 	char	*key;
@@ -77,27 +69,28 @@ typedef struct s_env
 }	t_env;
 
 /*Signal Handler*/
-void		signal_hook(int sig);
-void		setup_signals(void);
+void	signal_hook(int sig);
+void	setup_signals(void);
 
 /*Prompt Handler*/
 int			handle_prompt(char *prompt, t_env *env);
 
 /*Tokenizer*/
-t_oken		*glorified_ft_split(char *prompt, t_env *env);
-int			get_token_num(char *prompt);
-void		populate_tokens(char *prompt, t_oken *tokens);
-void		quote_len(char *prompt, int *i, int *len);
-void		fill_quotes(t_data *d, int *j);
-char		*expand_env(t_env *env, char *prompt);
-char		*replace_variable(char *str, char *old, char *new);
+t_oken	*glorified_ft_split(char *prompt, t_env *env);
+int		get_token_num(char *prompt);
+t_oken	*generate_tokens(char *prompt, int token_num);
+void	quote_len(char *prompt, int *i, int *len);
+void	fill_quotes(char *prompt, t_oken *token, int *i, int *j);
+char	*expand_env(t_env *env, char *prompt);
+char	*replace_variable(char *str, char *old, char *new);
+void	*free_the_tokens(t_oken *tokens);
 
 /*Conxita Handler*/
-void		print_conxita(void);
+void	print_conxita(void);
 
 /*Utils*/
-void		b_invert(bool *b);
-char		*ft_strtrim_free(char *s1, char *set);
+void	b_invert(bool *b);
+char	*ft_strtrim_free(char *s1, char *set);
 
 /*Environment Utils*/
 char		*search_env(t_env *env, char *key);

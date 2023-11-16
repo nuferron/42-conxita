@@ -1,21 +1,29 @@
 #include "../../conxita.h"
 
+static	void	skip_s_quotes(char *str, int *i)
+{
+	(*i)++;
+	while (str[*i] && str[*i] != '\'')
+		(*i)++;
+	if (str[*i])
+		(*i)++;
+}
+
 static char	*get_pos(char *str, char *old)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	bool	d_quotes;
 
 	i = 0;
 	j = 0;
+	d_quotes = false;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] != '\'')
-				i++;
-			i++;
-		}
+		if (str[i] == '"')
+			b_invert(&d_quotes);
+		if (str[i] == '\'' && !d_quotes)
+			skip_s_quotes(str, &i);
 		while (str[i] == old[j])
 		{
 			i++;
@@ -45,16 +53,6 @@ static int	get_len(char *str, char *old, char *new)
 	return (len);
 }
 
-static void	fill_end(char *str, char *new_str)
-{
-	while (*str)
-	{
-		*new_str = *str;
-		str++;
-		new_str++;
-	}
-}
-
 static void	replace(char *str, char *new_str, char *old, char *new)
 {
 	int		i;
@@ -76,7 +74,12 @@ static void	replace(char *str, char *new_str, char *old, char *new)
 		str += ft_strlen(old);
 		pos = get_pos(str, old);
 	}
-	fill_end(str, new_str);
+	while (*str)
+	{
+		*new_str = *str;
+		str++;
+		new_str++;
+	}
 }
 
 char	*replace_variable(char *str, char *old, char *new)

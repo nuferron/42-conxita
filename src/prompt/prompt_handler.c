@@ -11,6 +11,8 @@ int	handle_prompt(char *prompt, t_env *env)
 	if (temporal_prompt_handle(prompt, env) == -1)
 		return (0);
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
+	if (!tokens)
+		return (0);
 	cmd = token_to_cmd(tokens, env);
 	pid = lets_execute(cmd, init_redir(), cmd_count(tokens, 1));
 	if (pid == -1)

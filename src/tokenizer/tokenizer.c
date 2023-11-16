@@ -10,7 +10,8 @@ t_oken	*glorified_ft_split(char *prompt, t_env *env)
 	if (!prompt)
 		return (NULL);
 	token_num = get_token_num(prompt);
-	tokens = ft_calloc(token_num + 1, sizeof(t_oken));
+	tokens = generate_tokens(prompt, token_num);
+	free (prompt);
 	if (!tokens)
 		return (NULL);
 	populate_tokens(prompt, tokens);
