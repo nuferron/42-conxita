@@ -1,21 +1,6 @@
 #include "../../conxita.h"
 
-int	path_count(const char *s, char c)
-{
-	int	i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			counter++;
-		i++;
-	}
-	return (counter);
-}
-
+/*Searches key as an env variable and returns its value as a string*/
 char	*search_env(t_env *env, char *key)
 {
 	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
@@ -23,50 +8,7 @@ char	*search_env(t_env *env, char *key)
 	return (env->value);
 }
 
-int	len_to_char(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0' && str[i] != c)
-		i++;
-	return (i);
-}
-
-char	*minisplit(char *path, int count)
-{
-	int		i;
-	int		skip;
-	char	*tmp;
-	char	*result;
-
-	i = 0;
-	skip = 0;
-	while (skip < count)
-	{
-		if (path[i++] == ':')
-			skip++;
-	}
-	tmp = ft_substr(path, i, len_to_char(&path[i], ':'));
-	if (!tmp)
-		return (NULL);
-	result = ft_strjoin(tmp, "/");
-	free(tmp);
-	return (result);
-}
-
-int	mat_len(char **mat)
-{
-	int	i;
-
-	i = 0;
-	while (mat && mat[i])
-		i++;
-	return (i);
-}
-
+/*Separates the variable name (flag == 0) from its value (flag == 1)*/
 char	*splitting_env(char *env, int flag)
 {
 	char	*str;
@@ -85,6 +27,7 @@ char	*splitting_env(char *env, int flag)
 	return (str);
 }
 
+/*Converts the system environment to a t_env variable*/
 t_env	*env_to_lst(char **sys_env)
 {
 	t_env	*env;
@@ -95,7 +38,10 @@ t_env	*env_to_lst(char **sys_env)
 	len = mat_len(sys_env);
 	env = (t_env *)malloc(sizeof(t_env) * len);
 	if (!env)
-		return (NULL); // future me: error management is missing!
+	{
+		print_errors(NULL);
+		return (NULL);
+	}
 	while (i < len)
 	{
 		env[i].key = ft_strdup(splitting_env(sys_env[i], 0));
@@ -107,20 +53,3 @@ t_env	*env_to_lst(char **sys_env)
 	}
 	return (env);
 }
-/*
-int	main(int argc, char **argv, char **env)
-{
-	t_env *tenv;
-
-	(void)argc;
-	(void)argv;
-	tenv = env_to_lst(env);
-	if (!tenv)
-		return (-1);
-	while (tenv)
-	{
-		printf("key: %s\tvalue: %s\n", tenv->key, tenv->value);
-		tenv = tenv->next;
-	}
-	return (0);
-}*/

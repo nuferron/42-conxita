@@ -8,3 +8,24 @@ char	*ft_strtrim_free(char *s1, char *set)
 	free(s1);
 	return (trimmed_str);
 }
+
+/*Waits for the last child process and returns its status ($?)*/
+int	ft_waitpid(int pid)
+{
+	int	status;
+	int	wait;
+
+	wait = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+	if (wait == -1)
+		return (print_errors("waitpid"));
+	if (wait == pid)
+	{
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			return (WTERMSIG(status));
+		else if (WIFSTOPPED(status))
+			return (WSTOPSIG(status));
+	}
+	return (0);
+}

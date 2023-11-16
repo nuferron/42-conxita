@@ -101,19 +101,34 @@ char		*ft_strtrim_free(char *s1, char *set);
 
 /*Environment Utils*/
 char		*search_env(t_env *env, char *key);
-int			len_to_char(char *str, char c);
-char		*minisplit(char *path, int count);
-int			path_count(const char *s, char c);
 t_env		*env_to_lst(char **env);
-char		*get_path(t_env *env, char *str);
+
+/*Length Utils*/
+int			arg_count(t_oken *token, int start);
+int			cmd_count(t_oken *token, int i);
+int			mat_len(char **mat);
+int			path_count(const char *str, char sep);
+
+/*Initializing Utils*/
+int			init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
+int			init_chev_output(t_oken *token, t_cmd *cmd, int *i);
+int			init_chev_input(t_oken *token, t_cmd *cmd, int *i);
+int			init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
+void		init_pipe(t_cmd *cmd, int is_pipe);
+t_redir		*init_redir(void);
+
+/*Path Utils*/
+char		*minisplit(char *path, int count);
 
 /*Chevrons Functions*/
-int			here_doc(t_redir *redir, char *key);
-int			lets_execute(t_cmd *cmd, t_redir *redir, int len);
 t_cmd		*token_to_cmd(t_oken *token, t_env *env);
 t_redir		*init_redir(void);
 int			cmd_count(t_oken *token, int i);
 int			ft_waitpid(int pid);
+
+/*Execution*/
+int			lets_execute(t_cmd *cmd, t_redir *redir, int len);
+int			here_doc(t_redir *redir, char *key);
 
 /*Errors*/
 int			print_errors(char *str); // error code 258 for syntax error near unexpected token '|' // 'newline'
