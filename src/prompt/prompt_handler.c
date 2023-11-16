@@ -13,6 +13,9 @@ int	handle_prompt(char *prompt, t_env *env)
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
 	if (!tokens)
 		return (0);
+	/*int	i = 0;
+	while (tokens[i].val)
+		printf("handle prompt: %s\n", tokens[i++].val);*/
 	cmd = token_to_cmd(tokens, env);
 	pid = lets_execute(cmd, init_redir(), cmd_count(tokens, 1));
 	if (pid == -1)
