@@ -16,13 +16,13 @@ t_oken	*glorified_ft_split(char *prompt, char **env)
 	free (prompt);
 	if (!tokens)
 		return (NULL);
-	while (i < token_num)
-	{
-		printf("tokenizer: %i. [%s]", i, tokens[i].val);
-		if (tokens[i].type == red)
-			printf (" [red]");
-		printf("\n");
-		i++;
-	}
+	// while (i < token_num)
+	// {
+	// 	printf("tokenizer: %i. [%s]", i, tokens[i].val);
+	// 	if (tokens[i].type == red)
+	// 		printf (" [red]");
+	// 	printf("\n");
+	// 	i++;
+	// }
 	return (tokens);
 }

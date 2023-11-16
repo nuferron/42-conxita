@@ -83,10 +83,8 @@ char	*expand_env(char **env, char *prompt)
 		}
 		if (prompt[i] == '$' && is_env_name(prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
-		printf("%s\n", prompt);
 		if (prompt && prompt[i])
 			i++;
-		printf("%c\n", prompt[i]);
 	}
 	return (prompt);
 }
