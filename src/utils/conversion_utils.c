@@ -31,6 +31,8 @@ t_cmd	*set_cmd_to_null(int len)
 		cmd[i].outfile = NULL;
 		cmd[i].infd = -1;
 		cmd[i].outfd = -1;
+		cmd[i].input = 0;
+		cmd[i].output = 0;
 		i++;
 	}
 	return (cmd);

@@ -4,7 +4,8 @@
 int	redirections(t_cmd *cmd, t_redir *redir)
 {
 	int	err;
-
+	
+	dprintf(2, "\033[1;36mredirections: input %d\toutput %d\033[m\n", cmd->input, cmd->output);
 	err = 0;
 	if (cmd->input == infile)
 		err = dup2(cmd->infd, 0);
@@ -38,6 +39,7 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 		return (-1);
 	if (pid == 0)
 	{
+		dprintf(2, "exec_cmd says hi\n");
 		redirections(cmd, redir);
 		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
 		{
@@ -79,6 +81,12 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 		return (print_errors(NULL));
 	while (++i < len)
 	{
+		dprintf(2, "lets exec %s in %d out %d\n", cmd[i].cmd[0], cmd[i].input, cmd[i].output);
+	}
+	i = -1;
+	while (++i < len)
+	{
+		dprintf(2, "lets execute says hi\n");
 		if (pipe(redir->fd_pipe) == -1)
 			return (-1);
 		cmd[i].outfd = get_out_fd(&cmd[i]);
