@@ -5,7 +5,7 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 {
 	int	err;
 	
-	dprintf(2, "\033[1;36mredirections: input %d\toutput %d\033[m\n", cmd->input, cmd->output);
+	//dprintf(2, "\033[1;36mredirections: cmd %s\tinput %d\toutput %d\033[m\n", cmd->cmd[0], cmd->input, cmd->output);
 	err = 0;
 	if (cmd->input == infile)
 		err = dup2(cmd->infd, 0);
@@ -39,7 +39,7 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 		return (-1);
 	if (pid == 0)
 	{
-		dprintf(2, "exec_cmd says hi\n");
+		//dprintf(2, "exec_cmd says hi\n");
 		redirections(cmd, redir);
 		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
 		{
@@ -58,11 +58,12 @@ int	get_out_fd(t_cmd *cmd)
 {
 	int	fd;
 
+	fd = 0;
 	if (cmd->output == f_trunc)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	else if (cmd->output == f_append)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
-	if ((cmd->output == f_trunc || cmd->output == f_append) && fd == -1)
+	if (fd == -1)
 	{
 		printf("Bad file descriptor\n");
 		exit(127);
@@ -81,12 +82,6 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 		return (print_errors(NULL));
 	while (++i < len)
 	{
-		dprintf(2, "lets exec %s in %d out %d\n", cmd[i].cmd[0], cmd[i].input, cmd[i].output);
-	}
-	i = -1;
-	while (++i < len)
-	{
-		dprintf(2, "lets execute says hi\n");
 		if (pipe(redir->fd_pipe) == -1)
 			return (-1);
 		cmd[i].outfd = get_out_fd(&cmd[i]);

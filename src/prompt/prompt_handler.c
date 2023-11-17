@@ -13,15 +13,12 @@ int	handle_prompt(char *prompt, t_env *env)
 	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
 	if (!tokens)
 		return (0);
-	/*int	i = 0;
-	while (tokens[i].val)
-		printf("handle prompt: %s\n", tokens[i++].val);*/
 	cmd = token_to_cmd(tokens, env);
 	pid = lets_execute(cmd, init_redir(), cmd_count(tokens, 1));
 	if (pid == -1)
 		exit(printf("handle prompt: lets execute is giving errors\n"));
 		//return (-1);
-	pid = ft_waitpid(pid);
+	pid = ft_waitpid(pid, cmd_count(tokens, 0));
 	if (pid == -1)
 		return (-1);
 	free(prompt);
