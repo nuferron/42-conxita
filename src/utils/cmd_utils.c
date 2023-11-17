@@ -71,20 +71,12 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 int	init_cmd_red(t_oken *token, t_cmd *cmd, int *i)
 {
 	int			ret;
-	static int	is_pipe = 0;
 
 	ret = 0;
 	if (token[*i].val[0] == '<')
 		ret = init_chev_input(token, cmd, i);
 	else if (token[*i].val[0] == '>')
 		ret = init_chev_output(token, cmd, i);
-	else if (token[*i].val[0] == '|' || is_pipe == 1)
-	{
-		init_pipe(cmd, is_pipe);
-		is_pipe = 1;
-	}
-	else
-		is_pipe = 0;
 	(*i)++;
 	return (ret);
 }
