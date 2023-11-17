@@ -26,8 +26,8 @@
 
 enum	e_arg_type {red = 0, arg = 1};
 
-enum	e_output {stdo = 0, f_trunc = 1, f_append = 2, opipe = 3};
-enum	e_input {stdi = 0, infile = 1, ipipe = 2, heredoc = 3};
+enum	e_output {stdo = 0, opipe = 1, f_trunc = 2, f_append = 3};
+enum	e_input {stdi = 0, ipipe = 1, infile = 2, heredoc = 3};
 
 typedef struct s_cmd
 {
@@ -117,7 +117,7 @@ char	*minisplit(char *path, int count);
 t_cmd	*token_to_cmd(t_oken *token, t_env *env);
 t_redir	*init_redir(void);
 int		cmd_count(t_oken *token, int i);
-int		ft_waitpid(int pid);
+int		ft_waitpid(int pid, int len);
 
 /*Execution*/
 int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
