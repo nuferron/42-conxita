@@ -5,6 +5,8 @@ char	*search_env(t_env *env, char *key)
 {
 	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
 		env = env->next;
+	if (!env)
+		return (NULL);
 	return (env->value);
 }
 
