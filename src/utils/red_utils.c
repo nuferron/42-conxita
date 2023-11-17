@@ -46,13 +46,13 @@ int	init_chev_input(t_oken *token, t_cmd *cmd, int *i)
 	}
 	else
 	{
-		cmd->infile = ft_strdup(token[*i].val);
+		cmd->infile = ft_strdup(token[*i + 1].val);
 		if (!cmd->infile)
 			return (print_errors(NULL));
 		cmd->input = infile;
 	}
-	if (!token[*i + 1].val)
-		exit(print_errors("\'newline\'"));
+	if (*i > 0 && !token[*i - 1].val)
+		return(print_errors("\'newline\'"));
 	(*i)++;
 	return (0);
 }
@@ -68,7 +68,10 @@ t_redir	*init_redir(void)
 	redir->saved_std[0] = dup(0);
 	redir->saved_std[1] = dup(1);
 	if (redir->saved_std[0] == -1 || redir->saved_std[1] == -1)
+	{
+		free(redir);
 		return (NULL);
+	}
 	redir->fdr_aux = -1;
 	return (redir);
 }

@@ -57,8 +57,10 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 			init_cmd_red(token, &cmd[j], &i);
 		else if (i > 0 && !cmd[j].input && token[i - 1].val[0] == '|')
 		{
-			cmd[j].input = ipipe;
-			cmd[j - 1].output = opipe;
+			if (cmd[j].input == stdi)
+				cmd[j].input = ipipe;
+			if (j > 0 && cmd[j - 1].output == stdo)
+				cmd[j - 1].output = opipe;
 		}
 		else if (token[i].type == arg)
 		{
@@ -69,5 +71,6 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 		if (!token[i].val || (token[i].val && token[i].val[0] == '|'))
 			j++;
 	}
+	dprintf(2, "\033[1;31mttc: cmd %s\tinfile %s\tinput %d\033[0m\n", cmd->cmd[0], cmd->infile, cmd->input);
 	return (cmd);
 }

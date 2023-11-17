@@ -59,14 +59,21 @@ int	get_out_fd(t_cmd *cmd)
 	int	fd;
 
 	fd = 0;
+	if (cmd->infile)
+	{
+		cmd->infd = open(cmd->infile, O_RDONLY);
+		if (cmd->infd == -1)
+			return (print_errors(cmd->infile));
+	}
 	if (cmd->output == f_trunc)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	else if (cmd->output == f_append)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
 	if (fd == -1)
 	{
-		printf("Bad file descriptor\n");
-		exit(127);
+		return (print_errors(cmd->outfile));
+		//printf("Bad file descriptor\n");
+		//exit(127);
 	}
 	return (fd);
 }
