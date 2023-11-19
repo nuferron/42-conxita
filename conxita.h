@@ -39,6 +39,7 @@ typedef struct s_cmd
 	int				outfd;
 	enum e_output	output;
 	enum e_input	input;
+	int				len;
 }	t_cmd;
 
 typedef struct s_redir
@@ -121,7 +122,8 @@ int		ft_waitpid(int pid, int len);
 
 /*Execution*/
 int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
-int		here_doc(t_redir *redir, char *key);
+int		here_doc(char *key);
+int		exec_heredoc(t_cmd *cmd);
 
 /*Errors*/
 int		print_errors(char *str); // error code 258 for syntax error near unexpected token '|' // 'newline'
