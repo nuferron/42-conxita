@@ -37,9 +37,16 @@ pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
+	dprintf(2, "exec_cmd says hi\n");
 	if (pid == 0)
 	{
-		//dprintf(2, "exec_cmd says hi\n");
+
+		if (exec_heredoc(cmd))
+		{
+			dprintf(2, "exec cmd pid %d\n", pid);
+			return (pid);
+		}
+		dprintf(2, "exec_cmd says hi\n");
 		redirections(cmd, redir);
 		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
 		{
@@ -87,12 +94,16 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
 	i = -1;
 	if (!cmd || !redir)
 		return (print_errors(NULL));
+	//exec_heredoc(cmd);
 	while (++i < len)
 	{
+		//dprintf(2, "lets exec says hi\n");
 		if (pipe(redir->fd_pipe) == -1)
 			return (-1);
 		cmd[i].outfd = get_out_fd(&cmd[i]);
 		pid = exec_cmd(&cmd[i], redir);
+		//if (cmd[i].heredoc)
+		//	continue ;
 		if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
 			|| close(redir->fd_pipe[1]) == -1
 			|| (redir->fdr_aux > 0 && close(redir->fdr_aux) == -1))

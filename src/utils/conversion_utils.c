@@ -38,6 +38,7 @@ t_cmd	*set_cmd_to_null(int len)
 		cmd[i].outfd = -1;
 		cmd[i].input = stdi;
 		cmd[i].output = stdo;
+		cmd[i].len = len;
 		i++;
 	}
 	return (cmd);
