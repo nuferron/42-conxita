@@ -10,6 +10,11 @@
 // cmd >> file
 // >> file cmd
 
+/*Converts t_env to a char ** */
+/*char	**tenv_to_env(t_env *env)
+{
+}*/
+
 /*Sets all t_cmd variables to either NULL or -1*/
 t_cmd	*set_cmd_to_null(int len)
 {
@@ -38,6 +43,7 @@ t_cmd	*set_cmd_to_null(int len)
 	return (cmd);
 }
 
+/*Converts t_oken to a t_cmd*/
 t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 {
 	t_cmd	*cmd;
@@ -71,6 +77,5 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 		if (!token[i].val || (token[i].val && token[i].val[0] == '|'))
 			j++;
 	}
-	dprintf(2, "\033[1;31mttc: cmd %s\tinfile %s\tinput %d\033[0m\n", cmd->cmd[0], cmd->infile, cmd->input);
 	return (cmd);
 }
