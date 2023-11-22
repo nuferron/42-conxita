@@ -122,7 +122,6 @@ int		ft_waitpid(int pid, int len);
 
 /*Execution*/
 int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
-int		here_doc(char *key);
 int		exec_heredoc(t_cmd *cmd);
 
 /*Errors*/

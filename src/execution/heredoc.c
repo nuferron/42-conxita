@@ -11,7 +11,9 @@ char	*ft_strjoin3_free(char *str1, char *str2, char *str3)
 	free(str2);
 	result = ft_strjoin(tmp, str3);
 	free(tmp);
-	return (result);
+	tmp = ft_strjoin(result, "\0");
+	free(result);
+	return (tmp);
 }
 
 /*Replicates the heredoc functionality (<<)*/
@@ -36,41 +38,39 @@ int	here_doc(char *key)
 		line = readline("> ");
 	}
 	write(pipe_h[1], tmp, ft_strlen(tmp));
-	write(pipe_h[1], "\0", 1);
 	free(tmp);
 	free(line);
+	close(pipe_h[1]);
 	return (pipe_h[0]);
 }
 
 int	exec_heredoc(t_cmd *cmd)
 {
 	int		i;
-	int		error;
+	int		read_fd;
 	int		len;
-	char	buffer[10];
+//	char	buffer[10];
 
 	i = 0;
-	error = 0;
+	read_fd = 0;
 	len = cmd[0].len;
 	while (i < len)
 	{
 		if (cmd[i].heredoc)
-			error = here_doc(cmd[i].heredoc);
+			read_fd = here_doc(cmd[i].heredoc);
 		i++;
 	}
-	dprintf(2, "exec heredoc error %d\n", error);
-	if (error != -1)
-	{
-		while (1)
-		{
-			len = read(error, buffer, 9);
-			buffer[len] = '\0';
-			write(1, buffer, len);
-			if (buffer[len - 1] == '\0')
-				return (1);
-		}
-	}
-	if (error == -1)
+//	if (error != -1)
+//	{
+//		while (len > 0)
+//		{
+//			dprintf(2, "exec heredoc fd %d\n", error);
+//			len = read(error, buffer, 9);
+//			buffer[len] = '\0';
+//			dprintf(2, "exec heredoc: len = %d\n", len);
+//		}
+//	}
+	if (read_fd == -1)
 		return (-1);
-	return (0);
+	return (read_fd);
 }

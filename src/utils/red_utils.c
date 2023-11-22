@@ -75,3 +75,19 @@ t_redir	*init_redir(void)
 	redir->fdr_aux = -1;
 	return (redir);
 }
+
+/*Opens and returns the output's fd. It can be truncated (>) or appended (>>)*/
+int	get_out_fd(t_cmd *cmd)
+{
+	int	fd;
+
+	fd = 0;
+	if (cmd->output == f_trunc)
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	else if (cmd->output == f_append)
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
+	if (fd == -1)
+		return (print_errors(NULL));
+	return (fd);
+}
+

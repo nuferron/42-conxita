@@ -14,7 +14,7 @@ int	handle_prompt(char *prompt, t_env *env)
 	if (!tokens)
 		return (0);
 	cmd = token_to_cmd(tokens, env);
-	pid = lets_execute(cmd, init_redir(), cmd_count(tokens, 1));
+	pid = lets_execute(cmd, init_redir(), cmd->len);
 	if (pid == -1)
 		exit(printf("handle prompt: lets execute is giving errors\n"));
 		//return (-1);
