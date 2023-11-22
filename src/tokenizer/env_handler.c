@@ -58,6 +58,8 @@ static char	*replace_env(t_env *env, char *prompt, int *i)
 	if (!new_prompt)
 		return (NULL);
 	*i += ft_strlen(val) - 1;
+	if (*i < 0)
+		*i = 0;
 	return (new_prompt);
 }
 

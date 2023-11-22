@@ -14,11 +14,12 @@ SRCS_UTILS = bool_utils.c env_utils.c conversion_utils.c utils.c cmd_utils.c pat
 SRCS_SIGNALS = signal_handler.c
 SRCS_EXEC = execution.c heredoc.c
 SRCS_ERRORS = errors.c
+SRCS_BUILTINS = echo.c pwd.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
 	   $(addprefix execution/,$(SRCS_EXEC)) $(addprefix tokenizer/,$(SRCS_TOKENIZER)) \
-	   $(addprefix errors/,$(SRCS_ERRORS))
+	   $(addprefix errors/,$(SRCS_ERRORS)) $(addprefix builtins/,$(SRCS_BUILTINS))
 
 SRCDIR = src/
 OBJDIR = obj/

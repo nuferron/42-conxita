@@ -34,3 +34,15 @@ int	ft_waitpid(int pid, int len)
 	}
 	return (0);
 }
+
+int	get_arg_number(char **args)
+{
+	int	i;
+
+	i = 0;
+	if (!args)
+		return (0);
+	while (args[i])
+		i++;
+	return (i);
+}

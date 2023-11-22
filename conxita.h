@@ -91,6 +91,7 @@ void	print_conxita(void);
 /*Utils*/
 void	b_invert(bool *b);
 char	*ft_strtrim_free(char *s1, char *set);
+int		get_arg_number(char **args);
 
 /*Environment Utils*/
 char	*search_env(t_env *env, char *key);
@@ -125,3 +126,8 @@ int		here_doc(t_redir *redir, char *key);
 
 /*Errors*/
 int		print_errors(char *str); // error code 258 for syntax error near unexpected token '|' // 'newline'
+
+/*Builtins*/
+int		builtin_echo(char **args);
+int		builtin_pwd(char **args);
+int		builtin_cd(char **args);
