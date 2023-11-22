@@ -18,7 +18,7 @@ char	*get_path(t_env *env, char *str)
 
 	path = NULL;
 	i = 0;
-	if (!is_builtin(str))
+	if (is_builtin(str))
 		return (NULL);
 	if (access(str, X_OK) == 0)
 		return (str);

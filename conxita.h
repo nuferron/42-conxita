@@ -92,6 +92,7 @@ void	print_conxita(void);
 /*Utils*/
 void	b_invert(bool *b);
 char	*ft_strtrim_free(char *s1, char *set);
+int		is_builtin(char *str);
 
 /*Environment Utils*/
 char	*search_env(t_env *env, char *key);
@@ -121,7 +122,7 @@ int		cmd_count(t_oken *token, int i);
 int		ft_waitpid(int pid, int len);
 
 /*Execution*/
-int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
+int		lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len);
 int		exec_heredoc(t_cmd *cmd);
 
 /*Errors*/
