@@ -2,19 +2,19 @@
 
 int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(cmd, "echo ", 5))
+	if (!ft_strncmp(cmd, "echo", 4))
 		return (1);
-	if (!ft_strncmp(cmd, "cd ", 3))
+	if (!ft_strncmp(cmd, "cd", 2))
 		return (1);
-	if (!ft_strncmp(cmd, "pwd ", 4))
+	if (!ft_strncmp(cmd, "pwd", 3))
 		return (1);
-	if (!ft_strncmp(cmd, "export ", 7))
+	if (!ft_strncmp(cmd, "export", 6))
 		return (1);
-	if (!ft_strncmp(cmd, "unset ", 6))
+	if (!ft_strncmp(cmd, "unset", 5))
 		return (1);
-	if (!ft_strncmp(cmd, "env ", 4))
+	if (!ft_strncmp(cmd, "env", 3))
 		return (1);
-	if (!ft_strncmp(cmd, "exit ", 5))
+	if (!ft_strncmp(cmd, "exit", 4))
 		return (1);
 	return (0);
 }

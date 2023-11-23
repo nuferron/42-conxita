@@ -46,12 +46,12 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	int	j;
 	int	len;
 
-	j = 0;
+	j = -1;
 	len = arg_count(token, i);
 	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
 		return (print_errors(NULL));
-	while (j < len && token[i].val && token[i].type == arg)
+	while (++j < len && token[i].val && token[i].type == arg)
 	{
 		if (j == 0)
 			cmd->cmd[j] = get_path(env, token[i].val);
@@ -62,7 +62,6 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 			cmd->cmd = free_matrix(cmd, j);
 			return (print_errors(NULL));
 		}
-		j++;
 		i++;
 	}
 	cmd->cmd[j] = NULL;

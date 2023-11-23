@@ -15,13 +15,15 @@ int	handle_prompt(char *prompt, t_env *env)
 		return (0);
 	cmd = token_to_cmd(tokens, env);
 	pid = lets_execute(cmd, init_redir(), env, cmd->len);
-	if (pid == -1)
-		exit(printf("handle prompt: lets execute is giving errors\n"));
+	//if (pid == -1)
+	//	exit(printf("handle prompt: lets execute is giving errors\n"));
 		//return (-1);
 	if (pid > 0)
+	{
 		pid = ft_waitpid(pid, cmd_count(tokens, 0));
-	if (pid == -1)
-		return (-1);
+		if (pid == -1)
+			return (print_errors(NULL));
+	}
 	free(prompt);
 	return (0);
 }

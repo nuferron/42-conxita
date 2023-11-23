@@ -49,7 +49,6 @@ int	exec_heredoc(t_cmd *cmd)
 	int		i;
 	int		read_fd;
 	int		len;
-//	char	buffer[10];
 
 	i = 0;
 	read_fd = 0;
@@ -60,16 +59,6 @@ int	exec_heredoc(t_cmd *cmd)
 			read_fd = here_doc(cmd[i].heredoc);
 		i++;
 	}
-//	if (error != -1)
-//	{
-//		while (len > 0)
-//		{
-//			dprintf(2, "exec heredoc fd %d\n", error);
-//			len = read(error, buffer, 9);
-//			buffer[len] = '\0';
-//			dprintf(2, "exec heredoc: len = %d\n", len);
-//		}
-//	}
 	if (read_fd == -1)
 		return (-1);
 	return (read_fd);
