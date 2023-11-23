@@ -6,7 +6,7 @@ int	builtin_pwd(char **args)
 
 	if (args)
 	{
-		printf("pwd: too many arguments");
+		printf("pwd: too many arguments\n");
 		return (1);
 	}
 	pwd = getcwd(NULL, 0);

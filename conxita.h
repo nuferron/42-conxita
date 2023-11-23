@@ -130,4 +130,4 @@ int		print_errors(char *str); // error code 258 for syntax error near unexpected
 /*Builtins*/
 int		builtin_echo(char **args);
 int		builtin_pwd(char **args);
-int		builtin_cd(char **args);
+int		builtin_cd(char **args, t_env *env);
