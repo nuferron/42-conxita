@@ -13,12 +13,13 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 {
 	int	fd;
 
+	//dprintf(2, "init chev out: outfile %s\n", token[*i + 1].val);
 	cmd->outfile = ft_strdup(token[*i + 1].val);
 	if (!cmd->outfile)
 		return (print_errors(NULL));
 	fd = open(cmd->outfile, O_WRONLY | O_CREAT, 0664);
 	if (fd == -1)
-		return (print_errors("chev out"));
+		return (print_errors(NULL));
 	if (close(fd) == -1)
 		return (print_errors(NULL));
 	if (token[*i].val[1] == '>' && token[*i + 1].val)
@@ -27,6 +28,7 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 		cmd->output = f_trunc;
 	if (!token[*i + 1].val)
 		exit(print_errors("\'newline\'"));
+	cmd->outfd = get_out_fd(cmd);
 	(*i)++;
 	return (0);
 }

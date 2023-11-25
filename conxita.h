@@ -111,6 +111,7 @@ int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
 int		init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
 void	init_pipe(t_cmd *cmd, int is_pipe);
 t_redir	*init_redir(void);
+int		get_out_fd(t_cmd *cmd);
 
 /*Path Utils*/
 char	*minisplit(char *path, int count);
@@ -119,11 +120,11 @@ char	*minisplit(char *path, int count);
 t_cmd	*token_to_cmd(t_oken *token, t_env *env);
 t_redir	*init_redir(void);
 int		cmd_count(t_oken *token, int i);
-int		ft_waitpid(int pid, int len);
 
 /*Execution*/
 int		lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len);
 int		exec_heredoc(t_cmd *cmd);
+int		ft_waitpid(int pid, int len);
 
 /*Errors*/
 int		print_errors(char *str); // error code 258 for syntax error near unexpected token '|' // 'newline'
