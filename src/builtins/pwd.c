@@ -1,9 +1,14 @@
 #include "../../conxita.h"
 
-int	main(void)
+int	builtin_pwd(char **args)
 {
 	char	*pwd;
 
+	if (args)
+	{
+		printf("pwd: too many arguments");
+		return (1);
+	}
 	pwd = getcwd(NULL, 0);
 	printf("%s\n", pwd);
 	free(pwd);

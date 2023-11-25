@@ -47,6 +47,8 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	int	len;
 
 	j = -1;
+	if (!token)
+		return(-1);
 	len = arg_count(token, i);
 	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)

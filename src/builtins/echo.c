@@ -17,20 +17,23 @@ int	is_flag(char *flag)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+int	builtin_echo(char **args)
 {
 	int	flag;
 	int	i;
+	int	argn;
 
+	flag = 0;
 	i = 1;
-	while (i < argc && is_flag(argv[i]))
+	argn = get_arg_number(args);
+	while (i < argn && is_flag(args[i]))
 	{
 		flag = 1;
 		i++;
 	}
-	while (i < argc)
+	while (i < argn)
 	{
-		printf("%s ", argv[i]);
+		printf("%s ", args[i]);
 		i++;
 	}
 	if (flag == 0)
