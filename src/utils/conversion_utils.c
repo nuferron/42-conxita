@@ -39,6 +39,7 @@ t_cmd	*set_cmd_to_null(int len)
 		cmd[i].input = stdi;
 		cmd[i].output = stdo;
 		cmd[i].len = len;
+		cmd[i].fd_hd = -1;
 		i++;
 	}
 	return (cmd);
@@ -61,7 +62,10 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 	while (j < len)
 	{
 		if (token[i].type == red)
-			init_cmd_red(token, &cmd[j], &i);
+		{
+			if (init_cmd_red(token, &cmd[j], &i) == -1)
+				return (NULL);
+		}
 		else if (i > 0 && !cmd[j].input && token[i - 1].val[0] == '|')
 		{
 			if (cmd[j].input == stdi)
@@ -75,6 +79,7 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 			if (i == -1)
 				return (NULL); // free stuff
 		}
+		dprintf(2, "ttc: token.val %s\n", token[i].val);
 		if (!token[i].val || (token[i].val && token[i].val[0] == '|'))
 			j++;
 	}

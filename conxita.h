@@ -40,6 +40,7 @@ typedef struct s_cmd
 	enum e_output	output;
 	enum e_input	input;
 	int				len;
+	int				fd_hd;
 }	t_cmd;
 
 typedef struct s_redir
@@ -124,7 +125,7 @@ int		cmd_count(t_oken *token, int i);
 
 /*Execution*/
 int		lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len);
-int		exec_heredoc(t_cmd *cmd);
+int		exec_heredoc(t_cmd *cmd, char *key);
 int		ft_waitpid(int pid, int len);
 
 /*Errors*/

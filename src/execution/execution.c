@@ -21,11 +21,16 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 	int	err;
 
 	err = 0;
-	//dprintf(2, "\033[1;33mred: cmd %s\tinput = %d output = %d outfd = %d\033[0m\n", cmd->cmd[0], cmd->input, cmd->output, cmd->outfd);
-	if (cmd->input == infile)
+	dprintf(2, "\033[1;33mred: cmd %s\tinput = %d output = %d outfd = %d\033[0m\n", cmd->cmd[0], cmd->input, cmd->output, cmd->outfd);
+	//dprintf(2, "\033[1;31mred: pipe_fd [0] %d\t[1] %d\tfdr_aux %d\033[0m\n", redir->fd_pipe[0], redir->fd_pipe[1], redir->fdr_aux);
+	if (cmd->fd_hd != -1)
+		err = dup2(cmd->fd_hd, 0);
+	else if (cmd->input == infile)
 		err = dup2(cmd->infd, 0);
 	else if (cmd->input == ipipe)
+	{
 		err = dup2(redir->fdr_aux, 0);
+	}
 	else if (cmd->input == stdi)
 		err = dup2(redir->saved_std[0], 0);
 	if (err == -1)
@@ -41,6 +46,8 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 	if ((cmd->output == opipe || cmd->input == ipipe)
 		&& (close(redir->fd_pipe[0]) == -1 || close(redir->fd_pipe[1]) == -1))
 		return (print_errors(NULL));
+	close(redir->saved_std[0]);
+	close(redir->saved_std[1]);
 	return (0);
 }
 
@@ -76,7 +83,7 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 
 int	exec_cmd(t_cmd *cmd, t_env *env, t_redir *redir) // replace return (1) by a call to the function. It will return the exit code
 {
-	dprintf(2, "exec cmd: %s\n", cmd->cmd[0]);
+	//dprintf(2, "exec cmd: %s\n", cmd->cmd[0]);
 	if (!ft_strncmp(cmd->cmd[0], "echo", 4))
 		return (0);
 	else if (!ft_strncmp(cmd->cmd[0], "cd", 2))
@@ -101,31 +108,41 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 {
 	pid_t	pid;
 	int		i;
+	int		ret;
 
 	i = -1;
 	if (!cmd || !redir)
 		return (print_errors(NULL));
 	if (len == 1)
-		return (exec_cmd(cmd, env, redir));
+	{
+		//if (cmd->heredoc)
+		//	exec_heredoc(cmd, redir);
+		ret = exec_cmd(cmd, env, redir);
+		close(cmd->infd);
+		close(cmd->outfd);
+		return (ret);
+	}
 	while (++i < len)
 	{
 		if (pipe(redir->fd_pipe) == -1)
 			return (print_errors(NULL));
-		//execute heredoc
-		if (cmd->heredoc)
-		{
-			if (dup2(redir->saved_std[0], 0) == -1)
-				print_errors(NULL);
-			continue ;
-		}
+		dprintf(2, "lets exec: PIPE [0] %d\t[1] %d\n", redir->fd_pipe[0], redir->fd_pipe[1]);
+		//if (cmd[i].heredoc)
+		//	exec_heredoc(&cmd[i], redir);
 		pid = fork();
 		if (pid == 0)
 			exec_cmd(&cmd[i], env, redir);
 		if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
 			|| close(redir->fd_pipe[1]) == -1
 			|| (redir->fdr_aux > 0 && close(redir->fdr_aux) == -1))
+		{
+			close(redir->fdr_aux);
 			return (print_errors(NULL));
+		}
 		redir->fdr_aux = redir->fd_pipe[0];
+		close(cmd->fd_hd);
+		close(cmd->infd);
 	}
+	close(redir->fdr_aux);
 	return (pid);
 }

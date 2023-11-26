@@ -75,11 +75,15 @@ int	init_cmd_red(t_oken *token, t_cmd *cmd, int *i)
 {
 	int			ret;
 
+	dprintf(2, "init cmd red: token[*i].val %s\n", token[*i].val);
 	ret = 0;
 	if (token[*i].val[0] == '<')
 		ret = init_chev_input(token, cmd, i);
 	else if (token[*i].val[0] == '>')
+	{
+		dprintf(2, "init cmd red hello?\n");
 		ret = init_chev_output(token, cmd, i);
+	}
 	(*i)++;
 	return (ret);
 }

@@ -38,24 +38,24 @@ int	init_chev_input(t_oken *token, t_cmd *cmd, int *i)
 {
 	if (token[*i].val[1] == '<')
 	{
-		if (token[*i + 1].val)
-		{
-			cmd->heredoc = ft_strdup(token[*i + 1].val);
-			if (!cmd->heredoc)
-				return (print_errors(NULL));
-			cmd->input = heredoc;
-		}
+		if (!token[*i + 1].val)
+			return (0);
+		close(cmd->fd_hd);
+		exec_heredoc(cmd, token[++(*i)].val);
 	}
 	else
 	{
-		cmd->infile = ft_strdup(token[*i + 1].val);
+		if (*i > 0 && !token[*i + 1].val)
+			return(print_errors("\'newline\'"));
+		cmd->infile = ft_strdup(token[++(*i)].val);
 		if (!cmd->infile)
 			return (print_errors(NULL));
 		cmd->input = infile;
+		close(cmd->infd);
+		cmd->infd = open(cmd->infile, O_RDONLY);
+		if (cmd->infd == -1)
+			return (print_errors(cmd->infile));
 	}
-	if (*i > 0 && !token[*i - 1].val)
-		return(print_errors("\'newline\'"));
-	(*i)++;
 	return (0);
 }
 
@@ -84,6 +84,7 @@ int	get_out_fd(t_cmd *cmd)
 	int	fd;
 
 	fd = 0;
+	close(cmd->outfd);
 	if (cmd->output == f_trunc)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	else if (cmd->output == f_append)
