@@ -22,7 +22,7 @@
 #include "libs/readline/history.h"
 
 #define LINE_DEL	"\033[A"
-#define SYNTAX		"syntax error near unexpected token"
+#define SYNTAX		"syntax error near unexpected token "
 
 enum	e_arg_type {red = 0, arg = 1};
 
@@ -41,6 +41,7 @@ typedef struct s_cmd
 	enum e_input	input;
 	int				len;
 	int				fd_hd;
+	bool			leave;
 }	t_cmd;
 
 typedef struct s_redir
@@ -67,6 +68,7 @@ typedef struct s_env
 {
 	char	*key;
 	char	*value;
+	bool	show;
 	void	*next;
 }	t_env;
 
@@ -99,11 +101,13 @@ int		get_arg_number(char **args);
 /*Environment Utils*/
 char	*search_env(t_env *env, char *key);
 t_env	*env_to_lst(char **env);
+char	**env_to_mat(t_env *env, int print);
 
 /*Length Utils*/
 int		arg_count(t_oken *token, int start);
 int		cmd_count(t_oken *token, int i);
 int		mat_len(char **mat);
+int		env_len(t_env *env);
 int		path_count(const char *str, char sep);
 
 /*Initializing Utils*/

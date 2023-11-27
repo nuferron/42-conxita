@@ -37,3 +37,15 @@ int	mat_len(char **mat)
 		i++;
 	return (i);
 }
+
+int	env_len(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		return (0);
+	while (env[i].next)
+		i++;
+	return (i + 1);
+}
