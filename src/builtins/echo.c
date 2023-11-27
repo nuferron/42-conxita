@@ -33,8 +33,9 @@ int	builtin_echo(char **args)
 	}
 	while (i < argn)
 	{
-		printf("%s ", args[i]);
-		i++;
+		printf("%s", args[i++]);
+		if (i < argn)
+			printf(" ");
 	}
 	if (flag == 0)
 		printf("\n");
