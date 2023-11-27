@@ -12,13 +12,6 @@ int	print_errors(char *str)
 		ft_putstr_fd("\n", 2);
 		return (-1);
 	}
-	/*else if (str && ft_strncmp(str, "command", 7))
-	{
-		ft_putstr_fd(COMMAND, 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("\n", 2);
-		return (-1);
-	}*/
 	else if (str)
 	{
 		ft_putstr_fd(str, 2);

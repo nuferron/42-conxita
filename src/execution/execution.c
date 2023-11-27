@@ -5,12 +5,12 @@ int	reset_std(t_redir *redir, int which)
 	if (which == 0 || which == 2)
 	{
 		if (dup2(redir->saved_std[0], 0) == -1)
-			return (print_errors(NULL));
+			return (print_errors("WTFFF"));
 	}
 	if (which == 1 || which == 2)
 	{
 		if (dup2(redir->saved_std[1], 1) == -1)
-			return (print_errors(NULL));
+			return (print_errors("adeu"));
 	}
 	return (0);
 }
@@ -21,16 +21,12 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 	int	err;
 
 	err = 0;
-	dprintf(2, "\033[1;33mred: cmd %s\tinput = %d output = %d outfd = %d\033[0m\n", cmd->cmd[0], cmd->input, cmd->output, cmd->outfd);
-	//dprintf(2, "\033[1;31mred: pipe_fd [0] %d\t[1] %d\tfdr_aux %d\033[0m\n", redir->fd_pipe[0], redir->fd_pipe[1], redir->fdr_aux);
 	if (cmd->fd_hd != -1)
 		err = dup2(cmd->fd_hd, 0);
 	else if (cmd->input == infile)
 		err = dup2(cmd->infd, 0);
 	else if (cmd->input == ipipe)
-	{
 		err = dup2(redir->fdr_aux, 0);
-	}
 	else if (cmd->input == stdi)
 		err = dup2(redir->saved_std[0], 0);
 	if (err == -1)
@@ -56,7 +52,6 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 	pid_t	pid;
 
 	pid = -1;
-	(void)env;
 	if (flag)
 	{
 		pid = fork();
@@ -66,7 +61,7 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 	if (pid == 0 || !flag)
 	{
 		redirections(cmd, redir);
-		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
+		if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 		{
 			if (access(cmd->cmd[0], X_OK) == -1)
 			{
@@ -115,8 +110,6 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 		return (print_errors(NULL));
 	if (len == 1)
 	{
-		//if (cmd->heredoc)
-		//	exec_heredoc(cmd, redir);
 		ret = exec_cmd(cmd, env, redir);
 		close(cmd->infd);
 		close(cmd->outfd);
@@ -126,9 +119,6 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 	{
 		if (pipe(redir->fd_pipe) == -1)
 			return (print_errors(NULL));
-		dprintf(2, "lets exec: PIPE [0] %d\t[1] %d\n", redir->fd_pipe[0], redir->fd_pipe[1]);
-		//if (cmd[i].heredoc)
-		//	exec_heredoc(&cmd[i], redir);
 		pid = fork();
 		if (pid == 0)
 			exec_cmd(&cmd[i], env, redir);
