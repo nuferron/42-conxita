@@ -47,39 +47,23 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 	return (0);
 }
 
-int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
+void	exec_no_builtins(t_cmd *cmd, t_env *env)
 {
-	pid_t	pid;
-
-	pid = -1;
-	(void)redir;
-	if (flag)
+	if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 	{
-		pid = fork();
-		if (pid == -1)
-			return (print_errors(NULL));
-	}
-	if (pid == 0 || !flag)
-	{
-		//redirections(cmd, redir);
-		//dprintf(2, "redir");
-		if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
+		if (access(cmd->cmd[0], X_OK) == -1)
 		{
-			if (access(cmd->cmd[0], X_OK) == -1)
-			{
-				ft_putstr_fd("conxita: ", 2);
-				ft_putstr_fd(cmd->cmd[0], 2);
-				ft_putstr_fd(": command not found\n", 2);
-			}
-			else
-				print_errors(NULL);
+			ft_putstr_fd("conxita: ", 2);
+			ft_putstr_fd(cmd->cmd[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
 		}
-		exit(127); //exit status 127
+		else
+			print_errors(NULL);
 	}
-	return (pid);
+	exit(127); //exit status 127
 }
 
-int	exec_cmd(t_cmd *cmd, t_env *env, t_redir *redir) // replace return (1) by a call to the function. It will return the exit code
+int	exec_cmd(t_cmd *cmd, t_env *env) // replace return (1) by a call to the function. It will return the exit code
 {
 	//dprintf(2, "exec cmd: %s\n", cmd->cmd[0]);
 	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
@@ -96,10 +80,9 @@ int	exec_cmd(t_cmd *cmd, t_env *env, t_redir *redir) // replace return (1) by a 
 		return (0);
 	else if (!ft_strncmp(cmd->cmd[0], "exit", 5))
 		return (0);
-	else if (cmd->len == 1)
-		return (exec_no_builtins(cmd, env, redir, 0));
 	else
-		return (exec_no_builtins(cmd, env, redir, 0));
+		exec_no_builtins(cmd, env);
+	return (0);
 }
 
 int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
@@ -113,9 +96,16 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 		return (print_errors(NULL));
 	if (len == 1 && is_builtin(cmd->cmd[0]))
 	{
-		ret = exec_cmd(cmd, env, redir);
+		int fd[2];
+
+		fd[0] = dup(0);
+		fd[1] = dup(1);
+		redirections(&cmd[0], redir);
+		ret = exec_cmd(cmd, env);
 		close(cmd->infd);
 		close(cmd->outfd);
+		dup2(fd[0], 0);
+		dup2(fd[1], 1);
 		return (ret);
 	}
 	while (++i < len)
@@ -126,8 +116,7 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 		if (pid == 0)
 		{
 			redirections(&cmd[i], redir);
-			pid = exec_cmd(&cmd[i], env, redir);
-			exit(pid);
+			exit(exec_cmd(&cmd[i], env));
 		}
 		if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
 			|| close(redir->fd_pipe[1]) == -1
