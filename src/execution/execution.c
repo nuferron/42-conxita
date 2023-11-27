@@ -65,8 +65,9 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 		{
 			if (access(cmd->cmd[0], X_OK) == -1)
 			{
-				reset_std(redir, 2);
-				printf("conxita: %s: command not found\n", cmd->cmd[0]);
+				ft_putstr_fd("conxita: ", 2);
+				ft_putstr_fd(cmd->cmd[0], 2);
+				ft_putstr_fd(": command not found\n", 2);
 			}
 			else
 				print_errors(NULL);
@@ -79,19 +80,19 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 int	exec_cmd(t_cmd *cmd, t_env *env, t_redir *redir) // replace return (1) by a call to the function. It will return the exit code
 {
 	//dprintf(2, "exec cmd: %s\n", cmd->cmd[0]);
-	if (!ft_strncmp(cmd->cmd[0], "echo", 4))
+	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
 		return (0);
-	else if (!ft_strncmp(cmd->cmd[0], "cd", 2))
+	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
 		return (0);
-	else if (!ft_strncmp(cmd->cmd[0], "pwd", 3))
+	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
 		return (0);
-	else if (!ft_strncmp(cmd->cmd[0], "export", 6))
+	else if (!ft_strncmp(cmd->cmd[0], "export", 7))
 		return (0);
-	else if (!ft_strncmp(cmd->cmd[0], "unset", 5))
+	else if (!ft_strncmp(cmd->cmd[0], "unset", 6))
 		return (0);
-	else if (!ft_strncmp(cmd->cmd[0], "env", 3))
+	else if (!ft_strncmp(cmd->cmd[0], "env", 4))
 		return (0);
-	else if (!ft_strncmp(cmd->cmd[0], "exit", 4))
+	else if (!ft_strncmp(cmd->cmd[0], "exit", 5))
 		return (0);
 	else if (cmd->len == 1)
 		return (exec_no_builtins(cmd, env, redir, 1));
