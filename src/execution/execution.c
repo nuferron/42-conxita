@@ -52,6 +52,7 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 	pid_t	pid;
 
 	pid = -1;
+	(void)redir;
 	if (flag)
 	{
 		pid = fork();
@@ -60,7 +61,8 @@ int	exec_no_builtins(t_cmd *cmd, t_env *env, t_redir *redir, int flag)
 	}
 	if (pid == 0 || !flag)
 	{
-		redirections(cmd, redir);
+		//redirections(cmd, redir);
+		//dprintf(2, "redir");
 		if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 		{
 			if (access(cmd->cmd[0], X_OK) == -1)
@@ -123,8 +125,9 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 		pid = fork();
 		if (pid == 0)
 		{
-			exec_cmd(&cmd[i], env, redir);
-			exit(0);
+			redirections(&cmd[i], redir);
+			pid = exec_cmd(&cmd[i], env, redir);
+			exit(pid);
 		}
 		if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
 			|| close(redir->fd_pipe[1]) == -1
