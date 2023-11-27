@@ -52,7 +52,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	len = arg_count(token, i);
 	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
-		return (print_errors(NULL));
+		exit((unsigned char)print_errors(NULL));
 	while (++j < len && token[i].val && token[i].type == arg)
 	{
 		if (j == 0)
@@ -60,10 +60,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 		if (j != 0 || !cmd->cmd[j])
 			cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
-		{
-			cmd->cmd = free_matrix(cmd, j);
-			return (print_errors(NULL));
-		}
+			exit((unsigned char)print_errors(NULL));
 		i++;
 	}
 	cmd->cmd[j] = NULL;
@@ -75,15 +72,11 @@ int	init_cmd_red(t_oken *token, t_cmd *cmd, int *i)
 {
 	int			ret;
 
-	dprintf(2, "init cmd red: token[*i].val %s\n", token[*i].val);
 	ret = 0;
 	if (token[*i].val[0] == '<')
 		ret = init_chev_input(token, cmd, i);
 	else if (token[*i].val[0] == '>')
-	{
-		dprintf(2, "init cmd red hello?\n");
 		ret = init_chev_output(token, cmd, i);
-	}
 	(*i)++;
 	return (ret);
 }

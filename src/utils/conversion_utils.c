@@ -10,25 +10,17 @@
 // cmd >> file
 // >> file cmd
 
-/*Converts t_env to a char ** */
-/*char	**tenv_to_env(t_env *env)
-{
-}*/
-
 /*Sets all t_cmd variables to either NULL or -1*/
 t_cmd	*set_cmd_to_null(int len)
 {
 	int		i;
 	t_cmd	*cmd;
 
-	i = 0;
+	i = -1;
 	cmd = malloc(sizeof(t_cmd) * len);
 	if (!cmd)
-	{
-		print_errors(NULL);
-		return (NULL);
-	}
-	while (i < len)
+		exit((unsigned char)print_errors(NULL));
+	while (++i < len)
 	{
 		cmd[i].cmd = NULL;
 		cmd[i].heredoc = NULL;
@@ -40,7 +32,7 @@ t_cmd	*set_cmd_to_null(int len)
 		cmd[i].output = stdo;
 		cmd[i].len = len;
 		cmd[i].fd_hd = -1;
-		i++;
+		cmd[i].leave = 0;
 	}
 	return (cmd);
 }
@@ -57,8 +49,6 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 	j = 0;
 	len = cmd_count(token, 0) + 1;
 	cmd = set_cmd_to_null(len);
-	if (!cmd)
-		return (NULL);
 	while (j < len)
 	{
 		if (token[i].type == red)
@@ -74,12 +64,7 @@ t_cmd	*token_to_cmd(t_oken *token, t_env *env)
 				cmd[j - 1].output = opipe;
 		}
 		else if (token[i].type == arg)
-		{
 			i = init_cmd_cmd(token, &cmd[j], i, env);
-			if (i == -1)
-				return (NULL); // free stuff
-		}
-		dprintf(2, "ttc: token.val %s\n", token[i].val);
 		if (!token[i].val || (token[i].val && token[i].val[0] == '|'))
 			j++;
 	}

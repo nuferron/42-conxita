@@ -14,9 +14,11 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 	int	fd;
 
 	//dprintf(2, "init chev out: outfile %s\n", token[*i + 1].val);
+	if (!token[*i + 1].val)
+		return (print_errors("\'newline\'"));
 	cmd->outfile = ft_strdup(token[*i + 1].val);
 	if (!cmd->outfile)
-		return (print_errors(NULL));
+		exit((unsigned char)print_errors(NULL));
 	fd = open(cmd->outfile, O_WRONLY | O_CREAT, 0664);
 	if (fd == -1)
 		return (print_errors(NULL));
@@ -26,8 +28,6 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 		cmd->output = f_append;
 	else if (token[*i].val[1] == '\0' && token[*i + 1].val)
 		cmd->output = f_trunc;
-	if (!token[*i + 1].val)
-		exit(print_errors("\'newline\'"));
 	cmd->outfd = get_out_fd(cmd);
 	(*i)++;
 	return (0);
@@ -49,7 +49,7 @@ int	init_chev_input(t_oken *token, t_cmd *cmd, int *i)
 			return(print_errors("\'newline\'"));
 		cmd->infile = ft_strdup(token[++(*i)].val);
 		if (!cmd->infile)
-			return (print_errors(NULL));
+			exit((unsigned char)print_errors(NULL));
 		cmd->input = infile;
 		close(cmd->infd);
 		cmd->infd = open(cmd->infile, O_RDONLY);
@@ -66,14 +66,11 @@ t_redir	*init_redir(void)
 
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
-		return (NULL);
+		exit((unsigned char)print_errors(NULL));
 	redir->saved_std[0] = dup(0);
 	redir->saved_std[1] = dup(1);
 	if (redir->saved_std[0] == -1 || redir->saved_std[1] == -1)
-	{
-		free(redir);
-		return (NULL);
-	}
+		exit(print_errors("stdin/stdout"));
 	redir->fdr_aux = -1;
 	return (redir);
 }
