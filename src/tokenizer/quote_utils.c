@@ -31,4 +31,3 @@ void	fill_quotes(char *prompt, t_oken *token, int *i, int *j)
 	}
 	(*i)++;
 }
-
