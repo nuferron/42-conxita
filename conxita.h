@@ -29,6 +29,18 @@ enum	e_arg_type {red = 0, arg = 1};
 enum	e_output {stdo = 0, opipe = 1, f_trunc = 2, f_append = 3};
 enum	e_input {stdi = 0, ipipe = 1, infile = 2, heredoc = 3};
 
+typedef struct s_cmd t_cmd;
+typedef struct s_env t_env;
+typedef struct s_oken t_oken;
+
+typedef struct s_conxita
+{
+	t_cmd	*cmd;
+	t_env	*env;
+	t_oken	*token;
+	int		exit;
+}	t_conxita;
+
 typedef struct s_cmd
 {
 	char			**cmd;
@@ -76,7 +88,7 @@ void	signal_hook(int sig);
 void	setup_signals(void);
 
 /*Prompt Handler*/
-int		handle_prompt(char *prompt, t_env *env);
+int		handle_prompt(char *prompt, t_conxita *all);
 
 /*Tokenizer*/
 t_oken	*glorified_ft_split(char *prompt, t_env *env);
@@ -105,9 +117,9 @@ char	**env_to_mat(t_env *env, int print);
 /*Length Utils*/
 int		arg_count(t_oken *token, int start);
 int		cmd_count(t_oken *token, int i);
-int		mat_len(char **mat);
 int		env_len(t_env *env);
 int		path_count(const char *str, char sep);
+int		get_arg_number(char **args);
 
 /*Initializing Utils*/
 int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
