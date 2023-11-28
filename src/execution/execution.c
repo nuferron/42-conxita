@@ -91,5 +91,6 @@ int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 		return (exec_one_cmd(cmd, env, redir));
 	pid = exec_multiple_cmd(cmd, env, redir, len);
 	close(redir->fdr_aux);
+	close(cmd->fd_hd);
 	return (pid);
 }
