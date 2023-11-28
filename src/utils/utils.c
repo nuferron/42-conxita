@@ -22,8 +22,6 @@ int	ft_waitpid(int pid, int len)
 	while (++i <= len)
 	{
 		wait = waitpid(-1, &status, WUNTRACED | WCONTINUED);
-		if (wait == -1)
-			return (print_errors(NULL));
 		if (wait == pid)
 		{
 			if (WIFEXITED(status))
@@ -35,16 +33,4 @@ int	ft_waitpid(int pid, int len)
 		}
 	}
 	return (code);
-}
-
-int	get_arg_number(char **args)
-{
-	int	i;
-
-	i = 0;
-	if (!args)
-		return (0);
-	while (args[i])
-		i++;
-	return (i);
 }
