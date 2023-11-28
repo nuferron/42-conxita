@@ -37,7 +37,7 @@ t_env	*env_to_lst(char **sys_env)
 	int		i;
 
 	i = 0;
-	len = mat_len(sys_env);
+	len = get_arg_number(sys_env);
 	env = (t_env *)malloc(sizeof(t_env) * len);
 	if (!env)
 	{
