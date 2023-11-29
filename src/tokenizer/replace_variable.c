@@ -1,29 +1,40 @@
 #include "../../conxita.h"
 
-static	void	skip_s_quotes(char *str, int *i)
+static void	prevent_expansion(char *str, int *i)
 {
-	(*i)++;
-	while (str[*i] && str[*i] != '\'')
+	printf("%c\n", str[*i]);
+	if (str[*i] == '\'')
+	{
 		(*i)++;
-	if (str[*i])
-		(*i)++;
+		while (str[*i] && str[*i] != '\'')
+			(*i)++;
+		if (str[*i])
+			(*i)++;
+		printf("2: %c\n", str[*i]);
+	}
+	else if (str[*i] == '<' && str[*i + 1] == '<')
+	{
+		*i += 2;
+		while (!ft_strchr("<>| '\"", str[*i]))
+			(*i)++;
+	}
 }
 
 static char	*get_pos(char *str, char *old)
 {
 	int		i;
 	int		j;
-	bool	d_quotes;
+	bool	dquote;
 
 	i = 0;
 	j = 0;
-	d_quotes = false;
+	dquote = false;
 	while (str[i])
 	{
 		if (str[i] == '"')
-			b_invert(&d_quotes);
-		if (str[i] == '\'' && !d_quotes)
-			skip_s_quotes(str, &i);
+			b_invert(&dquote);
+		if ((str[i] == '\'' && !dquote) || (str[i] == '<' && str[i + 1] == '<'))
+			prevent_expansion(str, &i);
 		while (str[i] == old[j])
 		{
 			i++;
