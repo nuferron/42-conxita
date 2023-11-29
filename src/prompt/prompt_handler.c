@@ -5,20 +5,23 @@ int	temporal_prompt_handle(char *prompt, t_env *env);
 int	handle_prompt(char *prompt, t_conxita *all)
 {
 	int		pid;
-	t_redir *redir;
 
 	if (temporal_prompt_handle(prompt, all->env) == -1)
-		return (0);
+	{
+		all->exit = 258;
+		return (-1);
+	}
 	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all->env);
 	if (!all->token)
 		return (0);
 	all->cmd = token_to_cmd(all->token, all->env, cmd_count(all->token, 0) + 1);
-	redir = init_redir();
-	if (!redir || !all->cmd)
-		return (-1);
-	pid = lets_execute(all->cmd, redir, all->env, all->cmd->len);
+	all->redir = init_redir();
+	pid = lets_execute(all, all->cmd->len);
 	if (pid > 0)
 		all->exit = ft_waitpid(pid, all->cmd->len);
+	free(all->redir);
+	free_the_tokens(all->token);
+	free_cmd(all->cmd);
 	free(prompt);
 	return (0);
 }
@@ -42,7 +45,7 @@ int	check_o_quotes(char *prompt)
 	}
 	if (o_simple || o_double)
 	{
-		printf("ERROR: Open quotes\n");
+		ft_dprintf(2, "ERROR: Open quotes\n");
 		return (-1);
 	}
 	return (0);
@@ -52,8 +55,11 @@ int	temporal_prompt_handle(char *prompt, t_env *env)
 {
 	if (!prompt)
 	{
-		printf(LINE_DEL);
-		printf("%s%s\n", search_env(env, "USER"), "@conxita$ exit");
+		//printf(LINE_DEL);
+		//printf("%s%s\n", search_env(env, "USER"), "@conxita$ exit");
+		free_env(env);
+		printf("exit\n");
+		system("leaks conxita");
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
@@ -63,6 +69,7 @@ int	temporal_prompt_handle(char *prompt, t_env *env)
 		return (-1);
 	if (!ft_strncmp(prompt, "exit", 5) || !ft_strncmp(prompt, "make", 4))
 	{
+		free_env(env);
 		free(prompt);
 		printf("%s\n", "exit");
 		exit(0);
