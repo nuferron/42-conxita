@@ -11,5 +11,6 @@ int	print_errors(char *str)
 	}
 	else if (str)
 		ft_dprintf(2, "conxita: %s: ", str);
+	perror(NULL);
 	return (-1);
 }
