@@ -6,7 +6,7 @@
 #    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/21 15:43:54 by blvilarn          #+#    #+#              #
-#    Updated: 2023/11/29 16:27:56 by nuferron         ###   ########.fr        #
+#    Updated: 2023/11/29 16:42:45 by nuferron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,9 +56,13 @@ norm:
 
 clean:
 	rm -f $(OBJS)
+	make -C ft_dprintf clean --no-print-directory
 
-fclean: clean
-	rm -f $(NAME)
+fclean: 	clean
+		make -C ft_dprintf fclean --no-print-directory
+		if [ -e ${NAME} ] || [ -e do_bonus ] ; then \
+			rm -rf ${NAME} do_bonus ; \
+		fi
 
 re: fclean all
 
