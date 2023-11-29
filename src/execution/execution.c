@@ -5,11 +5,7 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 	if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 	{
 		if (access(cmd->cmd[0], X_OK) == -1)
-		{
-			ft_putstr_fd("conxita: ", 2);
-			ft_putstr_fd(cmd->cmd[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
-		}
+			ft_dprintf(2, "conxita: %s: command not found\n", cmd->cmd[0]);
 		else
 			print_errors(NULL);
 	}
