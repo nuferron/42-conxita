@@ -18,9 +18,9 @@ int	exec_cmd(t_cmd *cmd, t_env *env)
 	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
 		return (builtin_echo(cmd->cmd));
 	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
-		return (0);
+		return (builtin_cd(&(cmd->cmd[1]), env));
 	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
-		return (0);
+		return (builtin_pwd(&(cmd->cmd[1])));
 	else if (!ft_strncmp(cmd->cmd[0], "export", 7))
 		return (0);
 	else if (!ft_strncmp(cmd->cmd[0], "unset", 6))
