@@ -1,13 +1,5 @@
 #include "../../conxita.h"
 
-void	*free_matrix(t_cmd *cmd, int i)
-{
-	while (i >= 0)
-		free(cmd->cmd[i--]);
-	free(cmd->cmd);
-	return (NULL);
-}
-
 /*Returns an isolated path from the environment variable*/
 char	*get_path(t_env *env, char *str)
 {
