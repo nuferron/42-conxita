@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 19:00:54 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/11/02 16:37:40 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:52:27 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <limits.h>
+# include "ft_dprintf/libftprintf.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
