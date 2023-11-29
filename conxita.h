@@ -5,18 +5,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/wait.h>
 #include <signal.h>
 #include <sys/stat.h>
 #include <dirent.h>
-#include <sys/ioctl.h>
 #include <termios.h>
 #include <curses.h>
 #include <errno.h>
 #include <term.h>
 #include <tcl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <stdbool.h>
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
@@ -151,4 +147,4 @@ int		print_errors(char *str);
 /*Builtins*/
 int		builtin_echo(char **args);
 int		builtin_pwd(char **args);
-int		builtin_cd(char **args);
+int		builtin_cd(char **args, t_env *env);
