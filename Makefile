@@ -57,6 +57,7 @@ exec: ${NAME}
 	./conxita
 
 norm:
+	make -s -C ${LIB} norm
 	printf "${WHITE}CONXITA\n${RESET}"
 	norminette $(addprefix ${SRCDIR},$(SRCS)) ${HEADER} | grep -v "OK" \
 	| awk '{if($$2 == "Error!") print "${RED}"$$1" "$$2; \
