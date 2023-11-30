@@ -123,7 +123,7 @@ int		get_arg_number(char **args);
 int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
 int		init_chev_output(t_oken *token, t_cmd *cmd, int *i);
 int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
-int		init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
+int		init_cmd_red(t_conxita *all, t_cmd *cmd, int *i);
 void	init_pipe(t_cmd *cmd, int is_pipe);
 t_redir	*init_redir(void);
 int		get_out_fd(t_cmd *cmd);
@@ -133,7 +133,7 @@ t_cmd	*cmd_to_null(int len);
 char	*minisplit(char *path, int count);
 
 /*Chevrons Functions*/
-t_cmd	*token_to_cmd(t_oken *token, t_env *env, int len);
+t_cmd	*token_to_cmd(t_conxita *all, int len);
 int		cmd_count(t_oken *token, int i);
 
 /*Execution*/

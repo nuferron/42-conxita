@@ -14,8 +14,15 @@ int	handle_prompt(char *prompt, t_conxita *all)
 	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
 	if (!all->token)
 		return (0);
-	all->cmd = token_to_cmd(all->token, all->env, cmd_count(all->token, 0) + 1);
+	all->cmd = token_to_cmd(all, cmd_count(all->token, 0) + 1);
+	if (!all->cmd)
+	{
+		all->exit = 258;
+		return (-1);
+	}
 	all->redir = init_redir();
+	printf("cmd %s\nint %d\tout %d\n", all->cmd->cmd[0], all->cmd->input, all->cmd->output);
+	printf("cmd %s\nint %d\tout %d\n", all->cmd->cmd[1], all->cmd->input, all->cmd->output);
 	pid = lets_execute(all, all->cmd->len);
 	if (pid > 0)
 		all->exit = ft_waitpid(pid, all->cmd->len);
