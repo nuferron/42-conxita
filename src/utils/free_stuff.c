@@ -45,16 +45,23 @@ void	free_cmd(t_cmd *cmd)
 
 void	free_env(t_env *env)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (env[i].next)
+	tmp = env;
+	while (tmp)
 	{
-		free(env[i].key);
-		free(env[i].value);
-		i++;
+		free(env->key);
+		free(env->value);
+		tmp = tmp->next;
+		free(env);
+		env = tmp;
 	}
-	free(env[i].key);
-	free(env[i].value);
-	free(env);
+}
+
+void	free_all(t_conxita *all)
+{
+	free_cmd(all->cmd);
+	free_the_tokens(all->token);
+	all->cmd = NULL;
+	all->token = NULL;
 }

@@ -4,8 +4,6 @@ static int	prompt_preprocessor(char *prompt, t_env *env);
 
 int	handle_prompt(char *prompt, t_conxita *all)
 {
-	int		pid;
-
 	if (prompt_preprocessor(prompt, all->env) == -1)
 	{
 		all->exit = 258;
@@ -14,22 +12,10 @@ int	handle_prompt(char *prompt, t_conxita *all)
 	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
 	if (!all->token)
 		return (0);
-	all->cmd = token_to_cmd(all, cmd_count(all->token, 0) + 1);
-	if (!all->cmd)
-	{
-		all->exit = 258;
+	if (!token_to_cmd(all, cmd_count(all->token, 0) + 1))
 		return (-1);
-	}
 	all->redir = init_redir();
-	pid = lets_execute(all, all->cmd->len);
-	if (pid > 0)
-		all->exit = ft_waitpid(pid, all->cmd->len);
-	else if (pid == 0)
-		all->exit = 0;
-	free(all->redir);
-	free_the_tokens(all->token);
-	free_cmd(all->cmd);
-	free(prompt);
+	all->exit = lets_execute(all, all->cmd->len);
 	return (0);
 }
 

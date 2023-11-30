@@ -34,9 +34,12 @@ int	env_len(t_env *env)
 	i = 0;
 	if (!env)
 		return (0);
-	while (env[i].next)
+	while (env)
+	{
+		env = env->next;
 		i++;
-	return (i + 1);
+	}
+	return (i);
 }
 
 int	get_arg_number(char **args)

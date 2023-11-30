@@ -7,7 +7,7 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 		if (access(cmd->cmd[0], X_OK) == -1)
 			ft_dprintf(2, "conxita: %s: command not found\n", cmd->cmd[0]);
 		else
-			print_errors(NULL);
+			print_errors("exec no buil");
 	}
 	exit(127);
 }
@@ -44,7 +44,7 @@ int	exec_multiple_cmd(t_conxita *all, int len)
 	while (++i < len)
 	{
 		if (pipe(all->redir->fd_pipe) == -1)
-			return (print_errors(NULL));
+			exit(-print_errors(NULL));
 		pid = fork();
 		if (pid == 0)
 		{
@@ -61,7 +61,7 @@ int	exec_multiple_cmd(t_conxita *all, int len)
 	return (pid);
 }
 
-int	exec_one_cmd(t_conxita *all)
+int	exec_one_builtin(t_conxita *all)
 {
 	int	fd[2];
 	int	ret;
@@ -73,9 +73,9 @@ int	exec_one_cmd(t_conxita *all)
 	close(all->cmd->infd);
 	close(all->cmd->outfd);
 	if (dup2(fd[0], 0) == -1)
-		exit((unsigned char)print_errors(NULL));
+		exit(-print_errors(NULL));
 	if (dup2(fd[1], 1) == -1)
-		exit((unsigned char)print_errors(NULL));
+		exit(-print_errors(NULL));
 	return (ret);
 }
 
@@ -86,9 +86,9 @@ int	lets_execute(t_conxita *all, int len)
 
 	i = -1;
 	if (len == 1 && is_builtin(all->cmd->cmd[0]))
-		return (exec_one_cmd(all));
+		return (exec_one_builtin(all));
 	pid = exec_multiple_cmd(all, len);
 	close(all->redir->fdr_aux);
 	close(all->cmd->fd_hd);
-	return (pid);
+	return (ft_waitpid(pid, len));
 }

@@ -44,7 +44,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	len = arg_count(token, i);
 	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
-		exit((unsigned char)print_errors(NULL));
+		exit(-print_errors(NULL));
 	while (++j < len && token[i].val && token[i].type == arg)
 	{
 		if (j == 0)
@@ -52,7 +52,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 		if (j != 0 || !cmd->cmd[j])
 			cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
-			exit((unsigned char)print_errors(NULL));
+			exit(-print_errors(NULL));
 		i++;
 	}
 	cmd->cmd[j] = NULL;
@@ -62,7 +62,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 /*initializes t_cmd (except for the char **cmd variable)*/
 int	init_cmd_red(t_conxita *all, t_cmd *cmd, int *i)
 {
-	int			ret;
+	int	ret;
 
 	ret = 0;
 	if (all->token[*i].val[0] == '<')
@@ -73,5 +73,7 @@ int	init_cmd_red(t_conxita *all, t_cmd *cmd, int *i)
 	if (all->exit == -1)
 		all->exit = 1;
 	(*i)++;
-	return (ret);
+	if (ret)
+		return (-1);
+	return (0);
 }

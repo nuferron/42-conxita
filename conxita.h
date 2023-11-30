@@ -109,8 +109,12 @@ int		get_arg_number(char **args);
 
 /*Environment Utils*/
 char	*search_env(t_env *env, char *key);
-t_env	*env_to_lst(char **env);
 char	**env_to_mat(t_env *env, int print);
+t_env	*env_to_lst(char **env);
+void	env_addback(t_env **env, t_env *new);
+t_env	*env_last(t_env *env);
+t_env	*new_env(char *env_var);
+char	*splitting_env(char *env, int flag);
 
 /*Length Utils*/
 int		arg_count(t_oken *token, int start);
@@ -153,6 +157,6 @@ int		builtin_cd(char **args, t_env *env);
 int		builtin_exit(char **args, t_conxita *all);
 
 /*Free*/
-void	free_cmd(t_cmd *cmd);
-void	*free_the_tokens(t_oken *tokens);
+void	free_all(t_conxita *all);
+void	*free_the_tokens(t_oken *token);
 void	free_env(t_env *env);
