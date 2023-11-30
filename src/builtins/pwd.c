@@ -4,10 +4,10 @@ int	builtin_pwd(char **args)
 {
 	char	*pwd;
 
-	if (args)
+	if (args[0])
 	{
-		printf("pwd: too many arguments\n");
-		return (1);
+		ft_dprintf(2, "conxita: pwd: too many arguments\n");
+		return (-1);
 	}
 	pwd = getcwd(NULL, 0);
 	printf("%s\n", pwd);

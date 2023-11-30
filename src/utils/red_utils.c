@@ -13,7 +13,6 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 {
 	int	fd;
 
-	//dprintf(2, "init chev out: outfile %s\n", token[*i + 1].val);
 	if (!token[*i + 1].val)
 		return (print_errors("\'newline\'"));
 	cmd->outfile = ft_strdup(token[*i + 1].val);
@@ -46,7 +45,7 @@ int	init_chev_input(t_oken *token, t_cmd *cmd, int *i)
 	else
 	{
 		if (*i > 0 && !token[*i + 1].val)
-			return(print_errors("\'newline\'"));
+			return (print_errors("\'newline\'"));
 		cmd->infile = ft_strdup(token[++(*i)].val);
 		if (!cmd->infile)
 			exit((unsigned char)print_errors(NULL));
@@ -67,10 +66,6 @@ t_redir	*init_redir(void)
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		exit((unsigned char)print_errors(NULL));
-	redir->saved_std[0] = dup(0);
-	redir->saved_std[1] = dup(1);
-	if (redir->saved_std[0] == -1 || redir->saved_std[1] == -1)
-		exit(print_errors("stdin/stdout"));
 	redir->fdr_aux = -1;
 	return (redir);
 }
@@ -90,4 +85,3 @@ int	get_out_fd(t_cmd *cmd)
 		return (print_errors(NULL));
 	return (fd);
 }
-

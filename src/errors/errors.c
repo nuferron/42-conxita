@@ -4,19 +4,13 @@
   but it's not happening right now*/
 int	print_errors(char *str)
 {
-	ft_putstr_fd("conxita: ", 2);
 	if (str && !ft_strncmp(str, "\'newline\'", 6))
 	{
-		ft_putstr_fd(SYNTAX, 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("\n", 2);
+		ft_dprintf(2, "conxita: %s%s\n", SYNTAX, str);
 		return (-1);
 	}
 	else if (str)
-	{
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": ", 2);
-	}
+		ft_dprintf(2, "conxita: %s: ", str);
 	perror(NULL);
 	return (-1);
 }

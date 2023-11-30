@@ -27,17 +27,6 @@ int	cmd_count(t_oken *token, int i)
 	return (i);
 }
 
-/*strlen for char ** */
-int	mat_len(char **mat)
-{
-	int	i;
-
-	i = 0;
-	while (mat && mat[i])
-		i++;
-	return (i);
-}
-
 int	env_len(t_env *env)
 {
 	int	i;
@@ -48,4 +37,16 @@ int	env_len(t_env *env)
 	while (env[i].next)
 		i++;
 	return (i + 1);
+}
+
+int	get_arg_number(char **args)
+{
+	int	i;
+
+	i = 0;
+	if (!args)
+		return (0);
+	while (args[i])
+		i++;
+	return (i);
 }

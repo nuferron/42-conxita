@@ -2,37 +2,23 @@
 
 int	temporal_prompt_handle(char *prompt, t_env *env);
 
-int	handle_prompt(char *prompt, t_env *env)
+int	handle_prompt(char *prompt, t_conxita *all)
 {
-	t_oken	*tokens;
-	t_cmd	*cmd;
-	t_redir	*redir;
 	int		pid;
+	t_redir *redir;
 
-	if (temporal_prompt_handle(prompt, env) == -1)
+	if (temporal_prompt_handle(prompt, all->env) == -1)
 		return (0);
-	tokens = glorified_ft_split(ft_strtrim(prompt, " "), env);
-	if (!tokens)
+	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all->env);
+	if (!all->token)
 		return (0);
-	cmd = token_to_cmd(tokens, env);
-	if (!cmd)
-		return (-1);
+	all->cmd = token_to_cmd(all->token, all->env, cmd_count(all->token, 0) + 1);
 	redir = init_redir();
-	if (!redir)
+	if (!redir || !all->cmd)
 		return (-1);
-	pid = lets_execute(cmd, redir, env, cmd->len);
-	//if (pid == -1)
-	//	exit(printf("handle prompt: lets execute is giving errors\n"));
-		//return (-1);
+	pid = lets_execute(all->cmd, redir, all->env, all->cmd->len);
 	if (pid > 0)
-	{
-		pid = ft_waitpid(pid, cmd_count(tokens, 0));
-		if (pid == -1)
-			return (print_errors(NULL));
-	}
-	close(redir->saved_std[0]);
-	close(redir->saved_std[1]);
-	close(cmd->fd_hd);
+		all->exit = ft_waitpid(pid, all->cmd->len);
 	free(prompt);
 	return (0);
 }
@@ -57,7 +43,7 @@ int	check_o_quotes(char *prompt)
 	if (o_simple || o_double)
 	{
 		printf("ERROR: Open quotes\n");
-		return (1);
+		return (-1);
 	}
 	return (0);
 }
