@@ -19,6 +19,8 @@ int	handle_prompt(char *prompt, t_conxita *all)
 	pid = lets_execute(all, all->cmd->len);
 	if (pid > 0)
 		all->exit = ft_waitpid(pid, all->cmd->len);
+	else if (pid == 0)
+		all->exit = 0;
 	free(all->redir);
 	free_the_tokens(all->token);
 	free_cmd(all->cmd);
