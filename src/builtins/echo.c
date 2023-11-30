@@ -24,7 +24,7 @@ int	builtin_echo(char **args)
 	int	argn;
 
 	flag = 0;
-	i = 0;
+	i = 1;
 	argn = get_arg_number(args);
 	while (i < argn && is_flag(args[i]))
 	{
