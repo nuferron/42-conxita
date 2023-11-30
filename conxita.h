@@ -149,3 +149,4 @@ int		print_errors(char *str);
 int		builtin_echo(char **args);
 int		builtin_pwd(char **args);
 int		builtin_cd(char **args, t_env *env);
+int		builtin_exit(char **args, t_conxita *all);

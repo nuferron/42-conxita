@@ -42,7 +42,6 @@ int	handle_test_prompt(char *prompt, t_env *env)
 	return (0);
 }
 
-/*
 int	main(int argc, char **argv, char **env)
 {
 	char	*prompt;
@@ -57,4 +56,3 @@ int	main(int argc, char **argv, char **env)
 		handle_test_prompt(prompt, lst_env);
 	}
 }
-*/

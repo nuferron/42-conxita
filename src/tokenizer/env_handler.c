@@ -38,9 +38,9 @@ static char	*get_val(t_conxita *all, char *name)
 {
 	char	*val;
 
-	if (name[0] == '?')
-		return (ft_itoa(all->exit));
 	val = search_env(all->env, name);
+	if (name[0] == '?')
+		val = ft_itoa(all->exit);
 	if (!val)
 		return ("");
 	return (val);
@@ -57,7 +57,7 @@ static char	*replace_env(t_conxita *all, char *prompt, int *i)
 		return (NULL);
 	val = get_val(all, &name[1]);
 	new_prompt = replace_variable(prompt, name, val);
-	if (name[1] == '?')
+	if (name[1] == '?' && val)
 		free(val);
 	free(name);
 	free(prompt);

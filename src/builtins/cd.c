@@ -19,7 +19,6 @@ int	builtin_cd(char **args, t_env *env)
 	char	*home;
 
 	argn = get_arg_number(args);
-	printf("%i\n", argn);
 	if (argn > 1)
 	{
 		ft_dprintf(2, "conxita: cd: too many arguments\n");
