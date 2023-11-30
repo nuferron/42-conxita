@@ -55,11 +55,11 @@ t_cmd	*token_to_cmd(t_conxita *all, int len)
 			all->cmd[j - 1].output = opipe;
 		if (all->token[i].type == red)
 		{
-			if (init_cmd_red(all, &cmd[j], &i))
+			if (init_cmd_red(all, &all->cmd[j], &i))
 				return (NULL);
 		}
 		else if (all->token[i].type == arg)
-			i = init_cmd_cmd(all->token, &cmd[j], i, all->env);
+			i = init_cmd_cmd(all->token, &all->cmd[j], i, all->env);
 		if (!all->token[i].val || (all->token[i].val[0] == '|'))
 			j++;
 	}

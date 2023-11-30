@@ -19,8 +19,8 @@ int	main(int argc, char **argv, char **env)
 		prompt = readline(prompt_text);
 		free(prompt_text);
 		handle_prompt(prompt, &all);
-		free_all(&all);
-		free(prompt);
+		//free_all(&all);
+		//free(prompt);
 	}
 	return (0);
 }
