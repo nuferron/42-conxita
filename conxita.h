@@ -95,6 +95,7 @@ void	fill_quotes(char *prompt, t_oken *token, int *i, int *j);
 char	*expand_env(t_env *env, char *prompt);
 char	*replace_variable(char *str, char *old, char *new);
 void	*free_the_tokens(t_oken *tokens);
+void	skip_unexpandable(char *str, int *i);
 
 /*Conxita Handler*/
 void	print_conxita(void);

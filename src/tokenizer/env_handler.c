@@ -75,14 +75,8 @@ char	*expand_env(t_env *env, char *prompt)
 	{
 		if (prompt[i] == '"')
 			b_invert(&o_quotes);
-		if (prompt[i] == '\'' && !o_quotes)
-		{
-			i++;
-			while (prompt[i] && prompt[i] != '\'')
-				i++;
-			if (prompt[i])
-				i++;
-		}
+		if ((prompt[i] == '\'' && !o_quotes) || ft_strnstr(&prompt[i], "<<", 2))
+			skip_unexpandable(prompt, &i);
 		if (prompt[i] == '$' && is_env_name(prompt[i + 1]))
 			prompt = replace_env(env, prompt, &i);
 		if (prompt && prompt[i])
