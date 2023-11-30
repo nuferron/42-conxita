@@ -1,12 +1,23 @@
 #include "../../conxita.h"
 
-static	void	skip_s_quotes(char *str, int *i)
+void	skip_unexpandable(char *str, int *i)
 {
-	(*i)++;
-	while (str[*i] && str[*i] != '\'')
+	if (str[*i] == '\'')
+	{
 		(*i)++;
-	if (str[*i])
-		(*i)++;
+		while (str[*i] && str[*i] != '\'')
+			(*i)++;
+		if (str[*i])
+			(*i)++;
+	}
+	else if (ft_strnstr(&str[*i], "<<", 2))
+	{
+		(*i) += 2;
+		while (str[*i] == ' ')
+			(*i)++;
+		while (!ft_strchr("<>| '\"", str[*i]))
+			(*i)++;
+	}
 }
 
 static char	*get_pos(char *str, char *old)
@@ -22,8 +33,8 @@ static char	*get_pos(char *str, char *old)
 	{
 		if (str[i] == '"')
 			b_invert(&d_quotes);
-		if (str[i] == '\'' && !d_quotes)
-			skip_s_quotes(str, &i);
+		if ((str[i] == '\'' && !d_quotes) || ft_strnstr(&str[i], "<<", 2))
+			skip_unexpandable(str, &i);
 		while (str[i] == old[j])
 		{
 			i++;
@@ -89,7 +100,7 @@ char	*replace_variable(char *str, char *old, char *new)
 	if (!str || !old || !new)
 		return (NULL);
 	if (!get_pos(str, old))
-		return (str);
+		return (ft_strdup(str));
 	new_str = ft_calloc(get_len(str, old, new) + 1, sizeof(char));
 	if (!new_str)
 		return (NULL);

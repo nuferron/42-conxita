@@ -57,8 +57,6 @@ int	temporal_prompt_handle(char *prompt, t_env *env)
 {
 	if (!prompt)
 	{
-		//printf(LINE_DEL);
-		//printf("%s%s\n", search_env(env, "USER"), "@conxita$ exit");
 		free_env(env);
 		printf("exit\n");
 		system("leaks conxita");

@@ -2,7 +2,8 @@ obj
 /conxita
 .vscode
 **/.DS_Store
-libs/libft/*.o
-**/libft.a
+libs/libft/ft_dprintf/obj_bonus
+libs/libft/**/*.a
+libs/libft/**/*.o
 **/*.swp
 file*

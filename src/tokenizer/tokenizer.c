@@ -1,12 +1,12 @@
 #include "../../conxita.h" 
 
 //Prompt tokenizer
-t_oken	*glorified_ft_split(char *prompt, t_env *env)
+t_oken	*glorified_ft_split(char *prompt, t_conxita *all)
 {
 	int		token_num;
 	t_oken	*tokens;
 
-	prompt = ft_strtrim_free(expand_env(env, prompt), " ");
+	prompt = ft_strtrim_free(expand_env(all, prompt), " ");
 	if (!prompt)
 		exit((unsigned char)print_errors(NULL));
 	token_num = get_token_num(prompt);
