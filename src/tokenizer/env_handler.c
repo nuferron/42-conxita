@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-static int	is_env_name(char c)
+static int	is_env(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
@@ -15,7 +15,9 @@ static char	*get_env_name(char *prompt)
 
 	len = 1;
 	i = 1;
-	while (is_env_name(prompt[len]))
+	if (prompt[len] == '?')
+		return (ft_strdup("$?"));
+	while (is_env(prompt[len]))
 		len++;
 	name = ft_calloc(len + 1, sizeof(char));
 	if (!name)
@@ -24,7 +26,7 @@ static char	*get_env_name(char *prompt)
 		return (NULL);
 	}
 	name[0] = '$';
-	while (is_env_name(prompt[i]))
+	while (is_env(prompt[i]))
 	{
 		name[i] = prompt[i];
 		i++;
@@ -32,17 +34,19 @@ static char	*get_env_name(char *prompt)
 	return (name);
 }
 
-static char	*get_val(t_env *env, char *name)
+static char	*get_val(t_conxita *all, char *name)
 {
 	char	*val;
 
-	val = search_env(env, name);
+	if (name[0] == '?')
+		return (ft_itoa(all->exit));
+	val = search_env(all->env, name);
 	if (!val)
 		return ("");
 	return (val);
 }
 
-static char	*replace_env(t_env *env, char *prompt, int *i)
+static char	*replace_env(t_conxita *all, char *prompt, int *i)
 {
 	char	*new_prompt;
 	char	*name;
@@ -51,8 +55,10 @@ static char	*replace_env(t_env *env, char *prompt, int *i)
 	name = get_env_name(&prompt[*i]);
 	if (!name)
 		return (NULL);
-	val = get_val(env, &name[1]);
+	val = get_val(all, &name[1]);
 	new_prompt = replace_variable(prompt, name, val);
+	if (name[1] == '?')
+		free(val);
 	free(name);
 	free(prompt);
 	if (!new_prompt)
@@ -64,7 +70,7 @@ static char	*replace_env(t_env *env, char *prompt, int *i)
 }
 
 //Replaces prompt 
-char	*expand_env(t_env *env, char *prompt)
+char	*expand_env(t_conxita *all, char *prompt)
 {
 	int		i;
 	bool	o_quotes;
@@ -77,8 +83,8 @@ char	*expand_env(t_env *env, char *prompt)
 			b_invert(&o_quotes);
 		if ((prompt[i] == '\'' && !o_quotes) || ft_strnstr(&prompt[i], "<<", 2))
 			skip_unexpandable(prompt, &i);
-		if (prompt[i] == '$' && is_env_name(prompt[i + 1]))
-			prompt = replace_env(env, prompt, &i);
+		if (prompt[i] == '$' && (is_env(prompt[i + 1]) || prompt[i + 1] == '?'))
+			prompt = replace_env(all, prompt, &i);
 		if (prompt && prompt[i])
 			i++;
 	}
