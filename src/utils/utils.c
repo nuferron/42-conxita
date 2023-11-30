@@ -13,26 +13,28 @@ char	*ft_strtrim_free(char *s1, char *set)
 int	ft_waitpid(int pid, int len)
 {
 	int	status;
+	int	code;
 	int	wait;
 	int	i;
 
 	i = -1;
+	code = -1;
 	while (++i <= len)
 	{
 		wait = waitpid(-1, &status, WUNTRACED | WCONTINUED);
 		if (wait == -1)
-			return (print_errors("waitpid"));
+			return (print_errors(NULL));
 		if (wait == pid)
 		{
 			if (WIFEXITED(status))
-				return (WEXITSTATUS(status));
+				code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				return (WTERMSIG(status));
+				code = WTERMSIG(status);
 			else if (WIFSTOPPED(status))
-				return (WSTOPSIG(status));
+				code = WSTOPSIG(status);
 		}
 	}
-	return (0);
+	return (code);
 }
 
 int	get_arg_number(char **args)

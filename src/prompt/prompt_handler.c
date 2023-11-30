@@ -6,6 +6,7 @@ int	handle_prompt(char *prompt, t_env *env)
 {
 	t_oken	*tokens;
 	t_cmd	*cmd;
+	t_redir	*redir;
 	int		pid;
 
 	if (temporal_prompt_handle(prompt, env) == -1)
@@ -14,13 +15,24 @@ int	handle_prompt(char *prompt, t_env *env)
 	if (!tokens)
 		return (0);
 	cmd = token_to_cmd(tokens, env);
-	pid = lets_execute(cmd, init_redir(), cmd_count(tokens, 1));
-	if (pid == -1)
-		exit(printf("handle prompt: lets execute is giving errors\n"));
-		//return (-1);
-	pid = ft_waitpid(pid, cmd_count(tokens, 0));
-	if (pid == -1)
+	if (!cmd)
 		return (-1);
+	redir = init_redir();
+	if (!redir)
+		return (-1);
+	pid = lets_execute(cmd, redir, env, cmd->len);
+	//if (pid == -1)
+	//	exit(printf("handle prompt: lets execute is giving errors\n"));
+		//return (-1);
+	if (pid > 0)
+	{
+		pid = ft_waitpid(pid, cmd_count(tokens, 0));
+		if (pid == -1)
+			return (print_errors(NULL));
+	}
+	close(redir->saved_std[0]);
+	close(redir->saved_std[1]);
+	close(cmd->fd_hd);
 	free(prompt);
 	return (0);
 }

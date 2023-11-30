@@ -22,7 +22,7 @@
 #include "libs/readline/history.h"
 
 #define LINE_DEL	"\033[A"
-#define SYNTAX		"syntax error near unexpected token"
+#define SYNTAX		"syntax error near unexpected token "
 
 enum	e_arg_type {red = 0, arg = 1};
 
@@ -39,6 +39,9 @@ typedef struct s_cmd
 	int				outfd;
 	enum e_output	output;
 	enum e_input	input;
+	int				len;
+	int				fd_hd;
+	bool			leave;
 }	t_cmd;
 
 typedef struct s_redir
@@ -65,6 +68,7 @@ typedef struct s_env
 {
 	char	*key;
 	char	*value;
+	bool	show;
 	void	*next;
 }	t_env;
 
@@ -91,16 +95,19 @@ void	print_conxita(void);
 /*Utils*/
 void	b_invert(bool *b);
 char	*ft_strtrim_free(char *s1, char *set);
+int		is_builtin(char *str);
 int		get_arg_number(char **args);
 
 /*Environment Utils*/
 char	*search_env(t_env *env, char *key);
 t_env	*env_to_lst(char **env);
+char	**env_to_mat(t_env *env, int print);
 
 /*Length Utils*/
 int		arg_count(t_oken *token, int start);
 int		cmd_count(t_oken *token, int i);
 int		mat_len(char **mat);
+int		env_len(t_env *env);
 int		path_count(const char *str, char sep);
 
 /*Initializing Utils*/
@@ -110,6 +117,7 @@ int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
 int		init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
 void	init_pipe(t_cmd *cmd, int is_pipe);
 t_redir	*init_redir(void);
+int		get_out_fd(t_cmd *cmd);
 
 /*Path Utils*/
 char	*minisplit(char *path, int count);
@@ -118,11 +126,11 @@ char	*minisplit(char *path, int count);
 t_cmd	*token_to_cmd(t_oken *token, t_env *env);
 t_redir	*init_redir(void);
 int		cmd_count(t_oken *token, int i);
-int		ft_waitpid(int pid, int len);
 
 /*Execution*/
-int		lets_execute(t_cmd *cmd, t_redir *redir, int len);
-int		here_doc(t_redir *redir, char *key);
+int		lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len);
+int		exec_heredoc(t_cmd *cmd, char *key);
+int		ft_waitpid(int pid, int len);
 
 /*Errors*/
 int		print_errors(char *str); // error code 258 for syntax error near unexpected token '|' // 'newline'

@@ -1,20 +1,36 @@
 #include "../../conxita.h"
 
+int	reset_std(t_redir *redir, int which)
+{
+	if (which == 0 || which == 2)
+	{
+		if (dup2(redir->saved_std[0], 0) == -1)
+			return (print_errors("WTFFF"));
+	}
+	if (which == 1 || which == 2)
+	{
+		if (dup2(redir->saved_std[1], 1) == -1)
+			return (print_errors("adeu"));
+	}
+	return (0);
+}
+
 /*Redirects the file desccriptors according with the input*/
 int	redirections(t_cmd *cmd, t_redir *redir)
 {
 	int	err;
-	
-	//dprintf(2, "\033[1;36mredirections: cmd %s\tinput %d\toutput %d\033[m\n", cmd->cmd[0], cmd->input, cmd->output);
+
 	err = 0;
-	if (cmd->input == infile)
+	if (cmd->fd_hd != -1)
+		err = dup2(cmd->fd_hd, 0);
+	else if (cmd->input == infile)
 		err = dup2(cmd->infd, 0);
 	else if (cmd->input == ipipe)
 		err = dup2(redir->fdr_aux, 0);
 	else if (cmd->input == stdi)
 		err = dup2(redir->saved_std[0], 0);
 	if (err == -1)
-		return (-1);
+		print_errors(NULL);
 	if (cmd->output == opipe)
 		err = dup2(redir->fd_pipe[1], 1);
 	else if (cmd->output == stdo)
@@ -22,78 +38,97 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 	else if (cmd->output == f_trunc || cmd->output == f_append)
 		err = dup2(cmd->outfd, 1);
 	if (err == -1)
-		return (-1);
-	if (close(redir->saved_std[0]) == -1 || close(redir->saved_std[1]) == -1
-		|| close(redir->fd_pipe[0]) == -1 || close(redir->fd_pipe[1]) == -1)
-		return (-1);
+		print_errors(NULL);
+	if ((cmd->output == opipe || cmd->input == ipipe)
+		&& (close(redir->fd_pipe[0]) == -1 || close(redir->fd_pipe[1]) == -1))
+		return (print_errors(NULL));
+	close(redir->saved_std[0]);
+	close(redir->saved_std[1]);
 	return (0);
 }
 
-/*Well, it executes the command... it also returns de pid of the child*/
-pid_t	exec_cmd(t_cmd *cmd, t_redir *redir)
+void	exec_no_builtins(t_cmd *cmd, t_env *env)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		return (-1);
-	if (pid == 0)
+	if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 	{
-		//dprintf(2, "exec_cmd says hi\n");
-		redirections(cmd, redir);
-		if (execve(cmd->cmd[0], cmd->cmd, NULL) == -1)
+		if (access(cmd->cmd[0], X_OK) == -1)
 		{
-			if (access(cmd->cmd[0], X_OK) == -1)
-				printf("conxita: %s: command not found\n", cmd->cmd[0]);
-			else
-				print_errors(NULL);
-			exit(1);
+			ft_putstr_fd("conxita: ", 2);
+			ft_putstr_fd(cmd->cmd[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
 		}
+		else
+			print_errors(NULL);
 	}
-	return (pid);
+	exit(127); //exit status 127
 }
 
-/*Opens and returns the output's fd. It can be truncated (>) or appended (>>)*/
-int	get_out_fd(t_cmd *cmd)
+int	exec_cmd(t_cmd *cmd, t_env *env) // replace return (1) by a call to the function. It will return the exit code
 {
-	int	fd;
-
-	fd = 0;
-	if (cmd->output == f_trunc)
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	else if (cmd->output == f_append)
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0664);
-	if (fd == -1)
-	{
-		printf("Bad file descriptor\n");
-		exit(127);
-	}
-	return (fd);
+	//dprintf(2, "exec cmd: %s\n", cmd->cmd[0]);
+	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
+		return (builtin_echo(cmd->cmd));
+	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
+		return (0);
+	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
+		return (0);
+	else if (!ft_strncmp(cmd->cmd[0], "export", 7))
+		return (0);
+	else if (!ft_strncmp(cmd->cmd[0], "unset", 6))
+		return (0);
+	else if (!ft_strncmp(cmd->cmd[0], "env", 4))
+		return (0);
+	else if (!ft_strncmp(cmd->cmd[0], "exit", 5))
+		return (0);
+	else
+		exec_no_builtins(cmd, env);
+	return (0);
 }
 
-/*It basically calls the redirection and the execution functions*/
-int	lets_execute(t_cmd *cmd, t_redir *redir, int len)
+int	lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len)
 {
-	int		i;
 	pid_t	pid;
+	int		i;
+	int		ret;
 
 	i = -1;
 	if (!cmd || !redir)
 		return (print_errors(NULL));
+	if (len == 1 && is_builtin(cmd->cmd[0]))
+	{
+		int fd[2];
+
+		fd[0] = dup(0);
+		fd[1] = dup(1);
+		redirections(&cmd[0], redir);
+		ret = exec_cmd(cmd, env);
+		close(cmd->infd);
+		close(cmd->outfd);
+		dup2(fd[0], 0);
+		dup2(fd[1], 1);
+		return (ret);
+	}
 	while (++i < len)
 	{
 		if (pipe(redir->fd_pipe) == -1)
-			return (-1);
-		cmd[i].outfd = get_out_fd(&cmd[i]);
-		pid = exec_cmd(&cmd[i], redir);
+			return (print_errors(NULL));
+		pid = fork();
+		if (pid == 0)
+		{
+			redirections(&cmd[i], redir);
+			exit(exec_cmd(&cmd[i], env));
+		}
 		if ((cmd[i].outfile && close(cmd[i].outfd) == -1)
 			|| close(redir->fd_pipe[1]) == -1
 			|| (redir->fdr_aux > 0 && close(redir->fdr_aux) == -1))
+		{
+			close(redir->fdr_aux);
 			return (print_errors(NULL));
+		}
 		redir->fdr_aux = redir->fd_pipe[0];
+		close(cmd->fd_hd);
+		close(cmd->infd);
 	}
-	if (close(redir->saved_std[0]) == -1 || close(redir->saved_std[1]) == -1
-		|| close(redir->fd_pipe[0]) == -1)
-		return (-1);
+	close(redir->fdr_aux);
 	return (pid);
 }

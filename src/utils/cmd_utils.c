@@ -18,6 +18,8 @@ char	*get_path(t_env *env, char *str)
 
 	path = NULL;
 	i = 0;
+	if (is_builtin(str))
+		return (NULL);
 	if (access(str, X_OK) == 0)
 		return (str);
 	while (env && ft_strncmp(env->key, "PATH", 4))
@@ -44,25 +46,21 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	int	j;
 	int	len;
 
-	j = 0;
+	j = -1;
 	if (!token)
 		return(-1);
 	len = arg_count(token, i);
 	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
-		return (print_errors(NULL));
-	while (j < len && token[i].val && token[i].type == arg)
+		exit((unsigned char)print_errors(NULL));
+	while (++j < len && token[i].val && token[i].type == arg)
 	{
 		if (j == 0)
 			cmd->cmd[j] = get_path(env, token[i].val);
 		if (j != 0 || !cmd->cmd[j])
 			cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
-		{
-			cmd->cmd = free_matrix(cmd, j);
-			return (print_errors(NULL));
-		}
-		j++;
+			exit((unsigned char)print_errors(NULL));
 		i++;
 	}
 	cmd->cmd[j] = NULL;
