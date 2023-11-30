@@ -1,10 +1,10 @@
 #include "../../conxita.h"
 
-static int	prompt_preprocessor(char *prompt, t_env *env);
+static int	prompt_preprocessor(char *prompt, t_conxita *all);
 
 int	handle_prompt(char *prompt, t_conxita *all)
 {
-	if (prompt_preprocessor(prompt, all->env) == -1)
+	if (prompt_preprocessor(prompt, all) == -1)
 	{
 		all->exit = 258;
 		return (-1);
@@ -46,14 +46,14 @@ static int	check_prompt_errors(char *prompt)
 	return (0);
 }
 
-static int	prompt_preprocessor(char *prompt, t_env *env)
+static int	prompt_preprocessor(char *prompt, t_conxita *all)
 {
 	if (!prompt)
 	{
-		free_env(env);
+		free_env(all->env);
 		printf("exit\n");
 		//system("leaks conxita");
-		exit(0);
+		exit(all->exit);
 	}
 	if (!ft_strncmp(prompt, "", 2))
 	{
