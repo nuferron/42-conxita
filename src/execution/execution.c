@@ -7,7 +7,7 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 		if (access(cmd->cmd[0], X_OK) == -1)
 			ft_dprintf(2, "conxita: %s: command not found\n", cmd->cmd[0]);
 		else
-			print_errors(NULL);
+			print_errors("exec no buil");
 	}
 	exit(127);
 }
@@ -15,12 +15,12 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 // replace return (1) by a call to the function. It will return the exit code
 int	exec_cmd(t_cmd *cmd, t_conxita *all)
 {
-	if (!ft_strncmp(all->cmd->cmd[0], "echo", 5))
-		return (builtin_echo(all->cmd->cmd));
-	else if (!ft_strncmp(all->cmd->cmd[0], "cd", 3))
-		return (builtin_cd(&(all->cmd->cmd[1]), all->env));
-	else if (!ft_strncmp(all->cmd->cmd[0], "pwd", 4))
-		return (builtin_pwd(&(all->cmd->cmd[1])));
+	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
+		return (builtin_echo(&(cmd->cmd[0])));
+	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
+		return (builtin_cd(&(cmd->cmd[1]), all->env));
+	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
+		return (builtin_pwd(&(cmd->cmd[1])));
 	else if (!ft_strncmp(all->cmd->cmd[0], "export", 7))
 		return (0);
 	else if (!ft_strncmp(all->cmd->cmd[0], "unset", 6))
@@ -44,7 +44,7 @@ int	exec_multiple_cmd(t_conxita *all, int len)
 	while (++i < len)
 	{
 		if (pipe(all->redir->fd_pipe) == -1)
-			return (print_errors(NULL));
+			exit(-print_errors(NULL));
 		pid = fork();
 		if (pid == 0)
 		{
@@ -61,7 +61,7 @@ int	exec_multiple_cmd(t_conxita *all, int len)
 	return (pid);
 }
 
-int	exec_one_cmd(t_conxita *all)
+int	exec_one_builtin(t_conxita *all)
 {
 	int	fd[2];
 	int	ret;
@@ -73,9 +73,9 @@ int	exec_one_cmd(t_conxita *all)
 	close(all->cmd->infd);
 	close(all->cmd->outfd);
 	if (dup2(fd[0], 0) == -1)
-		exit((unsigned char)print_errors(NULL));
+		exit(-print_errors(NULL));
 	if (dup2(fd[1], 1) == -1)
-		exit((unsigned char)print_errors(NULL));
+		exit(-print_errors(NULL));
 	return (ret);
 }
 
@@ -86,9 +86,9 @@ int	lets_execute(t_conxita *all, int len)
 
 	i = -1;
 	if (len == 1 && is_builtin(all->cmd->cmd[0]))
-		return (exec_one_cmd(all));
+		return (exec_one_builtin(all));
 	pid = exec_multiple_cmd(all, len);
 	close(all->redir->fdr_aux);
 	close(all->cmd->fd_hd);
-	return (pid);
+	return (ft_waitpid(pid, len));
 }

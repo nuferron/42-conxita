@@ -38,31 +38,30 @@ t_cmd	*cmd_to_null(int len)
 }
 
 /*Converts t_oken to a t_cmd*/
-t_cmd	*token_to_cmd(t_oken *token, t_env *env, int len)
+t_cmd	*token_to_cmd(t_conxita *all, int len)
 {
-	t_cmd	*cmd;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	cmd = cmd_to_null(len);
+	all->cmd = cmd_to_null(len);
 	while (j < len)
 	{
-		if (i > 0 && j > 0 && token[i - 1].val[0] == '|')
-			cmd[j].input = ipipe;
-		if (i > 0 && j > 0 && token[i - 1].val[0] == '|'
-			&& cmd[j - 1].output == stdo)
-			cmd[j - 1].output = opipe;
-		if (token[i].type == red)
+		if (i > 0 && j > 0 && all->token[i - 1].val[0] == '|')
+			all->cmd[j].input = ipipe;
+		if (i > 0 && j > 0 && all->token[i - 1].val[0] == '|'
+			&& all->cmd[j - 1].output == stdo)
+			all->cmd[j - 1].output = opipe;
+		if (all->token[i].type == red)
 		{
-			if (init_cmd_red(token, &cmd[j], &i) == -1)
+			if (init_cmd_red(all, &all->cmd[j], &i) == -1)
 				return (NULL);
 		}
-		else if (token[i].type == arg)
-			i = init_cmd_cmd(token, &cmd[j], i, env);
-		if (!token[i].val || (token[i].val && token[i].val[0] == '|'))
+		else if (all->token[i].type == arg)
+			i = init_cmd_cmd(all->token, &all->cmd[j], i, all->env);
+		if (!all->token[i].val || (all->token[i].val && all->token[i].val[0] == '|'))
 			j++;
 	}
-	return (cmd);
+	return (all->cmd);
 }
