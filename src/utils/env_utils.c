@@ -29,34 +29,6 @@ char	*splitting_env(char *env, int flag)
 	return (str);
 }
 
-/*Converts the system environment to a t_env variable*/
-t_env	*env_to_lst(char **sys_env)
-{
-	t_env	*env;
-	int		len;
-	int		i;
-
-	i = 0;
-	len = get_arg_number(sys_env);
-	env = (t_env *)malloc(sizeof(t_env) * len);
-	if (!env)
-	{
-		print_errors(NULL);
-		return (NULL);
-	}
-	while (i < len)
-	{
-		env[i].key = ft_strdup(splitting_env(sys_env[i], 0));
-		env[i].value = ft_strdup(splitting_env(sys_env[i], 1));
-		if (i > 0)
-			env[i - 1].next = &env[i];
-		env[i].show = 1;
-		env[i].next = NULL;
-		i++;
-	}
-	return (env);
-}
-
 /*if print = 0 it copies the behaviour of env
   if print = 1 it copies the behaviour of export*/
 char	*get_env_var(t_env *env, int print)
@@ -94,22 +66,21 @@ char	**env_to_mat(t_env *env, int print)
 {
 	char	**sys_env;
 	int		len;
-	int		i;
 	int		j;
 
-	i = -1;
 	j = 0;
 	len = env_len(env);
 	sys_env = (char **)ft_calloc(len + 1, sizeof (char *));
 	if (!sys_env)
-		exit((unsigned char)print_errors(NULL));
-	while (++i < len)
+		exit(print_errors(NULL) * (-1));
+	while (env)
 	{
-		if (!env[i].show && !print)
+		if (!env->show && !print)
 			continue ;
-		sys_env[j] = get_env_var(&env[i], print);
+		sys_env[j] = get_env_var(env, print);
 		if (!sys_env[j++])
-			exit((unsigned char)print_errors(NULL));
+			exit(print_errors(NULL) * (-1));
+		env = env->next;
 	}
 	return (sys_env);
 }
