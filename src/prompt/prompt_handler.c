@@ -66,7 +66,7 @@ static int	prompt_preprocessor(char *prompt, t_env *env)
 	{
 		free_env(env);
 		printf("exit\n");
-		system("leaks conxita");
+		//system("leaks conxita");
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))

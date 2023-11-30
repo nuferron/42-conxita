@@ -22,7 +22,7 @@ int	builtin_cd(char **args, t_env *env)
 	if (argn > 1)
 	{
 		ft_dprintf(2, "conxita: cd: too many arguments\n");
-		return (-1);
+		return (1);
 	}
 	if (argn == 0)
 	{
@@ -30,7 +30,7 @@ int	builtin_cd(char **args, t_env *env)
 		if (chdir(home) == -1)
 		{
 			ft_dprintf(2, "conxita: cd: HOME not set\n");
-			return (-1);
+			return (1);
 		}
 		free(home);
 		return (0);
