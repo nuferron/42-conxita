@@ -109,8 +109,12 @@ int		get_arg_number(char **args);
 
 /*Environment Utils*/
 char	*search_env(t_env *env, char *key);
-t_env	*env_to_lst(char **env);
 char	**env_to_mat(t_env *env, int print);
+t_env	*env_to_lst(char **env);
+void	env_addback(t_env **env, t_env *new);
+t_env	*env_last(t_env *env);
+t_env	*new_env(char *env_var);
+char	*splitting_env(char *env, int flag);
 
 /*Length Utils*/
 int		arg_count(t_oken *token, int start);
@@ -123,7 +127,7 @@ int		get_arg_number(char **args);
 int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
 int		init_chev_output(t_oken *token, t_cmd *cmd, int *i);
 int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
-int		init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
+int		init_cmd_red(t_conxita *all, t_cmd *cmd, int *i);
 void	init_pipe(t_cmd *cmd, int is_pipe);
 t_redir	*init_redir(void);
 int		get_out_fd(t_cmd *cmd);
@@ -133,7 +137,7 @@ t_cmd	*cmd_to_null(int len);
 char	*minisplit(char *path, int count);
 
 /*Chevrons Functions*/
-t_cmd	*token_to_cmd(t_oken *token, t_env *env, int len);
+t_cmd	*token_to_cmd(t_conxita *all, int len);
 int		cmd_count(t_oken *token, int i);
 
 /*Execution*/
@@ -152,6 +156,6 @@ int		builtin_pwd(char **args);
 int		builtin_cd(char **args, t_env *env);
 
 /*Free*/
-void	free_cmd(t_cmd *cmd);
-void	*free_the_tokens(t_oken *tokens);
+void	free_all(t_conxita *all);
+void	*free_the_tokens(t_oken *token);
 void	free_env(t_env *env);
