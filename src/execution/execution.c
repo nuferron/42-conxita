@@ -12,18 +12,6 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 	exit(127);
 }
 
-<<<<<<< HEAD
-//* replace return (0) by a call to the function. It will return the exit code
-int	exec_cmd(t_cmd *cmd, t_env *env)
-{
-	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
-		return (builtin_echo(&cmd->cmd[1]));
-	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
-		return (builtin_cd(&(cmd->cmd[1]), env));
-	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
-		return (builtin_pwd(&(cmd->cmd[1])));
-	else if (!ft_strncmp(cmd->cmd[0], "export", 7))
-=======
 // replace return (1) by a call to the function. It will return the exit code
 int	exec_cmd(t_cmd *cmd, t_conxita *all)
 {
@@ -34,19 +22,13 @@ int	exec_cmd(t_cmd *cmd, t_conxita *all)
 	else if (!ft_strncmp(all->cmd->cmd[0], "pwd", 4))
 		return (builtin_pwd(&(all->cmd->cmd[1])));
 	else if (!ft_strncmp(all->cmd->cmd[0], "export", 7))
->>>>>>> main
 		return (0);
 	else if (!ft_strncmp(all->cmd->cmd[0], "unset", 6))
 		return (0);
 	else if (!ft_strncmp(all->cmd->cmd[0], "env", 4))
 		return (0);
-<<<<<<< HEAD
-	else if (!ft_strncmp(cmd->cmd[0], "exit", 5))
-		return (builtin_exit(&cmd->cmd[1], all));
-=======
 	else if (!ft_strncmp(all->cmd->cmd[0], "exit", 5))
 		return (0);
->>>>>>> main
 	else
 		exec_no_builtins(cmd, all->env);
 	return (0);
