@@ -5,11 +5,11 @@ int	temporal_prompt_handle(char *prompt, t_env *env);
 int	handle_prompt(char *prompt, t_conxita *all)
 {
 	int		pid;
-	t_redir *redir;
+	t_redir	*redir;
 
 	if (temporal_prompt_handle(prompt, all->env) == -1)
 		return (0);
-	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all->env);
+	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
 	if (!all->token)
 		return (0);
 	all->cmd = token_to_cmd(all->token, all->env, cmd_count(all->token, 0) + 1);
