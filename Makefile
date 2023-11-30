@@ -10,8 +10,10 @@ RESET =	\033[0m
 #! REMOVE builtins_main.c
 SRCS_CONXITA = conxita.c conxita_handler.c conxita_input.c
 SRCS_PROMPT = prompt_handler.c
-SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_utils.c env_handler.c replace_variable.c free_the_tokens.c
-SRCS_UTILS = bool_utils.c env_utils.c conversion_utils.c utils.c cmd_utils.c path_utils.c len_utils.c red_utils.c builtin_utils.c
+SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_utils.c env_handler.c \
+				replace_variable.c
+SRCS_UTILS = bool_utils.c env_utils.c conversion_utils.c utils.c cmd_utils.c path_utils.c \
+				len_utils.c red_utils.c builtin_utils.c free_stuff.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_EXEC = execution.c heredoc.c redirections.c
 SRCS_ERRORS = errors.c
@@ -26,7 +28,7 @@ SRCDIR = src/
 OBJDIR = obj/
 HEADER = conxita.h
 LIB = libs/libft/
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-g -fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
 NAME = conxita
 COLUMNS = $(shell tput cols)

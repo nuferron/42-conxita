@@ -1,5 +1,43 @@
 #include "../../conxita.h"
 
+<<<<<<< HEAD
+=======
+int	temporal_prompt_handle(char *prompt, t_env *env);
+
+int	handle_prompt(char *prompt, t_conxita *all)
+{
+	int		pid;
+
+	if (temporal_prompt_handle(prompt, all->env) == -1)
+	{
+		all->exit = 258;
+		return (-1);
+	}
+	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
+	if (!all->token)
+		return (0);
+	all->cmd = token_to_cmd(all, cmd_count(all->token, 0) + 1);
+	if (!all->cmd)
+	{
+		all->exit = 258;
+		return (-1);
+	}
+	all->redir = init_redir();
+	printf("cmd %s\nint %d\tout %d\n", all->cmd->cmd[0], all->cmd->input, all->cmd->output);
+	printf("cmd %s\nint %d\tout %d\n", all->cmd->cmd[1], all->cmd->input, all->cmd->output);
+	pid = lets_execute(all, all->cmd->len);
+	if (pid > 0)
+		all->exit = ft_waitpid(pid, all->cmd->len);
+	else if (pid == 0)
+		all->exit = 0;
+	free(all->redir);
+	free_the_tokens(all->token);
+	free_cmd(all->cmd);
+	free(prompt);
+	return (0);
+}
+
+>>>>>>> main
 int	check_o_quotes(char *prompt)
 {
 	int		i;
@@ -20,6 +58,7 @@ int	check_o_quotes(char *prompt)
 	if (o_simple || o_double)
 	{
 		ft_dprintf(2, "ERROR: Open quotes\n");
+<<<<<<< HEAD
 		return (-1);
 	}
 	return (0);
@@ -31,6 +70,8 @@ int	check_format(char *prompt)
 
 	i = 0;
 	if (check_o_quotes(prompt) == -1)
+=======
+>>>>>>> main
 		return (-1);
 	while (prompt[i] != '\0')
 	{
@@ -51,7 +92,13 @@ int	check_input(char *prompt)
 {
 	if (!prompt)
 	{
+<<<<<<< HEAD
 		printf("%s\n", "exit");
+=======
+		free_env(env);
+		printf("exit\n");
+		system("leaks conxita");
+>>>>>>> main
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
@@ -59,6 +106,7 @@ int	check_input(char *prompt)
 	add_history(prompt);
 	if (check_format(prompt))
 		return (-1);
+<<<<<<< HEAD
 	return (0);
 }
 
@@ -80,5 +128,16 @@ int	handle_prompt(char *prompt, t_conxita *all)
 	if (pid > 0)
 		all->exit = ft_waitpid(pid, all->cmd->len);
 	free(prompt);
+=======
+	if (!ft_strncmp(prompt, "exit", 5) || !ft_strncmp(prompt, "make", 4))
+	{
+		free_env(env);
+		free(prompt);
+		printf("%s\n", "exit");
+		exit(0);
+	}
+	if (!ft_strncmp(prompt, "conxita", 8))
+		print_conxita();
+>>>>>>> main
 	return (0);
 }

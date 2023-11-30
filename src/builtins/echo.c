@@ -1,13 +1,12 @@
 #include "../../conxita.h"
 
-/* It's a bit guarrindongo but who cares */
-
+/*Returns 1 if the input is a valid flag and 0 if it's not*/
 int	is_flag(char *flag)
 {
 	int	i;
 
 	i = 1;
-	if (flag[0] == '-')
+	if (flag[0] == '-' && flag[1] == 'n')
 	{
 		while (flag[i] && flag[i] == 'n')
 			i++;

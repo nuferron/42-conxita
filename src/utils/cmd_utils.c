@@ -1,13 +1,5 @@
 #include "../../conxita.h"
 
-void	*free_matrix(t_cmd *cmd, int i)
-{
-	while (i >= 0)
-		free(cmd->cmd[i--]);
-	free(cmd->cmd);
-	return (NULL);
-}
-
 /*Returns an isolated path from the environment variable*/
 char	*get_path(t_env *env, char *str)
 {
@@ -68,15 +60,18 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 }
 
 /*initializes t_cmd (except for the char **cmd variable)*/
-int	init_cmd_red(t_oken *token, t_cmd *cmd, int *i)
+int	init_cmd_red(t_conxita *all, t_cmd *cmd, int *i)
 {
 	int			ret;
 
 	ret = 0;
-	if (token[*i].val[0] == '<')
-		ret = init_chev_input(token, cmd, i);
-	else if (token[*i].val[0] == '>')
-		ret = init_chev_output(token, cmd, i);
+	if (all->token[*i].val[0] == '<')
+		ret = init_chev_input(all->token, cmd, i);
+	else if (all->token[*i].val[0] == '>')
+		ret = init_chev_output(all->token, cmd, i);
+	all->exit = ret;
+	if (all->exit == -1)
+		all->exit = 1;
 	(*i)++;
 	return (ret);
 }

@@ -17,7 +17,7 @@
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
 
-#define LINE_DEL	"\033[A"
+#define LINE_DEL	"\012"
 #define SYNTAX		"syntax error near unexpected token "
 
 enum	e_arg_type {red = 0, arg = 1};
@@ -28,12 +28,14 @@ enum	e_input {stdi = 0, ipipe = 1, infile = 2, heredoc = 3};
 typedef struct s_cmd t_cmd;
 typedef struct s_env t_env;
 typedef struct s_oken t_oken;
+typedef struct s_redir t_redir;
 
 typedef struct s_conxita
 {
 	t_cmd	*cmd;
 	t_env	*env;
 	t_oken	*token;
+	t_redir	*redir;
 	int		exit;
 }	t_conxita;
 
@@ -94,7 +96,6 @@ void	quote_len(char *prompt, int *i, int *len);
 void	fill_quotes(char *prompt, t_oken *token, int *i, int *j);
 char	*expand_env(t_conxita *all, char *prompt);
 char	*replace_variable(char *str, char *old, char *new);
-void	*free_the_tokens(t_oken *tokens);
 void	skip_unexpandable(char *str, int *i);
 
 /*Conxita Handler*/
@@ -122,7 +123,7 @@ int		get_arg_number(char **args);
 int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
 int		init_chev_output(t_oken *token, t_cmd *cmd, int *i);
 int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
-int		init_cmd_red(t_oken *token, t_cmd *cmd, int *i);
+int		init_cmd_red(t_conxita *all, t_cmd *cmd, int *i);
 void	init_pipe(t_cmd *cmd, int is_pipe);
 t_redir	*init_redir(void);
 int		get_out_fd(t_cmd *cmd);
@@ -132,11 +133,11 @@ t_cmd	*cmd_to_null(int len);
 char	*minisplit(char *path, int count);
 
 /*Chevrons Functions*/
-t_cmd	*token_to_cmd(t_oken *token, t_env *env, int len);
+t_cmd	*token_to_cmd(t_conxita *all, int len);
 int		cmd_count(t_oken *token, int i);
 
 /*Execution*/
-int		lets_execute(t_cmd *cmd, t_redir *redir, t_env *env, int len);
+int		lets_execute(t_conxita *all, int len);
 int		exec_heredoc(t_cmd *cmd, char *key);
 int		ft_waitpid(int pid, int len);
 void	redirections(t_cmd *cmd, t_redir *redir);
@@ -150,3 +151,8 @@ int		builtin_echo(char **args);
 int		builtin_pwd(char **args);
 int		builtin_cd(char **args, t_env *env);
 int		builtin_exit(char **args, t_conxita *all);
+
+/*Free*/
+void	free_cmd(t_cmd *cmd);
+void	*free_the_tokens(t_oken *tokens);
+void	free_env(t_env *env);
