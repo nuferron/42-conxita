@@ -11,7 +11,7 @@ int	handle_prompt(char *prompt, t_conxita *all)
 		all->exit = 258;
 		return (-1);
 	}
-	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all->env);
+	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
 	if (!all->token)
 		return (0);
 	all->cmd = token_to_cmd(all->token, all->env, cmd_count(all->token, 0) + 1);
