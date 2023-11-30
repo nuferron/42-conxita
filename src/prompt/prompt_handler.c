@@ -1,10 +1,10 @@
 #include "../../conxita.h"
 
-int	temporal_prompt_handle(char *prompt, t_env *env);
+static int	prompt_preprocessor(char *prompt, t_env *env);
 
 int	handle_prompt(char *prompt, t_conxita *all)
 {
-	if (temporal_prompt_handle(prompt, all->env) == -1)
+	if (prompt_preprocessor(prompt, all->env) == -1)
 	{
 		all->exit = 258;
 		return (-1);
@@ -19,7 +19,7 @@ int	handle_prompt(char *prompt, t_conxita *all)
 	return (0);
 }
 
-int	check_o_quotes(char *prompt)
+static int	check_prompt_errors(char *prompt)
 {
 	int		i;
 	bool	o_simple;
@@ -34,17 +34,19 @@ int	check_o_quotes(char *prompt)
 			b_invert(&o_simple);
 		if (prompt[i] == '"' && !o_simple)
 			b_invert(&o_double);
+		if (prompt[i] == '|' && prompt[i + 1] == '|')
+			return (ft_dprintf(2, "conxita: error: double pipe\n"), -1);
 		i++;
 	}
 	if (o_simple || o_double)
 	{
-		ft_dprintf(2, "ERROR: Open quotes\n");
+		ft_dprintf(2, "conxita: error: open quotes\n");
 		return (-1);
 	}
 	return (0);
 }
 
-int	temporal_prompt_handle(char *prompt, t_env *env)
+static int	prompt_preprocessor(char *prompt, t_env *env)
 {
 	if (!prompt)
 	{
@@ -54,18 +56,15 @@ int	temporal_prompt_handle(char *prompt, t_env *env)
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
-		return (-1);
-	add_history(prompt);
-	if (check_o_quotes(prompt))
-		return (-1);
-	if (!ft_strncmp(prompt, "exit", 5) || !ft_strncmp(prompt, "make", 4))
 	{
-		free_env(env);
 		free(prompt);
-		printf("%s\n", "exit");
-		exit(0);
+		return (-1);
 	}
-	if (!ft_strncmp(prompt, "conxita", 8))
-		print_conxita();
+	add_history(prompt);
+	if (check_prompt_errors(prompt) == -1)
+	{
+		free(prompt);
+		return (-1);
+	}
 	return (0);
 }

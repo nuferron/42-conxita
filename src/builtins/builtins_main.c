@@ -42,19 +42,17 @@ int	handle_test_prompt(char *prompt, t_env *env)
 	return (0);
 }
 
-/*
-int	main(int argc, char **argv, char **env)
-{
-	char	*prompt;
-	t_env	*lst_env;
+// int	main(int argc, char **argv, char **env)
+// {
+// 	char	*prompt;
+// 	t_env	*lst_env;
 
-	(void)argc, (void)argv;
-	lst_env = env_to_lst(env);
-	setup_signals();
-	while ("test")
-	{
-		prompt = readline("blvilarn@TESTSHELL$ ");
-		handle_test_prompt(prompt, lst_env);
-	}
-}
-*/
+// 	(void)argc, (void)argv;
+// 	lst_env = env_to_lst(env);
+// 	setup_signals();
+// 	while ("test")
+// 	{
+// 		prompt = readline("blvilarn@TESTSHELL$ ");
+// 		handle_test_prompt(prompt, lst_env);
+// 	}
+// }

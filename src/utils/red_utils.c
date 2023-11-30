@@ -19,10 +19,8 @@ int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
 	if (!cmd->outfile)
 		exit(-print_errors(NULL));
 	fd = open(cmd->outfile, O_WRONLY | O_CREAT, 0664);
-	if (fd == -1)
-		return (print_errors(NULL));
-	if (close(fd) == -1)
-		return (print_errors(NULL));
+	if (fd == -1 || (fd >= 0 && close(fd) == -1))
+		exit(-print_errors(NULL));
 	if (token[*i].val[1] == '>' && token[*i + 1].val)
 		cmd->output = f_append;
 	else if (token[*i].val[1] == '\0' && token[*i + 1].val)
