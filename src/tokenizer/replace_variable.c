@@ -10,7 +10,7 @@ void	skip_unexpandable(char *str, int *i)
 		if (str[*i])
 			(*i)++;
 	}
-	else if (str[*i] == '<' && str[*i + 1] == '<')
+	else if (ft_strnstr(&str[*i], "<<", 2))
 	{
 		(*i) += 2;
 		while (str[*i] == ' ')
