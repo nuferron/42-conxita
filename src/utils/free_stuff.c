@@ -15,6 +15,8 @@ void	*free_the_tokens(t_oken *tokens)
 	int	i;
 
 	i = 0;
+	if (!tokens)
+		return (NULL);
 	while (tokens && tokens[i].val)
 	{
 		free(tokens[i].val);
@@ -31,6 +33,8 @@ void	free_cmd(t_cmd *cmd)
 	int	len;
 
 	i = 0;
+	if (!cmd)
+		return ;
 	len = cmd[0].len;
 	while (i < len)
 	{

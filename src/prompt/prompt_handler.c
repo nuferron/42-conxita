@@ -51,20 +51,17 @@ static int	prompt_preprocessor(char *prompt, t_env *env)
 	if (!prompt)
 	{
 		free_env(env);
-		printf("exit\n");
+		printf("\nexit\n");
 		system("leaks conxita");
 		exit(0);
 	}
 	if (!ft_strncmp(prompt, "", 2))
 	{
-		free(prompt);
+		//free(prompt);
 		return (-1);
 	}
 	add_history(prompt);
 	if (check_prompt_errors(prompt) == -1)
-	{
-		free(prompt);
 		return (-1);
-	}
 	return (0);
 }
