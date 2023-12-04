@@ -15,7 +15,11 @@ int	main(int argc, char **argv, char **env)
 	all.exit = 0;
 	while ("Conxita")
 	{
-		prompt_text = ft_strjoin(search_env(all.env, "USER"), "@conxita$ ");
+		//ft_dprintf(2, "%s %s\n", all.env->key, all.env->value);
+		if (search_env(all.env, "USER") != NULL)
+			prompt_text = ft_strjoin(search_env(all.env, "USER"), "@conxita$ ");
+		else
+			prompt_text = ft_strdup("[unknown]@conxita$ ");
 		prompt = readline(prompt_text);
 		free(prompt_text);
 		handle_prompt(prompt, &all);

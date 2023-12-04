@@ -15,17 +15,23 @@ char	*splitting_env(char *env, int flag)
 {
 	char	*str;
 	int		equal;
+	char	last_char;
 
 	equal = 0;
 	while (env[equal] != '=' && env[equal] != '\0')
 		equal++;
 	if (flag == 0)
 	{
+		last_char = env[equal];
 		env[equal] = '\0';
 		str = env;
 	}
 	else
+	{
+		if (env[equal] == '\0')
+			return (NULL);
 		str = &env[equal + 1];
+	}
 	return (str);
 }
 
