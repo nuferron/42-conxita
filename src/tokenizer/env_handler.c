@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-static int	is_env(char c)
+int	is_env(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);

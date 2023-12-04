@@ -95,6 +95,7 @@ t_oken	*generate_tokens(char *prompt, int token_num);
 void	quote_len(char *prompt, int *i, int *len);
 void	fill_quotes(char *prompt, t_oken *token, int *i, int *j);
 char	*expand_env(t_conxita *all, char *prompt);
+int		is_env(char c);
 char	*replace_variable(char *str, char *old, char *new);
 void	skip_unexpandable(char *str, int *i);
 
@@ -155,6 +156,8 @@ int		builtin_echo(char **args);
 int		builtin_pwd(void);
 int		builtin_cd(char **args, t_env *env);
 int		builtin_exit(char **args, t_conxita *all);
+int		builtin_env(t_env *env_lst);
+int		builtin_export(char **args, t_env *env_lst);
 
 /*Free*/
 void	free_all(t_conxita *all);

@@ -22,11 +22,11 @@ int	exec_cmd(t_cmd *cmd, t_conxita *all)
 	else if (!ft_strncmp(all->cmd->cmd[0], "pwd", 4))
 		return (builtin_pwd());
 	else if (!ft_strncmp(all->cmd->cmd[0], "export", 7))
-		return (0);
+		return (builtin_export(&(all->cmd->cmd[1]), all->env));
 	else if (!ft_strncmp(all->cmd->cmd[0], "unset", 6))
 		return (0);
 	else if (!ft_strncmp(all->cmd->cmd[0], "env", 4))
-		return (builtin_env(all));
+		return (builtin_env(all->env));
 	else if (!ft_strncmp(all->cmd->cmd[0], "exit", 5))
 		return (builtin_exit(&(all->cmd->cmd[1]), all));
 	else

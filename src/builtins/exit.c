@@ -19,5 +19,5 @@ int	builtin_exit(char **args, t_conxita *all)
 		ft_dprintf(2, "conxita: exit: too many arguments\n");
 		return (1);
 	}
-	exit (ft_atoi(args[0]));
+	exit (ft_atoll(args[0]));
 }

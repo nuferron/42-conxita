@@ -1,10 +1,17 @@
 #include "../../conxita.h"
 
-int	builtin_env(char **args, t_env *env_lst)
+int	builtin_env(t_env *env_lst)
 {
-	int		argn;
 	char	**env;
+	int		i;
 
-	if (argn > 0)
-		return (exec_cmd(&(all->cmd[1]), all));
+	env = env_to_mat(env_lst, 0);
+	i = 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	free(env);
+	return (0);
 }
