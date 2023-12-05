@@ -1,10 +1,9 @@
 #include "../../conxita.h"
 
-int	builtin_pwd(char **args)
+int	builtin_pwd(void)
 {
 	char	*pwd;
 
-	(void)args;
 	pwd = getcwd(NULL, 0);
 	printf("%s\n", pwd);
 	free(pwd);

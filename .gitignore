@@ -4,6 +4,7 @@ obj
 .vscode
 **/.DS_Store
 libs/libft/ft_dprintf/obj_bonus
+libs/libft/ft_dprintf/do_bonus
 libs/libft/**/*.a
 libs/libft/**/*.o
 libs/libft/**/do_bonus

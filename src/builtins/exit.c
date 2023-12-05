@@ -59,7 +59,7 @@ int	builtin_exit(char **arg, t_conxita *all)
 	int		argn;
 	char	*str;
 
-	//if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO))
 		write(2, "exit\n", 6);
 	argn = get_arg_number(arg);
 	if (!argn)

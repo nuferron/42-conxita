@@ -18,17 +18,17 @@ int	exec_cmd(t_cmd *cmd, t_conxita *all)
 	if (!cmd->cmd)
 		return (0);
 	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
-		return (builtin_echo(&(cmd->cmd[0])));
+		return (builtin_echo(&(cmd->cmd[1])));
 	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
 		return (builtin_cd(&(cmd->cmd[1]), all->env));
 	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
-		return (builtin_pwd(&(cmd->cmd[1])));
+		return (builtin_pwd());
 	else if (!ft_strncmp(all->cmd->cmd[0], "export", 7))
-		return (0);
+		return (builtin_export(&(all->cmd->cmd[1]), all->env));
 	else if (!ft_strncmp(all->cmd->cmd[0], "unset", 6))
 		return (0);
 	else if (!ft_strncmp(all->cmd->cmd[0], "env", 4))
-		return (0);
+		return (builtin_env(all->env));
 	else if (!ft_strncmp(all->cmd->cmd[0], "exit", 5))
 		return (builtin_exit(&(cmd->cmd[1]), all));
 	else

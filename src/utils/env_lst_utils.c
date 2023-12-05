@@ -8,7 +8,8 @@ t_env	*new_env(char *env_var)
 	if (!node)
 		exit(print_errors(NULL) * (-1));
 	node->key = ft_strdup(splitting_env(env_var, 0));
-	node->value = ft_strdup(splitting_env(env_var, 1));
+	if (splitting_env(env_var, 1))
+		node->value = ft_strdup(splitting_env(env_var, 1));
 	if (!node->key || !node->value)
 		exit(print_errors(NULL) * (-1));
 	node->show = 1;

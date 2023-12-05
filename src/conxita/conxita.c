@@ -17,9 +17,11 @@ int	main(int argc, char **argv, char **env)
 	all.cmd = NULL;
 	while ("Conxita")
 	{
-		prompt_text = ft_strjoin(search_env(all.env, "USER"), "@conxita$ ");
-		//prompt = readline(prompt_text);
-		prompt = readline("minishell $ ");
+		if (search_env(all.env, "USER") != NULL)
+			prompt_text = ft_strjoin(search_env(all.env, "USER"), "@conxita$ ");
+		else
+			prompt_text = ft_strdup("[unknown]@conxita$ ");
+		prompt = readline(prompt_text);
 		if (!prompt)
 		{
 			if (isatty(STDIN_FILENO))
