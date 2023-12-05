@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(prompt_text);
 		handle_prompt(prompt, &all);
-		//free_all(&all);
+		free_all(&all);
 		free(prompt);
 	}
 	return (0);

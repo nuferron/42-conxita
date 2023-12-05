@@ -4,29 +4,28 @@
 char	*get_path(t_env *env, char *str)
 {
 	char	*path;
-	char	*test;
 	int		i;
 	int		total;
 
-	path = NULL;
 	i = 0;
-	if (is_builtin(str))
-		return (NULL);
-	if (access(str, X_OK) == 0)
-		return (str);
+	if (ft_strchr(str, '/') && access(str, X_OK) == 0)
+		return (ft_strdup(str));
 	while (env && ft_strncmp(env->key, "PATH", 4))
 		env = env->next;
-	total = path_count(env->value, ':');
-	while (access(path, X_OK) != 0 && i < total)
+	if (!env)
 	{
-		free(path);
-		test = minisplit(env->value, i++);
-		path = ft_strjoin(test, str);
-		free(test);
+		if (access(str, X_OK) == 0)
+			return (ft_strdup(str));
+		return (NULL);
 	}
-	if (access(path, X_OK) == 0)
-		return (path);
-	free(path);
+	total = path_count(env->value, ':');
+	while (i < total)
+	{
+		path = ft_strjoin_free(minisplit(env->value, i++), str);
+		if (access(path, X_OK) == 0)
+			return (path);
+		free(path);
+	}
 	return (NULL);
 }
 
@@ -38,22 +37,24 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	int	j;
 	int	len;
 
-	j = -1;
+	j = get_arg_number(cmd->cmd);
 	if (!token)
 		return (-1);
 	len = arg_count(token, i);
-	cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!cmd->cmd)
+		cmd->cmd = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!cmd->cmd)
 		exit(-print_errors(NULL));
-	while (++j < len && token[i].val && token[i].type == arg)
+	while (token[i].val && token[i].type == arg)
 	{
-		if (j == 0)
+		if (j == 0 && !is_builtin(token[i].val))
 			cmd->cmd[j] = get_path(env, token[i].val);
-		if (j != 0 || !cmd->cmd[j])
+		if (j != 0 || !cmd->cmd[j] || is_builtin(token[i].val))
 			cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
 			exit(-print_errors(NULL));
 		i++;
+		j++;
 	}
 	cmd->cmd[j] = NULL;
 	return (i);

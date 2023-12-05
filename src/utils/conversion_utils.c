@@ -48,19 +48,19 @@ t_cmd	*token_to_cmd(t_conxita *all, int len)
 	all->cmd = cmd_to_null(len);
 	while (j < len)
 	{
-		if (i > 0 && j > 0 && all->token[i - 1].val[0] == '|')
+		if (i && j && !ft_strncmp(all->token[i - 1].val, "|", 2))
 			all->cmd[j].input = ipipe;
-		if (i > 0 && j > 0 && all->token[i - 1].val[0] == '|'
+		if (i && j && !all->token[i - 1].type && all->token[i - 1].val[0] == '|'
 			&& all->cmd[j - 1].output == stdo)
 			all->cmd[j - 1].output = opipe;
-		if (all->token[i].type == red)
+		if (all->token[i].val && all->token[i].type == red)
 		{
 			if (init_cmd_red(all, &all->cmd[j], &i))
 				return (NULL);
 		}
 		else if (all->token[i].type == arg)
 			i = init_cmd_cmd(all->token, &all->cmd[j], i, all->env);
-		if (!all->token[i].val || (all->token[i].val[0] == '|'))
+		if (!all->token[i].val || !ft_strncmp(all->token[i].val, "|", 2))
 			j++;
 	}
 	return (all->cmd);

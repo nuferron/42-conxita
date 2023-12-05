@@ -2,6 +2,8 @@
 
 void	exec_no_builtins(t_cmd *cmd, t_env *env)
 {
+	if (!cmd->cmd)
+		exit(0);
 	if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 	{
 		if (access(cmd->cmd[0], X_OK) == -1)
@@ -15,6 +17,8 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 // replace return (1) by a call to the function. It will return the exit code
 int	exec_cmd(t_cmd *cmd, t_conxita *all)
 {
+	if (!cmd->cmd)
+		return (0);
 	if (!ft_strncmp(cmd->cmd[0], "echo", 5))
 		return (builtin_echo(&(cmd->cmd[0])));
 	else if (!ft_strncmp(cmd->cmd[0], "cd", 3))
@@ -85,6 +89,8 @@ int	lets_execute(t_conxita *all, int len)
 	int		i;
 
 	i = -1;
+	if (!all->cmd->cmd)
+		return (0);
 	if (len == 1 && is_builtin(all->cmd->cmd[0]))
 		return (exec_one_builtin(all));
 	pid = exec_multiple_cmd(all, len);

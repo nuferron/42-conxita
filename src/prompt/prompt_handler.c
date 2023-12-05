@@ -4,7 +4,9 @@ static int	prompt_preprocessor(char *prompt, t_env *env);
 
 int	handle_prompt(char *prompt, t_conxita *all)
 {
-	if (prompt_preprocessor(prompt, all->env) == -1)
+	if (!ft_strncmp(prompt, "", 2))
+		return (-1);
+	if (prompt_preprocessor(prompt, all->env) < 0)
 	{
 		all->exit = 258;
 		return (-1);
@@ -51,14 +53,9 @@ static int	prompt_preprocessor(char *prompt, t_env *env)
 	if (!prompt)
 	{
 		free_env(env);
-		printf("\nexit\n");
-		system("leaks conxita");
+		printf("exit\n");
+		system("leaks minishell");
 		exit(0);
-	}
-	if (!ft_strncmp(prompt, "", 2))
-	{
-		//free(prompt);
-		return (-1);
 	}
 	add_history(prompt);
 	if (check_prompt_errors(prompt) == -1)

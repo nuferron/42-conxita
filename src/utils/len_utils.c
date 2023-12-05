@@ -5,10 +5,14 @@ int	arg_count(t_oken *token, int start)
 	int	count;
 
 	count = 0;
-	while (token[start].val && token[start].type == arg)
+	while (token[start].val && ft_strncmp(token[start].val, "|", 2))
 	{
+		if (ft_strncmp(token[start].val, "<", 2)
+			|| ft_strncmp(token[start].val, ">", 2)
+			|| (start && ft_strncmp(token[start - 1].val, "<", 2))
+			|| (start && ft_strncmp(token[start - 1].val, ">", 2)))
+			count++;
 		start++;
-		count++;
 	}
 	return (count);
 }
