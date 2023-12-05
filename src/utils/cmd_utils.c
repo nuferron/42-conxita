@@ -59,14 +59,3 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	cmd->cmd[j] = NULL;
 	return (i);
 }
-
-/*initializes t_cmd (except for the char **cmd variable)*/
-int	init_cmd_red(t_conxita *all, t_cmd *cmd, int *i)
-{
-	if (all->token[*i].val[0] == '<')
-		all->exit = init_chev_input(all->token, cmd, i);
-	else if (all->token[*i].val[0] == '>')
-		all->exit = init_chev_output(all->token, cmd, i);
-	(*i)++;
-	return (all->exit);
-}

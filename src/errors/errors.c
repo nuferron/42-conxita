@@ -5,9 +5,9 @@
 int	print_errors(char *str)
 {
 	ft_dprintf(2, "conxita: ");
-	if (str && !ft_strncmp(str, "\'newline\'", 6))
+	if (str && !ft_strncmp(str, "syntax", 6))
 	{
-		ft_dprintf(2, "%s%s\n", SYNTAX, str);
+		ft_dprintf(2, "%s\n", str);
 		return (-1);
 	}
 	else if (str)

@@ -8,24 +8,6 @@ void	init_pipe(t_cmd *cmd, int is_pipe)
 		cmd->output = opipe;
 }
 
-int	init_chev_output(t_oken *token, t_cmd *cmd, int *i)
-{
-	if (!token[*i + 1].val)
-		return (print_errors("\'newline\'"), 258);
-	chev_addback(&(cmd->chev), new_chev(token[*i + 1].val, token[*i].val));
-	(*i)++;
-	return (0);
-}
-
-int	init_chev_input(t_oken *token, t_cmd *cmd, int *i)
-{
-	if (*i > 0 && !token[*i + 1].val)
-		return (print_errors("\'newline\'"), 258);
-	chev_addback(&(cmd->chev), new_chev(token[*i + 1].val, token[*i].val));
-	(*i)++;
-	return (0);
-}
-
 /*Initializes t_redir*/
 t_redir	*init_redir(void)
 {
@@ -36,4 +18,38 @@ t_redir	*init_redir(void)
 		exit(-print_errors(NULL));
 	redir->fdr_aux = -1;
 	return (redir);
+}
+
+int	check_chev_errors(t_oken *token, int *i)
+{
+	char	*tmp;
+
+	if (!token[*i + 1].val)
+		return (print_errors(SYNTAX"\'newline\'"), 258);
+	if (*i == 0 && !ft_strncmp(token[*i].val, "|", 2))
+		return (print_errors(SYNTAX"\'|\'"), 258);
+	if (token[*i + 1].type == red)
+	{
+		tmp = ft_strjoin(SYNTAX, token[*i + 1].val);
+		print_errors(tmp);
+		free(tmp);
+		return (258);
+	}
+	return (0);
+}
+
+/*initializes t_cmd (except for the char **cmd variable)*/
+int	init_cmd_red(t_conxita *all, t_cmd *cmd, int *i)
+{
+	all->exit = check_chev_errors(all->token, i);
+	if (all->exit)
+		return (-1);
+	if (all->token[*i].val[0] == '<' || all->token[*i].val[0] == '>')
+	{
+		chev_addback(&(cmd->chev), 
+				new_chev(all->token[*i + 1].val, all->token[*i].val));
+		(*i)++;
+	}
+	(*i)++;
+	return (0);
 }

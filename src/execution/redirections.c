@@ -1,35 +1,6 @@
 #include "../../conxita.h"
 
 /*Redirects the file descriptors according with the input*/
-/*int	redirections(t_cmd *cmd, t_redir *redir)
-{
-	if (!cmd->chev)
-		return (0);
-	if (init_chev(cmd->chev, cmd->last) == -1)
-		return (-1);
-	if (cmd->chev->type == here || cmd->chev->type == in)
-	{
-		if (dup2(cmd->last[0], 0) == -1)
-			exit(-print_errors(NULL));
-	}
-	else if (cmd->chev->type == outt || cmd->chev->type == outa)
-	{
-		if (dup2(cmd->last[1], 1) == -1)
-			exit(-print_errors(NULL));
-	}
-	else if (cmd->input == ipipe)
-	{
-		if (dup2(redir->fd_pipe[0], 0) == -1)
-			exit(-print_errors(NULL));
-	}
-	else if (cmd->output == opipe)
-	{
-		if (dup2(redir->fd_pipe[1], 1) == -1)
-			exit(-print_errors(NULL));
-	}
-	return (0);
-}
-*/
 int	redirections(t_cmd *cmd, t_redir *redir)
 {
 	if (cmd->input == ipipe)
@@ -40,7 +11,7 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 		return (-1);
 	if (cmd->last[0] > 0 && dup2(cmd->last[0], 0) == -1)
 		exit(-print_errors(NULL));
-	if (cmd->last[1] > 0  && dup2(cmd->last[1], 1) == -1)
+	if (cmd->last[1] != -1  && dup2(cmd->last[1], 1) == -1)
 		exit(-print_errors(NULL));
 	return (0);
 }
@@ -63,7 +34,7 @@ int init_chev(t_chev *chev, int *last)
 			last[0] = chev->fd;
 		else if (chev->type == in)
 			last[0] = open(chev->file, O_RDONLY);
-		if (chev->type == in && chev->fd < 0)
+		if (chev->type == in && last[0] < 0)
 			return (print_errors(chev->file));
 		chev = chev->next;
 	}

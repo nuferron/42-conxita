@@ -68,7 +68,12 @@ int	exec_one_builtin(t_conxita *all)
 
 	fd[0] = dup(0);
 	fd[1] = dup(1);
-	redirections(all->cmd, all->redir);
+	if (redirections(all->cmd, all->redir) == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		return (1);
+	}
 	ret = exec_cmd(all->cmd, all);
 	if (dup2(fd[0], 0) == -1)
 		exit(-print_errors(NULL));

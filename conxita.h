@@ -129,8 +129,6 @@ int		get_arg_number(char **args);
 
 /*Initializing Utils*/
 int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);
-int		init_chev_output(t_oken *token, t_cmd *cmd, int *i);
-int		init_chev_input(t_oken *token, t_cmd *cmd, int *i);
 int		init_cmd_red(t_conxita *all, t_cmd *cmd, int *i);
 void	init_pipe(t_cmd *cmd, int is_pipe);
 t_redir	*init_redir(void);
