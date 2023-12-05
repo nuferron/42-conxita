@@ -23,16 +23,12 @@ t_cmd	*cmd_to_null(int len)
 	while (++i < len)
 	{
 		cmd[i].cmd = NULL;
-		cmd[i].heredoc = NULL;
-		cmd[i].infile = NULL;
-		cmd[i].outfile = NULL;
-		cmd[i].infd = -1;
-		cmd[i].outfd = -1;
 		cmd[i].input = stdi;
 		cmd[i].output = stdo;
+		cmd[i].chev = NULL;
 		cmd[i].len = len;
-		cmd[i].fd_hd = -1;
-		cmd[i].leave = 0;
+		cmd[i].last[0] = -1;
+		cmd[i].last[1] = -1;
 	}
 	return (cmd);
 }
@@ -40,8 +36,8 @@ t_cmd	*cmd_to_null(int len)
 /*Converts t_oken to a t_cmd*/
 t_cmd	*token_to_cmd(t_conxita *all, int len)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;

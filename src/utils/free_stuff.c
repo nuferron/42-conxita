@@ -28,7 +28,7 @@ void	*free_the_tokens(t_oken *tokens)
 	return (NULL);
 }
 
-void	free_cmd(t_cmd *cmd)
+/*void	free_cmd(t_cmd *cmd)
 {
 	int	i;
 	int	len;
@@ -46,7 +46,7 @@ void	free_cmd(t_cmd *cmd)
 		i++;
 	}
 	free(cmd);
-}
+}*/
 
 void	free_env(t_env *env)
 {
@@ -66,7 +66,7 @@ void	free_env(t_env *env)
 void	free_all(t_conxita *all)
 {
 	free_the_tokens(all->token);
-	free_cmd(all->cmd);
+	//free_cmd(all->cmd);
 	free(all->redir);
 	all->cmd = NULL;
 	all->token = NULL;

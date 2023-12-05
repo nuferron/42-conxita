@@ -13,7 +13,8 @@ SRCS_PROMPT = prompt_handler.c
 SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_utils.c env_handler.c \
 				replace_variable.c
 SRCS_UTILS = bool_utils.c env_utils.c conversion_utils.c utils.c cmd_utils.c path_utils.c \
-				len_utils.c red_utils.c builtin_utils.c free_stuff.c env_lst_utils.c
+				len_utils.c red_utils.c builtin_utils.c free_stuff.c env_lst_utils.c \
+				chev_utils.c
 SRCS_SIGNALS = signal_handler.c
 SRCS_EXEC = execution.c heredoc.c redirections.c
 SRCS_ERRORS = errors.c

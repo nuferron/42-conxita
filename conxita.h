@@ -21,9 +21,9 @@
 #define SYNTAX		"syntax error near unexpected token "
 
 enum	e_arg_type {red = 0, arg = 1};
-
-enum	e_output {stdo = 0, opipe = 1, f_trunc = 2, f_append = 3};
-enum	e_input {stdi = 0, ipipe = 1, infile = 2, heredoc = 3};
+enum	e_output {stdo = 0, opipe = 1};
+enum	e_input {stdi = 0, ipipe = 1};
+enum	e_chev {std = 0, outt = 1, outa = 2, in = 3, here = 4};
 
 typedef struct s_cmd t_cmd;
 typedef struct s_env t_env;
@@ -39,19 +39,23 @@ typedef struct s_conxita
 	int		exit;
 }	t_conxita;
 
+typedef struct s_chev
+{
+	char		*file;
+	int			fd;
+	enum e_chev	type;
+	void		*prev;
+	void		*next;
+}	t_chev;
+
 typedef struct s_cmd
 {
 	char			**cmd;
-	char			*heredoc;
-	char			*infile;
-	int				infd;
-	char			*outfile;
-	int				outfd;
+	t_chev			*chev;
 	enum e_output	output;
 	enum e_input	input;
 	int				len;
-	int				fd_hd;
-	bool			leave;
+	int				last[2];
 }	t_cmd;
 
 typedef struct s_redir
@@ -139,12 +143,17 @@ char	*minisplit(char *path, int count);
 /*Chevrons Functions*/
 t_cmd	*token_to_cmd(t_conxita *all, int len);
 int		cmd_count(t_oken *token, int i);
+void	chev_addback(t_chev **chev, t_chev *new);
+t_chev	*chev_last(t_chev *chev);
+t_chev	*new_chev(char *file, char *type);
 
 /*Execution*/
 int		lets_execute(t_conxita *all, int len);
 int		exec_heredoc(t_cmd *cmd, char *key);
+int		here_doc(char *key);
 int		ft_waitpid(int pid, int len);
-void	redirections(t_cmd *cmd, t_redir *redir);
+int		redirections(t_cmd *cmd, t_redir *redir);
+int		init_chev(t_chev *chev, int	*last);
 
 /*Errors*/
 int		print_errors(char *str);

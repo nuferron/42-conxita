@@ -23,9 +23,3 @@ int	here_doc(char *key)
 	close(pipe_h[1]);
 	return (pipe_h[0]);
 }
-
-int	exec_heredoc(t_cmd *cmd, char *key)
-{
-	cmd->fd_hd = here_doc(key);
-	return (0);
-}
