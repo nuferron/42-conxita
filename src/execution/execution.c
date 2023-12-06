@@ -7,10 +7,7 @@ void	exec_no_builtins(t_cmd *cmd, t_env *env)
 	tmp = cmd->cmd[0];
 	cmd->cmd[0] = get_path(env, tmp);
 	free(tmp);
-	ft_dprintf(2, "exec no builtins: HELLOOOOOOO\n");
-	char	**envi  = env_to_mat(env, 0);
-	ft_dprintf(2, "exec no builtins: YOHOHOHOHOOOOO\n");
-	if (execve(cmd->cmd[0], cmd->cmd, envi) == -1)
+	if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 	{
 		if (access(cmd->cmd[0], X_OK) == -1)
 			ft_dprintf(2, "conxita: %s: command not found\n", cmd->cmd[0]);
