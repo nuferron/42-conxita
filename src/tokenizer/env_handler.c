@@ -38,7 +38,7 @@ static char	*get_val(t_conxita *all, char *name)
 {
 	char	*val;
 
-	val = search_env(all->env, name);
+	val = search_env(all->env, name)->value;
 	if (name[0] == '?')
 		val = ft_itoa(all->exit);
 	if (!val)
