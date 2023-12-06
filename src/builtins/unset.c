@@ -18,7 +18,7 @@ static t_env	*yeet_env(t_env *env, char *key)
 	t_env	*var;
 	t_env	*last;
 
-	var = search_t_env(env, key);
+	var = search_env(env, key);
 	if (!var)
 		return (env);
 	last = find_last(env, key);

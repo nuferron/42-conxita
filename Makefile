@@ -30,7 +30,7 @@ HEADER = conxita.h
 LIB = libs/libft/
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
-NAME = minishell
+NAME = conxita
 COLUMNS = $(shell tput cols)
 
 RLINE_DIR   := libs/readline/

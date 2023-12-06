@@ -5,7 +5,7 @@ static void	add_shlvl(t_env *env)
 	char	*new_shlvl;
 	t_env	*shlvl;
 
-	shlvl = search_t_env(env, "SHLVL");
+	shlvl = search_env(env, "SHLVL");
 	if (shlvl == NULL)
 		return ;
 	new_shlvl = ft_itoa(ft_atoi(shlvl->value) + 1);
@@ -29,14 +29,14 @@ int	main(int argc, char **argv, char **env)
 	add_shlvl(all.env);
 	while ("Conxita")
 	{
-		prompt_text = ft_strjoin(search_env(all.env, "USER"), "@conxita$ ");
+		prompt_text = ft_strjoin(search_env(all.env, "USER")->value, "@conxita$ ");
 		all.token = NULL;
 		all.cmd = NULL;
 		while ("Conxita")
 		{
 			if (search_env(all.env, "USER")->value != NULL)
 				prompt_text = ft_strjoin(search_env(all.env, "USER")->value,
-				"@conxita$ ");
+					"@conxita$ ");
 			else
 				prompt_text = ft_strdup("[unknown]@conxita$ ");
 			prompt = readline(prompt_text);
@@ -51,5 +51,6 @@ int	main(int argc, char **argv, char **env)
 			//free_all(&all);
 			free(prompt);
 		}
+	}
 	return (0);
 }
