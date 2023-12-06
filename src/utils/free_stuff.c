@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-void	free_matrix(t_cmd *cmd)
+static void	free_matrix(t_cmd *cmd)
 {
 	int	i;
 
@@ -10,6 +10,38 @@ void	free_matrix(t_cmd *cmd)
 	while (cmd->cmd[i])
 		free(cmd->cmd[i++]);
 	free(cmd->cmd);
+}
+
+static void	free_chev(t_chev *chev)
+{
+	t_chev	*tmp;
+
+	tmp = chev;
+	while (tmp)
+	{
+		free(chev->file);
+		tmp = tmp->next;
+		free(chev);
+		chev = tmp;
+	}
+}
+
+void	free_cmd(t_cmd *cmd)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	if (!cmd)
+		return ;
+	len = cmd[0].len;
+	while (i < len)
+	{
+		free_matrix(&cmd[i]);
+		free_chev(cmd[i].chev);
+		i++;
+	}
+	free(cmd);
 }
 
 void	*free_the_tokens(t_oken *tokens)
@@ -28,26 +60,6 @@ void	*free_the_tokens(t_oken *tokens)
 	return (NULL);
 }
 
-/*void	free_cmd(t_cmd *cmd)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	if (!cmd)
-		return ;
-	len = cmd[0].len;
-	while (i < len)
-	{
-		free_matrix(&cmd[i]);
-		free(cmd[i].heredoc);
-		free(cmd[i].infile);
-		free(cmd[i].outfile);
-		i++;
-	}
-	free(cmd);
-}*/
-
 void	free_env(t_env *env)
 {
 	t_env	*tmp;
@@ -61,14 +73,4 @@ void	free_env(t_env *env)
 		free(env);
 		env = tmp;
 	}
-}
-
-void	free_all(t_conxita *all)
-{
-	free_the_tokens(all->token);
-	//free_cmd(all->cmd);
-	free(all->redir);
-	all->cmd = NULL;
-	all->token = NULL;
-	all->redir = NULL;
 }

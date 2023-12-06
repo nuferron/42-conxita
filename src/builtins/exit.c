@@ -59,7 +59,6 @@ int	builtin_exit(char **arg, t_conxita *all)
 	int		argn;
 	char	*str;
 
-	ft_dprintf(2, "EXIT: entraaaaa\n");
 	//if (isatty(STDIN_FILENO))
 	//{
 	//	ft_dprintf(2, "EXIT: isatty\n");
@@ -68,7 +67,6 @@ int	builtin_exit(char **arg, t_conxita *all)
 	argn = get_arg_number(arg);
 	if (!argn)
 	{
-		ft_dprintf(2, "EXIT: Ciao pescao");
 		system("leaks minishell");
 		exit(all->exit);
 	}
@@ -79,17 +77,13 @@ int	builtin_exit(char **arg, t_conxita *all)
 		exit(255);
 	}
 	if (!ft_strncmp(str, "--", 3))
-	{
-		ft_dprintf(2, "EXIT: YOHOHOHOHOHO\n");
 		exit(0);
-	}
 	if (argn > 1)
 	{
 		ft_dprintf(2, "conxita: exit: too many arguments\n");
 		free(str);
 		return (1);
 	}
-	ft_dprintf(2, "EXIT: Ciao pescao");
 	system("leaks minishell");
 	exit((unsigned char)is_valid_exit(str));
 }

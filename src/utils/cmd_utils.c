@@ -33,6 +33,8 @@ char	*get_path(t_env *env, char *str)
 	while (i < total)
 	{
 		path = ft_strjoin_free(minisplit(env->value, i++), str);
+		if (!path)
+			exit(-print_errors(NULL));
 		if (access(path, X_OK) == 0)
 			return (path);
 		free(path);

@@ -6,7 +6,7 @@
 #    By: nuferron <nuferron@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/14 00:01:43 by nuferron          #+#    #+#              #
-#    Updated: 2023/11/29 16:35:49 by nuferron         ###   ########.fr        #
+#    Updated: 2023/12/07 00:15:26 by nuferron         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRCDIR = src/
 SRCDIR_BNS = src_bonus/
 NAME = libftprintf.a
 HEADER = libftprintf.h
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -O3
 COLUMNS = $(shell tput cols)
 
 all:		${NAME}

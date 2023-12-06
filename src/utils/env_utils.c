@@ -10,13 +10,17 @@ t_env	*search_env(t_env *env, char *key)
 	return (env);
 }
 
-t_env	*search_t_env(t_env *env, char *key)
+void	add_shlvl(t_env *env)
 {
-	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
-		env = env->next;
-	if (!env)
-		return (NULL);
-	return (env);
+	char	*new_shlvl;
+	t_env	*shlvl;
+
+	shlvl = search_env(env, "SHLVL");
+	if (shlvl == NULL)
+		return ;
+	new_shlvl = ft_itoa(ft_atoi(shlvl->value) + 1);
+	free(shlvl->value);
+	shlvl->value = new_shlvl;
 }
 
 /*Separates the variable name (flag == 0) from its value (flag == 1)*/

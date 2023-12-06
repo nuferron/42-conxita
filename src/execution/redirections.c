@@ -4,10 +4,13 @@
 int	redirections(t_cmd *cmd, t_redir *redir)
 {
 	if (cmd->input == ipipe)
-		cmd->last[0] = redir->fdr_aux;
+		cmd->last[0] = dup(redir->fdr_aux);
 	if (cmd->output == opipe)
-		cmd->last[1] = redir->fd_pipe[1];
-	if (init_chev(cmd->chev, cmd->last) == -1)
+		cmd->last[1] = dup(redir->fd_pipe[1]);
+	close(redir->fdr_aux);
+	close(redir->fd_pipe[0]);
+	close(redir->fd_pipe[1]);
+	if (cmd->chev && init_chev(cmd->chev, cmd->last) == -1)
 		return (-1);
 	if (cmd->last[0] > 0 && dup2(cmd->last[0], 0) == -1)
 		exit(-print_errors(NULL));

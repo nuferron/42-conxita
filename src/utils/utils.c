@@ -21,7 +21,7 @@ int	ft_waitpid(int pid, int len)
 	code = -1;
 	while (++i <= len)
 	{
-		wait = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+		wait = waitpid(-1, &status, 0);
 		if (wait == pid)
 		{
 			if (WIFEXITED(status))

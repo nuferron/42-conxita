@@ -44,7 +44,7 @@ char	*minisplit(char *path, int count)
 	}
 	tmp = ft_substr(path, i, len_to_char(&path[i], ':'));
 	if (!tmp)
-		return (NULL);
+		exit(-print_errors(NULL));
 	result = ft_strjoin(tmp, "/");
 	free(tmp);
 	return (result);
