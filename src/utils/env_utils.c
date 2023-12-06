@@ -83,7 +83,10 @@ char	**env_to_mat(t_env *env, int print)
 	while (env)
 	{
 		if (!env->show && !print)
+		{
+			env = env->next;
 			continue ;
+		}
 		sys_env[j] = get_env_var(env, print);
 		if (!sys_env[j++])
 			exit(print_errors(NULL) * (-1));

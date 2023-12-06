@@ -13,7 +13,10 @@ t_env	*new_env(char *env_var)
 		node->value = ft_strdup(splitting_env(env_var, 1));
 	if (!node->key)
 		exit(-print_errors(NULL));
-	node->show = 1;
+	if (node->value && node->value[0])
+		node->show = 1;
+	else
+		node->show = 0;
 	node->next = NULL;
 	return (node);
 }

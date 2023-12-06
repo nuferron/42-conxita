@@ -31,10 +31,13 @@ void	update_env(t_env *env, char *arg)
 	{
 		free(tmp->key);
 		tmp->key = splitting_env(arg, 0);
-		free(tmp->value);
-		tmp->value = splitting_env(arg, 1);
-		if (!tmp->key)
-			exit(-print_errors(NULL));
+		if (ft_strchr(arg, '='))
+		{
+			free(tmp->value);
+			tmp->value = splitting_env(arg, 1);
+			if (!tmp->key)
+				exit(-print_errors(NULL));
+		}
 	}
 	free(str);
 }
