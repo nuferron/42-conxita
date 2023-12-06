@@ -113,7 +113,7 @@ int		is_builtin(char *str);
 int		get_arg_number(char **args);
 
 /*Environment Utils*/
-char	*search_env(t_env *env, char *key);
+t_env	*search_env(t_env *env, char *key);
 char	**env_to_mat(t_env *env, int print);
 t_env	*env_to_lst(char **env);
 void	env_addback(t_env **env, t_env *new);
