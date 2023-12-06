@@ -6,6 +6,7 @@ int	here_doc(char *key)
 	char	*line;
 	int		pipe_h[2];
 
+	set_signals_interactive();
 	if (pipe(pipe_h) == -1)
 		return (print_errors(NULL));
 	line = readline("> ");
@@ -21,5 +22,6 @@ int	here_doc(char *key)
 	}
 	free(line);
 	close(pipe_h[1]);
+	set_signals_noninteractive();
 	return (pipe_h[0]);
 }

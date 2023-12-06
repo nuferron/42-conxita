@@ -20,7 +20,8 @@
 #define LINE_DEL	"\012"
 #define SYNTAX		"syntax error near unexpected token "
 
-enum	e_arg_type {red = 0, arg = 1};
+enum	e_arg_type {red = 0, arg = 1}
+;
 enum	e_output {stdo = 0, opipe = 1};
 enum	e_input {stdi = 0, ipipe = 1};
 enum	e_chev {std = 0, outt = 1, outa = 2, in = 3, here = 4};
@@ -86,8 +87,8 @@ typedef struct s_env
 }	t_env;
 
 /*Signal Handler*/
-void	signal_hook(int sig);
-void	setup_signals(void);
+void	set_signals_interactive(void);
+void	set_signals_noninteractive(void);
 
 /*Prompt Handler*/
 int		handle_prompt(char *prompt, t_conxita *all);
