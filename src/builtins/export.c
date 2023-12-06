@@ -1,18 +1,15 @@
 #include "../../conxita.h"
 
-static void	print_export(t_env *env_lst)
+void print_export(t_env *env)
 {
-	int		i;
-	char	**env;
-
-	i = 0;
-	env = env_to_mat(env_lst, 1);
-	while (env[i])
+	while (env)
 	{
-		printf("declare -x %s\n", env[i]);
-		i++;
+		printf("declare -x %s", env->key);
+		if (env->value)
+			printf("=\"%s\"", env->value);
+		printf("\n");
+		env = env->next;
 	}
-	free (env);
 }
 
 static int	is_valid_export(char *arg)
@@ -31,24 +28,45 @@ static int	is_valid_export(char *arg)
 	return (1);
 }
 
-static int	set_env(char **args, t_env *env)
+void	update_env(t_env *env, char *arg)
+{
+	char	*str;
+	t_env	*tmp;
+
+	str = splitting_env(arg, 0);
+	tmp = search_env(env, str);
+	if (!tmp)
+		env_addback(&env, new_env(arg));
+	else
+	{
+		free(tmp->key);
+		tmp->key = splitting_env(arg, 0);
+		free(tmp->value);
+		tmp->value = splitting_env(arg, 1);
+		if (!tmp->key)
+			exit(-print_errors(NULL));
+	}
+	free(str);
+}
+
+static int	set_env(char **arg, t_env *env)
 {
 	int		i;
 	int		exit_code;
 
 	i = 0;
 	exit_code = 0;
-	while (args[i])
+	while (arg[i])
 	{
-		if (!is_valid_export(args[i]))
+		if (!is_valid_export(arg[i]))
 		{
 			exit_code = 1;
 			ft_dprintf(2, "conxita: export: `%s': not a valid identifier\n",
-				args[i]);
+					arg[i]);
 			i++;
 			continue ;
 		}
-		env_addback(&env, new_env(args[i]));
+		update_env(env, arg[i]);
 		i++;
 	}
 	return (exit_code);
