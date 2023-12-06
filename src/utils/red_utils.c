@@ -28,7 +28,9 @@ int	check_chev_errors(t_oken *token, int *i)
 		return (print_errors(SYNTAX"\'newline\'"), 258);
 	if (*i == 0 && !ft_strncmp(token[*i].val, "|", 2))
 		return (print_errors(SYNTAX"\'|\'"), 258);
-	if (token[*i + 1].type == red)
+	if ((ft_strncmp(token[*i].val, "|", 2) && token[*i + 1].type == red)
+		|| (!ft_strncmp(token[*i].val, "|", 2)
+		&& !ft_strncmp(token[*i + 1].val, "|", 2)))
 	{
 		tmp = ft_strjoin(SYNTAX, token[*i + 1].val);
 		print_errors(tmp);
