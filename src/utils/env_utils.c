@@ -1,15 +1,13 @@
 #include "../../conxita.h"
 
 /*Searches key as an env variable and returns its value as a string*/
-char	*search_env(t_env *env, char *key)
+t_env	*search_env(t_env *env, char *key)
 {
 	if (!key)
 		return (NULL);
 	while (env && ft_strncmp(key, env->key, ft_strlen(env->key) + 1))
 		env = env->next;
-	if (!env)
-		return (NULL);
-	return (env->value);
+	return (env);
 }
 
 /*Separates the variable name (flag == 0) from its value (flag == 1)*/
@@ -19,7 +17,7 @@ char	*splitting_env(char *env, int flag)
 	int		equal;
 
 	equal = 0;
-	while (env[equal] != '=' && env[equal] != '\0')
+	while (env[equal] != '\0' && env[equal] != '=')
 		equal++;
 	if (flag == 0)
 	{
@@ -29,7 +27,7 @@ char	*splitting_env(char *env, int flag)
 	}
 	else
 	{
-		if (env[++equal] == '\0')
+		if (!env[equal++])
 			return (NULL);
 		str = ft_substr(env, equal, ft_strlen(&env[equal]));
 		if (!str)
