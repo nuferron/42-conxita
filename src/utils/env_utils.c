@@ -10,6 +10,15 @@ char	*search_env(t_env *env, char *key)
 	return (env->value);
 }
 
+t_env	*search_t_env(t_env *env, char *key)
+{
+	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
+		env = env->next;
+	if (!env)
+		return (NULL);
+	return (env);
+}
+
 /*Separates the variable name (flag == 0) from its value (flag == 1)*/
 char	*splitting_env(char *env, int flag)
 {
