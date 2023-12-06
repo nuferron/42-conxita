@@ -3,12 +3,9 @@
 /*Searches key as an env variable and returns its value as a string*/
 char	*search_env(t_env *env, char *key)
 {
-	int	len;
-
 	if (!key)
 		return (NULL);
-	len = ft_strlen(key);
-	while (env && ft_strncmp(key, env->key, len))
+	while (env && ft_strncmp(key, env->key, ft_strlen(env->key) + 1))
 		env = env->next;
 	if (!env)
 		return (NULL);
