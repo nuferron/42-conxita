@@ -13,6 +13,15 @@ static void	add_shlvl(t_env *env)
 	shlvl->value = new_shlvl;
 }
 
+void	term_init(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*prompt;
@@ -23,10 +32,10 @@ int	main(int argc, char **argv, char **env)
 	if (argc > 1)
 		return (printf("Too many arguments\n"));
 	print_conxita();
-	setup_signals();
 	all.env = env_to_lst(env);
 	all.exit = 0;
 	add_shlvl(all.env);
+	term_init();
 	while ("Conxita")
 	{
 		prompt_text = ft_strjoin(search_env(all.env, "USER")->value, "@conxita$ ");
@@ -34,6 +43,7 @@ int	main(int argc, char **argv, char **env)
 		all.cmd = NULL;
 		while ("Conxita")
 		{
+			set_signals_interactive();
 			if (search_env(all.env, "USER")->value != NULL)
 				prompt_text = ft_strjoin(search_env(all.env, "USER")->value,
 					"@conxita$ ");
@@ -47,6 +57,7 @@ int	main(int argc, char **argv, char **env)
 				exit (all.exit);
 			}
 			free(prompt_text);
+			set_signals_noninteractive();
 			handle_prompt(prompt, &all);
 			//free_all(&all);
 			free(prompt);
