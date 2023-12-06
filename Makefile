@@ -7,7 +7,6 @@ CYAN =	\033[1;36m
 WHITE =	\033[1;37m
 RESET =	\033[0m
 
-#! REMOVE builtins_main.c
 SRCS_CONXITA = conxita.c conxita_handler.c conxita_input.c
 SRCS_PROMPT = prompt_handler.c
 SRCS_TOKENIZER = tokenizer.c token_counter.c token_populator.c quote_utils.c env_handler.c \
@@ -18,7 +17,7 @@ SRCS_UTILS = bool_utils.c env_utils.c conversion_utils.c utils.c cmd_utils.c pat
 SRCS_SIGNALS = signal_handler.c
 SRCS_EXEC = execution.c heredoc.c redirections.c
 SRCS_ERRORS = errors.c
-SRCS_BUILTINS = echo.c pwd.c cd.c builtins_main.c exit.c env.c export.c
+SRCS_BUILTINS = echo.c pwd.c cd.c exit.c env.c export.c unset.c
 
 SRCS = $(addprefix conxita/,$(SRCS_CONXITA)) $(addprefix prompt/,$(SRCS_PROMPT)) \
 	   $(addprefix utils/,$(SRCS_UTILS)) $(addprefix signals/,$(SRCS_SIGNALS)) \
@@ -31,7 +30,7 @@ HEADER = conxita.h
 LIB = libs/libft/
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.c=.o))
-NAME = minishell
+NAME = conxita
 COLUMNS = $(shell tput cols)
 
 RLINE_DIR   := libs/readline/
