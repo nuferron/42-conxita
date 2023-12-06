@@ -38,30 +38,14 @@ int	main(int argc, char **argv, char **env)
 	term_init();
 	while ("Conxita")
 	{
+		set_signals_interactive();
 		prompt_text = ft_strjoin(search_env(all.env, "USER")->value, "@conxita$ ");
-		all.token = NULL;
-		all.cmd = NULL;
-		while ("Conxita")
-		{
-			set_signals_interactive();
-			if (search_env(all.env, "USER")->value != NULL)
-				prompt_text = ft_strjoin(search_env(all.env, "USER")->value,
-					"@conxita$ ");
-			else
-				prompt_text = ft_strdup("[unknown]@conxita$ ");
-			prompt = readline(prompt_text);
-			if (!prompt)
-			{
-				if (isatty(STDIN_FILENO))
-					write(2, "exit\n", 6);
-				exit (all.exit);
-			}
-			free(prompt_text);
-			set_signals_noninteractive();
-			handle_prompt(prompt, &all);
-			//free_all(&all);
-			free(prompt);
-		}
+		prompt = readline(prompt_text);
+		free(prompt_text);
+		handle_prompt(prompt, &all);
+		//free_all(&all);
+		//free(prompt);
+		set_signals_noninteractive();
 	}
 	return (0);
 }
