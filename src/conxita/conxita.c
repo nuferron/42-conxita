@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **env)
 	add_shlvl(all.env);
 	while ("Conxita")
 	{
+		
 		prompt_text = ft_strjoin(search_env(all.env, "USER"), "@conxita$ ");
 		prompt = readline(prompt_text);
 		free(prompt_text);

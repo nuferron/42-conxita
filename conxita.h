@@ -159,6 +159,7 @@ int		builtin_cd(char **args, t_env *env);
 int		builtin_exit(char **args, t_conxita *all);
 int		builtin_env(t_env *env_lst);
 int		builtin_export(char **args, t_env *env_lst);
+int		builtin_unset(char **args, t_conxita *all);
 
 /*Free*/
 void	free_all(t_conxita *all);
