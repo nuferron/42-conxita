@@ -3,7 +3,12 @@
 /*Searches key as an env variable and returns its value as a string*/
 char	*search_env(t_env *env, char *key)
 {
-	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
+	int	len;
+
+	if (!key)
+		return (NULL);
+	len = ft_strlen(key);
+	while (env && ft_strncmp(key, env->key, len))
 		env = env->next;
 	if (!env)
 		return (NULL);
@@ -15,22 +20,23 @@ char	*splitting_env(char *env, int flag)
 {
 	char	*str;
 	int		equal;
-	char	last_char;
 
 	equal = 0;
 	while (env[equal] != '=' && env[equal] != '\0')
 		equal++;
 	if (flag == 0)
 	{
-		last_char = env[equal];
-		env[equal] = '\0';
-		str = env;
+		str = ft_substr(env, 0, equal);
+		if (!str)
+			exit(-print_errors(NULL));
 	}
 	else
 	{
-		if (env[equal] == '\0')
+		if (env[++equal] == '\0')
 			return (NULL);
-		str = &env[equal + 1];
+		str = ft_substr(env, equal, ft_strlen(&env[equal]));
+		if (!str)
+			exit(-print_errors(NULL));
 	}
 	return (str);
 }

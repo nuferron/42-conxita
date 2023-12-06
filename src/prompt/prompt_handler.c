@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-static int	prompt_preprocessor(char *prompt, t_conxita *all);
+static int	prompt_preprocessor(char *prompt, t_env *env);
 
 int	handle_prompt(char *prompt, t_conxita *all)
 {
@@ -52,7 +52,7 @@ static int	prompt_preprocessor(char *prompt, t_env *env)
 {
 	if (!prompt)
 	{
-		free_env(all->env);
+		free_env(env);
 		printf("exit\n");
 		system("leaks minishell");
 		exit(0);
