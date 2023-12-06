@@ -23,16 +23,12 @@ t_cmd	*cmd_to_null(int len)
 	while (++i < len)
 	{
 		cmd[i].cmd = NULL;
-		cmd[i].heredoc = NULL;
-		cmd[i].infile = NULL;
-		cmd[i].outfile = NULL;
-		cmd[i].infd = -1;
-		cmd[i].outfd = -1;
 		cmd[i].input = stdi;
 		cmd[i].output = stdo;
+		cmd[i].chev = NULL;
 		cmd[i].len = len;
-		cmd[i].fd_hd = -1;
-		cmd[i].leave = 0;
+		cmd[i].last[0] = -1;
+		cmd[i].last[1] = -1;
 	}
 	return (cmd);
 }
@@ -40,27 +36,27 @@ t_cmd	*cmd_to_null(int len)
 /*Converts t_oken to a t_cmd*/
 t_cmd	*token_to_cmd(t_conxita *all, int len)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	all->cmd = cmd_to_null(len);
 	while (j < len)
 	{
-		if (i > 0 && j > 0 && all->token[i - 1].val[0] == '|')
+		if (i && j && !ft_strncmp(all->token[i - 1].val, "|", 2))
 			all->cmd[j].input = ipipe;
-		if (i > 0 && j > 0 && all->token[i - 1].val[0] == '|'
+		if (i && j && !all->token[i - 1].type && all->token[i - 1].val[0] == '|'
 			&& all->cmd[j - 1].output == stdo)
 			all->cmd[j - 1].output = opipe;
-		if (all->token[i].type == red)
+		if (all->token[i].val && all->token[i].type == red)
 		{
 			if (init_cmd_red(all, &all->cmd[j], &i))
 				return (NULL);
 		}
 		else if (all->token[i].type == arg)
 			i = init_cmd_cmd(all->token, &all->cmd[j], i, all->env);
-		if (!all->token[i].val || (all->token[i].val[0] == '|'))
+		if (!all->token[i].val || !ft_strncmp(all->token[i].val, "|", 2))
 			j++;
 	}
 	return (all->cmd);

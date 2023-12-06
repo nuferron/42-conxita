@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:00:56 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/09/19 17:37:43 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/04 20:38:02 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_strlen(const char *s)
 	i = 0;
 	if (s == NULL)
 		return (0);
-	while (s[i] != '\0')
+	while (s[i])
 		i++;
 	return (i);
 }

@@ -1,13 +1,13 @@
 #include "../../conxita.h"
 
 /*Searches key as an env variable and returns its value as a string*/
-char	*search_env(t_env *env, char *key)
+t_env	*search_env(t_env *env, char *key)
 {
-	while (env && ft_strncmp(key, env->key, ft_strlen(key)))
-		env = env->next;
-	if (!env)
+	if (!key)
 		return (NULL);
-	return (env->value);
+	while (env && ft_strncmp(key, env->key, ft_strlen(env->key) + 1))
+		env = env->next;
+	return (env);
 }
 
 t_env	*search_t_env(t_env *env, char *key)
@@ -26,15 +26,22 @@ char	*splitting_env(char *env, int flag)
 	int		equal;
 
 	equal = 0;
-	while (env[equal] != '=' && env[equal] != '\0')
+	while (env[equal] != '\0' && env[equal] != '=')
 		equal++;
 	if (flag == 0)
 	{
-		env[equal] = '\0';
-		str = env;
+		str = ft_substr(env, 0, equal);
+		if (!str)
+			exit(-print_errors(NULL));
 	}
 	else
-		str = &env[equal + 1];
+	{
+		if (!env[equal++])
+			return (NULL);
+		str = ft_substr(env, equal, ft_strlen(&env[equal]));
+		if (!str)
+			exit(-print_errors(NULL));
+	}
 	return (str);
 }
 
@@ -85,7 +92,10 @@ char	**env_to_mat(t_env *env, int print)
 	while (env)
 	{
 		if (!env->show && !print)
+		{
+			env = env->next;
 			continue ;
+		}
 		sys_env[j] = get_env_var(env, print);
 		if (!sys_env[j++])
 			exit(print_errors(NULL) * (-1));

@@ -5,6 +5,8 @@ void	free_matrix(t_cmd *cmd)
 	int	i;
 
 	i = 0;
+	if (!cmd->cmd)
+		return ;
 	while (cmd->cmd[i])
 		free(cmd->cmd[i++]);
 	free(cmd->cmd);
@@ -15,22 +17,25 @@ void	*free_the_tokens(t_oken *tokens)
 	int	i;
 
 	i = 0;
-	while (tokens && tokens[i].val)
+	if (!tokens)
+		return (NULL);
+	while (tokens[i].val)
 	{
 		free(tokens[i].val);
 		i++;
 	}
-	if (tokens)
-		free(tokens);
+	free(tokens);
 	return (NULL);
 }
 
-void	free_cmd(t_cmd *cmd)
+/*void	free_cmd(t_cmd *cmd)
 {
 	int	i;
 	int	len;
 
 	i = 0;
+	if (!cmd)
+		return ;
 	len = cmd[0].len;
 	while (i < len)
 	{
@@ -41,7 +46,7 @@ void	free_cmd(t_cmd *cmd)
 		i++;
 	}
 	free(cmd);
-}
+}*/
 
 void	free_env(t_env *env)
 {
@@ -60,8 +65,10 @@ void	free_env(t_env *env)
 
 void	free_all(t_conxita *all)
 {
-	free_cmd(all->cmd);
 	free_the_tokens(all->token);
+	//free_cmd(all->cmd);
+	free(all->redir);
 	all->cmd = NULL;
 	all->token = NULL;
+	all->redir = NULL;
 }
