@@ -12,7 +12,7 @@ int	builtin_cd(char **args, t_env *env)
 	}
 	if (argn == 0)
 	{
-		if (chdir(search_env(env, "HOME")) == -1)
+		if (chdir(search_env(env, "HOME")->value) == -1)
 		{
 			ft_dprintf(2, "conxita: cd: HOME not set\n");
 			return (1);
