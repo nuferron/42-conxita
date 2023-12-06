@@ -37,13 +37,21 @@ static char	*get_env_name(char *prompt)
 static char	*get_val(t_conxita *all, char *name)
 {
 	char	*val;
+	t_env	*tmp;
 
-	val = search_env(all->env, name)->value;
+	val = NULL;
 	if (name[0] == '?')
+	{
 		val = ft_itoa(all->exit);
-	if (!val)
+		if (!val)
+			exit(-print_errors(NULL));
+		return (val);
+	}
+	else
+		tmp = search_env(all->env, name);
+	if (!tmp)
 		return ("");
-	return (val);
+	return (tmp->value);
 }
 
 static char	*replace_env(t_conxita *all, char *prompt, int *i)

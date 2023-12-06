@@ -1,5 +1,17 @@
 #include "../../conxita.h"
 
+char	*check_input(char *str)
+{
+	if (ft_strchr(str, '/') && access(str, X_OK) == 0)
+		return (ft_strdup(str));
+	else if (ft_strchr(str, '/') && access(str, X_OK) == -1)
+	{
+		print_errors(str);
+		exit(127);
+	}
+	return (NULL);
+}
+
 /*Returns an isolated path from the environment variable*/
 char	*get_path(t_env *env, char *str)
 {
@@ -8,16 +20,15 @@ char	*get_path(t_env *env, char *str)
 	int		total;
 
 	i = 0;
-	if (ft_strchr(str, '/') && access(str, X_OK) == 0)
-		return (ft_strdup(str));
+	path = check_input(str);
+	if (path)
+		return (path);
 	while (env && ft_strncmp(env->key, "PATH", 4))
 		env = env->next;
-	if (!env)
-	{
-		if (access(str, X_OK) == 0)
-			return (ft_strdup(str));
-		return (NULL);
-	}
+	if (!env && access(str, X_OK) == 0)
+		return (ft_strdup(str));
+	else if (!env)
+		return (ft_strdup(str));
 	total = path_count(env->value, ':');
 	while (i < total)
 	{
@@ -26,7 +37,7 @@ char	*get_path(t_env *env, char *str)
 			return (path);
 		free(path);
 	}
-	return (NULL);
+	return (ft_strdup(str));
 }
 
 /*Initializes char **cmd (NULL-terminated) from struct t_cmd.
@@ -37,6 +48,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 	int	j;
 	int	len;
 
+	(void)env;
 	j = get_arg_number(cmd->cmd);
 	if (!token)
 		return (-1);
@@ -47,9 +59,6 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 		exit(-print_errors(NULL));
 	while (token[i].val && token[i].type == arg)
 	{
-		if (j == 0 && !is_builtin(token[i].val))
-			cmd->cmd[j] = get_path(env, token[i].val);
-		if (j != 0 || !cmd->cmd[j] || is_builtin(token[i].val))
 			cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
 			exit(-print_errors(NULL));

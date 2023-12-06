@@ -138,6 +138,7 @@ t_cmd	*cmd_to_null(int len);
 
 /*Path Utils*/
 char	*minisplit(char *path, int count);
+char	*get_path(t_env *env, char *str);
 
 /*Chevrons Functions*/
 t_cmd	*token_to_cmd(t_conxita *all, int len);
@@ -156,7 +157,6 @@ int		init_chev(t_chev *chev, int	*last);
 
 /*Errors*/
 int		print_errors(char *str);
-// error code 258 for syntax error near unexpected token '|' // 'newline'
 
 /*Builtins*/
 int		builtin_echo(char **args);

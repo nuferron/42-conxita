@@ -1,17 +1,5 @@
 #include "../../conxita.h"
 
-void print_export(t_env *env)
-{
-	while (env)
-	{
-		printf("declare -x %s", env->key);
-		if (env->value)
-			printf("=\"%s\"", env->value);
-		printf("\n");
-		env = env->next;
-	}
-}
-
 static int	is_valid_export(char *arg)
 {
 	int	i;
@@ -19,6 +7,8 @@ static int	is_valid_export(char *arg)
 	i = 0;
 	while (arg[i])
 	{
+		if (i == 0 && ft_isdigit(arg[i]))
+			return (0);
 		if (!is_env(arg[i]) && arg[i] != '=')
 			return (0);
 		if (arg[i] == '=')
@@ -79,7 +69,14 @@ int	builtin_export(char **args, t_env *env_lst)
 	argn = get_arg_number(args);
 	if (argn == 0)
 	{
-		print_export(env_lst);
+		while (env_lst)
+		{
+			printf("declare -x %s", env_lst->key);
+			if (env_lst->value)
+				printf("=\"%s\"", env_lst->value);
+			printf("\n");
+			env_lst = env_lst->next;
+		}
 		return (0);
 	}
 	return (set_env(args, env_lst));

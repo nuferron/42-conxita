@@ -60,7 +60,7 @@ int	builtin_exit(char **arg, t_conxita *all)
 	char	*str;
 
 	if (isatty(STDIN_FILENO))
-		write(2, "exit\n", 6);
+		write(2, "exit\n", 5);
 	argn = get_arg_number(arg);
 	if (!argn)
 	{
@@ -68,11 +68,13 @@ int	builtin_exit(char **arg, t_conxita *all)
 		exit(all->exit);
 	}
 	str = ft_strtrim(arg[0], " ");
-	if (!ft_isnum(str) || !str)
+	if ((!ft_isnum(str) || !str) && ft_strncmp(str, "--", 3))
 	{
 		ft_dprintf(2, "conxita: exit: %s: numeric argument required\n", arg[0]);
 		exit(255);
 	}
+	if (!ft_strncmp(str, "--", 3))
+		exit(0);
 	if (argn > 1)
 	{
 		ft_dprintf(2, "conxita: exit: too many arguments\n");

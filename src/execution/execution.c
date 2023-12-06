@@ -2,6 +2,11 @@
 
 void	exec_no_builtins(t_cmd *cmd, t_env *env)
 {
+	char	*tmp;
+
+	tmp = cmd->cmd[0];
+	cmd->cmd[0] = get_path(env, tmp);
+	free(tmp);
 	if (execve(cmd->cmd[0], cmd->cmd, env_to_mat(env, 0)) == -1)
 	{
 		if (access(cmd->cmd[0], X_OK) == -1)
