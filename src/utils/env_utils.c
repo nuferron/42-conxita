@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:43:12 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 15:43:14 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../conxita.h"
 
 /*Searches key as an env variable and returns its value as a string*/
@@ -17,7 +29,10 @@ void	add_shlvl(t_env *env)
 
 	shlvl = search_env(env, "SHLVL");
 	if (shlvl == NULL)
+	{
+		env_addback(&env, new_env("SHLVL=1"));
 		return ;
+	}
 	new_shlvl = ft_itoa(ft_atoi(shlvl->value) + 1);
 	free(shlvl->value);
 	shlvl->value = new_shlvl;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   conxita.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 15:51:51 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 #define READLINE_LIBRARY
 #include "libs/libft/libft.h"
@@ -20,16 +32,34 @@
 #define LINE_DEL	"\012"
 #define SYNTAX		"syntax error near unexpected token "
 
-enum	e_arg_type {red = 0, arg = 1}
-;
-enum	e_output {stdo = 0, opipe = 1};
-enum	e_input {stdi = 0, ipipe = 1};
-enum	e_chev {std = 0, outt = 1, outa = 2, in = 3, here = 4};
+enum	e_arg_type
+{
+	red = 0,
+	arg = 1
+};
+enum	e_output
+{
+	stdo = 0,
+	opipe = 1
+};
+enum	e_input
+{
+	stdi = 0,
+	ipipe = 1
+};
+enum	e_chev
+{
+	std = 0,
+	outt = 1,
+	outa = 2,
+	in = 3,
+	here = 4
+};
 
-typedef struct s_cmd t_cmd;
-typedef struct s_env t_env;
-typedef struct s_oken t_oken;
-typedef struct s_redir t_redir;
+typedef struct s_cmd	t_cmd;
+typedef struct s_env	t_env;
+typedef struct s_oken	t_oken;
+typedef struct s_redir	t_redir;
 
 typedef struct s_conxita
 {

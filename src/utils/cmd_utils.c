@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:38:41 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 15:39:37 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../conxita.h"
 
 char	*check_input(char *str)
@@ -61,7 +73,7 @@ int	init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env)
 		exit(-print_errors(NULL));
 	while (token[i].val && token[i].type == arg)
 	{
-			cmd->cmd[j] = ft_strdup(token[i].val);
+		cmd->cmd[j] = ft_strdup(token[i].val);
 		if (!cmd->cmd[j])
 			exit(-print_errors(NULL));
 		i++;

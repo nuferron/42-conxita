@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:41:30 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/11/02 20:29:01 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:25:34 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	size_t	i; 
+	size_t	i;
 	size_t	j;
 
 	i = 0;

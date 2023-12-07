@@ -14,7 +14,7 @@ static char	*get_prompt(t_conxita *all)
 	{
 		if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
-		system("leaks minishell");
+		//system("leaks minishell");
 		exit(all->exit);
 	}
 	free(str);
@@ -30,6 +30,7 @@ static void	free_all(t_conxita *all)
 	all->token = NULL;
 	all->redir = NULL;
 }
+
 static void	init_all(t_conxita *all, char **env)
 {
 	all->cmd = NULL;
@@ -57,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 		return (printf("Too many arguments\n"));
-	print_conxita();
+	//print_conxita();
 	init_all(&all, env);
 	term_init();
 	while ("Conxita")
@@ -71,5 +72,3 @@ int	main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
-
-

@@ -10,6 +10,7 @@ int	builtin_env(t_env *env_lst)
 	while (env[i])
 	{
 		printf("%s\n", env[i]);
+		free(env[i]);
 		i++;
 	}
 	free(env);

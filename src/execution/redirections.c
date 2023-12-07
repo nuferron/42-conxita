@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:36:42 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 15:58:35 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../conxita.h"
 
 /*Redirects the file descriptors according with the input*/
@@ -7,19 +19,19 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 		cmd->last[0] = dup(redir->fdr_aux);
 	if (cmd->output == opipe)
 		cmd->last[1] = dup(redir->fd_pipe[1]);
-	close(redir->fdr_aux);
-	close(redir->fd_pipe[0]);
-	close(redir->fd_pipe[1]);
+//	close(redir->fdr_aux);
+//	close(redir->fd_pipe[0]);
+//	close(redir->fd_pipe[1]);
 	if (cmd->chev && init_chev(cmd->chev, cmd->last) == -1)
 		return (-1);
 	if (cmd->last[0] > 0 && dup2(cmd->last[0], 0) == -1)
 		exit(-print_errors(NULL));
-	if (cmd->last[1] != -1  && dup2(cmd->last[1], 1) == -1)
+	if (cmd->last[1] != -1 && dup2(cmd->last[1], 1) == -1)
 		exit(-print_errors(NULL));
 	return (0);
 }
 
-int init_chev(t_chev *chev, int *last)
+int	init_chev(t_chev *chev, int *last)
 {
 	while (chev)
 	{

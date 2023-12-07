@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:10:25 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/12/06 20:14:51 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:49:59 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	signal_print_newline(int signal)
 	(void)signal;
 	rl_on_new_line();
 }
-
 
 void	set_signals_interactive(void)
 {

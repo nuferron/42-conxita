@@ -54,7 +54,6 @@ static int	prompt_preprocessor(char *prompt, t_env *env)
 	{
 		free_env(env);
 		printf("exit\n");
-		system("leaks minishell");
 		exit(0);
 	}
 	add_history(prompt);

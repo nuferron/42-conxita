@@ -1,14 +1,16 @@
-#include "../../conxita.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   conversion_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:43:39 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 15:43:46 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// > file cmd
-// cmd
-// < file cmd
-// cmd << eof
-// << eof cat
-// cmd arg
-// cmd arg > file arg
-// cmd >> file
-// >> file cmd
+#include "../../conxita.h"
 
 /*Sets all t_cmd variables to either NULL or -1*/
 t_cmd	*cmd_to_null(int len)

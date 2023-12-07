@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:48:37 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 15:48:38 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../conxita.h"
 
 static int	is_valid_export(char *arg)
@@ -55,7 +67,7 @@ static int	set_env(char **arg, t_env *env)
 		{
 			exit_code = 1;
 			ft_dprintf(2, "conxita: export: `%s': not a valid identifier\n",
-					arg[i]);
+				arg[i]);
 			i++;
 			continue ;
 		}
