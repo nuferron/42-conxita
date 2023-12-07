@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 15:51:51 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:24:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int		builtin_pwd(void);
 int		builtin_cd(char **args, t_env *env);
 int		builtin_exit(char **args, t_conxita *all);
 int		builtin_env(t_env *env_lst);
-int		builtin_export(char **args, t_env *env_lst);
+int		builtin_export(char **args, t_env **env_lst);
 int		builtin_unset(char **args, t_conxita *all);
 
 /*Free*/
