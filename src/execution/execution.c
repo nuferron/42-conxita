@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/07 15:37:00 by nuferron          #+#    #+#             */
+/*   Updated: 2023/12/07 16:09:31 by nuferron         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../conxita.h"
 
 void	exec_no_builtins(t_cmd *cmd, t_env *env)
@@ -28,11 +40,11 @@ int	exec_cmd(t_cmd *cmd, t_conxita *all)
 		return (builtin_cd(&(cmd->cmd[1]), all->env));
 	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
 		return (builtin_pwd());
-	else if (!ft_strncmp(all->cmd->cmd[0], "export", 7))
-		return (builtin_export(&(all->cmd->cmd[1]), all->env));
-	else if (!ft_strncmp(all->cmd->cmd[0], "unset", 6))
-		return (builtin_unset(&(all->cmd->cmd[1]), all));
-	else if (!ft_strncmp(all->cmd->cmd[0], "env", 4))
+	else if (!ft_strncmp(cmd->cmd[0], "export", 7))
+		return (builtin_export(&(cmd->cmd[1]), all->env));
+	else if (!ft_strncmp(cmd->cmd[0], "unset", 6))
+		return (builtin_unset(&(cmd->cmd[1]), all));
+	else if (!ft_strncmp(cmd->cmd[0], "env", 4))
 		return (builtin_env(all->env));
 	else if (!ft_strncmp(cmd->cmd[0], "exit", 5))
 		return (builtin_exit(&(cmd->cmd[1]), all));
