@@ -4,9 +4,11 @@ static char	*get_prompt(t_conxita *all)
 {
 	char	*prompt;
 	char	*str;
+	t_env	*user;
 
-	if (search_env(all->env, "USER") != NULL)
-		str = ft_strjoin(search_env(all->env, "USER")->value, "@conxita$ ");
+	user = search_env(all->env, "USER");
+	if (user != NULL && *user->value)
+		str = ft_strjoin(user->value, "@conxita$ ");
 	else
 		str = ft_strdup("[unknown]@conxita$ ");
 	prompt = readline(str);
@@ -64,10 +66,10 @@ int	main(int argc, char **argv, char **env)
 	{
 		set_signals_interactive();
 		prompt = get_prompt(&all);
+		set_signals_noninteractive();
 		handle_prompt(prompt, &all);
 		free_all(&all);
 		free(prompt);
-		set_signals_noninteractive();
 	}
 	return (0);
 }

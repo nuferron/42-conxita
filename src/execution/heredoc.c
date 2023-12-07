@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:41:33 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 15:41:35 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:53:33 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ int	here_doc(char *key)
 	char	*line;
 	int		pipe_h[2];
 
-	set_signals_interactive();
 	if (pipe(pipe_h) == -1)
 		return (print_errors(NULL));
+	//set_signals_heredoc();
+	set_signals_interactive();
 	line = readline("> ");
+	set_signals_noninteractive();
 	while (line)
 	{
 		if (ft_strlen(key) == ft_strlen(line)
@@ -34,6 +36,5 @@ int	here_doc(char *key)
 	}
 	free(line);
 	close(pipe_h[1]);
-	set_signals_noninteractive();
 	return (pipe_h[0]);
 }

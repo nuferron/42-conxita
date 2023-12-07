@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   conxita.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 21:19:53 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:48:05 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_env
 /*Signal Handler*/
 void	set_signals_interactive(void);
 void	set_signals_noninteractive(void);
+void	set_signals_heredoc(void);
 
 /*Prompt Handler*/
 int		handle_prompt(char *prompt, t_conxita *all);
