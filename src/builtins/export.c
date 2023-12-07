@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:48:37 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 15:48:38 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:25:07 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ static int	is_valid_export(char *arg)
 	return (1);
 }
 
-void	update_env(t_env *env, char *arg)
+void	update_env(t_env **env, char *arg)
 {
 	char	*str;
 	t_env	*tmp;
 
 	str = splitting_env(arg, 0);
-	tmp = search_env(env, str);
+	tmp = search_env(*env, str);
 	if (!tmp)
-		env_addback(&env, new_env(arg));
+		env_addback(env, new_env(arg));
 	else
 	{
 		free(tmp->key);
@@ -54,7 +54,7 @@ void	update_env(t_env *env, char *arg)
 	free(str);
 }
 
-static int	set_env(char **arg, t_env *env)
+static int	set_env(char **arg, t_env **env)
 {
 	int		i;
 	int		exit_code;
@@ -77,20 +77,22 @@ static int	set_env(char **arg, t_env *env)
 	return (exit_code);
 }
 
-int	builtin_export(char **args, t_env *env_lst)
+int	builtin_export(char **args, t_env **env_lst)
 {
 	int	argn;
+	t_env	*tmp;
 
 	argn = get_arg_number(args);
+	tmp = *env_lst;
 	if (argn == 0)
 	{
-		while (env_lst)
+		while (tmp)
 		{
-			printf("declare -x %s", env_lst->key);
-			if (env_lst->value)
-				printf("=\"%s\"", env_lst->value);
+			printf("declare -x %s", tmp->key);
+			if (tmp->value)
+				printf("=\"%s\"", tmp->value);
 			printf("\n");
-			env_lst = env_lst->next;
+			tmp = tmp->next;
 		}
 		return (0);
 	}

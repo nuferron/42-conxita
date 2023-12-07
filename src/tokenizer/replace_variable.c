@@ -20,7 +20,26 @@ void	skip_unexpandable(char *str, int *i)
 	}
 }
 
-static char	*get_pos(char *str, char *old)
+int	is_double_quoted(char *str, int i)
+{
+	int		j;
+	bool	quotes;
+	bool	simple;
+
+	quotes = false;
+	simple = false;
+	j = 0;
+	while (str[j] && j < i)
+	{
+		if (str[j] == '\'' && !quotes)
+			simple = !simple;
+		if (str[j++] == '\"' && !simple)
+			quotes = !quotes;
+	}
+	return (quotes);
+}
+
+static char	*get_pos(char *str, char *old, char *full_str)
 {
 	int		i;
 	int		j;
@@ -33,8 +52,12 @@ static char	*get_pos(char *str, char *old)
 	{
 		if (str[i] == '"')
 			b_invert(&d_quotes);
-		if ((str[i] == '\'' && !d_quotes) || ft_strnstr(&str[i], "<<", 2))
+		if ((str[i] == '\'' && !is_double_quoted(full_str, ft_strlen(full_str) - ft_strlen(str) + i))
+				|| ft_strnstr(&str[i], "<<", 2))
+		{
 			skip_unexpandable(str, &i);
+			i--;
+		}
 		while (str[i] == old[j])
 		{
 			i++;
@@ -54,12 +77,12 @@ static int	get_len(char *str, char *old, char *new)
 	char	*pos;
 
 	len = ft_strlen(str);
-	pos = get_pos(str, old);
+	pos = get_pos(str, old, str);
 	while (pos)
 	{
 		len -= ft_strlen(old);
 		len += ft_strlen(new);
-		pos = get_pos(pos + 1, old);
+		pos = get_pos(pos + 1, old, str);
 	}
 	return (len);
 }
@@ -68,9 +91,11 @@ static void	replace(char *str, char *new_str, char *old, char *new)
 {
 	int		i;
 	char	*pos;
+	char	*first_position;
 
 	i = 0;
-	pos = get_pos(str, old);
+	first_position = &str[0];
+	pos = get_pos(str, old, first_position);
 	while (pos)
 	{
 		while (str != pos)
@@ -83,14 +108,10 @@ static void	replace(char *str, char *new_str, char *old, char *new)
 		}
 		i = 0;
 		str += ft_strlen(old);
-		pos = get_pos(str, old);
+		pos = get_pos(str, old, first_position);
 	}
 	while (*str)
-	{
-		*new_str = *str;
-		str++;
-		new_str++;
-	}
+		*new_str++ = *str++;
 }
 
 char	*replace_variable(char *str, char *old, char *new)
@@ -99,7 +120,7 @@ char	*replace_variable(char *str, char *old, char *new)
 
 	if (!str || !old || !new)
 		return (NULL);
-	if (!get_pos(str, old))
+	if (!get_pos(str, old, str))
 		return (ft_strdup(str));
 	new_str = ft_calloc(get_len(str, old, new) + 1, sizeof(char));
 	if (!new_str)

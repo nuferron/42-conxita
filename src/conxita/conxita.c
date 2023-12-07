@@ -5,7 +5,7 @@ static char	*get_prompt(t_conxita *all)
 	char	*prompt;
 	char	*str;
 
-	if (search_env(all->env, "USER")->value != NULL)
+	if (search_env(all->env, "USER") != NULL)
 		str = ft_strjoin(search_env(all->env, "USER")->value, "@conxita$ ");
 	else
 		str = ft_strdup("[unknown]@conxita$ ");
@@ -14,7 +14,6 @@ static char	*get_prompt(t_conxita *all)
 	{
 		if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
-		//system("leaks minishell");
 		exit(all->exit);
 	}
 	free(str);

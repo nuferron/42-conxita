@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:37:00 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 16:09:31 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 16:24:30 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	exec_cmd(t_cmd *cmd, t_conxita *all)
 	else if (!ft_strncmp(cmd->cmd[0], "pwd", 4))
 		return (builtin_pwd());
 	else if (!ft_strncmp(cmd->cmd[0], "export", 7))
-		return (builtin_export(&(cmd->cmd[1]), all->env));
+		return (builtin_export(&(cmd->cmd[1]), &(all->env)));
 	else if (!ft_strncmp(cmd->cmd[0], "unset", 6))
 		return (builtin_unset(&(cmd->cmd[1]), all));
 	else if (!ft_strncmp(cmd->cmd[0], "env", 4))
