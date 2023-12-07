@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 16:24:52 by marvin           ###   ########.fr       */
+/*   Updated: 2023/12/07 21:19:53 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ char	*expand_env(t_conxita *all, char *prompt);
 int		is_env(char c);
 char	*replace_variable(char *str, char *old, char *new);
 void	skip_unexpandable(char *str, int *i);
+char	*get_pos(char *str, char *old, char *full_str);
 
 /*Conxita Handler*/
 void	print_conxita(void);
@@ -159,6 +160,7 @@ int		cmd_count(t_oken *token, int i);
 int		env_len(t_env *env);
 int		path_count(const char *str, char sep);
 int		get_arg_number(char **args);
+int		get_len(char *str, char *old, char *new);
 
 /*Initializing Utils*/
 int		init_cmd_cmd(t_oken *token, t_cmd *cmd, int i, t_env *env);

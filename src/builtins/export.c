@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:48:37 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 16:25:07 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:22:21 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	set_env(char **arg, t_env **env)
 
 int	builtin_export(char **args, t_env **env_lst)
 {
-	int	argn;
+	int		argn;
 	t_env	*tmp;
 
 	argn = get_arg_number(args);

@@ -20,40 +20,38 @@ void	skip_unexpandable(char *str, int *i)
 	}
 }
 
-int	is_double_quoted(char *str, int i)
+int	is_quoted(char *full, char *str, int i)
 {
 	int		j;
+	int		len;
 	bool	quotes;
 	bool	simple;
 
+	j = 0;
+	len = ft_strlen(full) - ft_strlen(str) + i;
 	quotes = false;
 	simple = false;
-	j = 0;
-	while (str[j] && j < i)
+	while (full[j] && j < i)
 	{
-		if (str[j] == '\'' && !quotes)
+		if (full[j] == '\'' && !quotes)
 			simple = !simple;
-		if (str[j++] == '\"' && !simple)
+		if (full[j++] == '\"' && !simple)
 			quotes = !quotes;
 	}
 	return (quotes);
 }
 
-static char	*get_pos(char *str, char *old, char *full_str)
+char	*get_pos(char *str, char *old, char *full_str)
 {
 	int		i;
 	int		j;
-	bool	d_quotes;
 
 	i = 0;
 	j = 0;
-	d_quotes = false;
 	while (str[i])
 	{
-		if (str[i] == '"')
-			b_invert(&d_quotes);
-		if ((str[i] == '\'' && !is_double_quoted(full_str, ft_strlen(full_str) - ft_strlen(str) + i))
-				|| ft_strnstr(&str[i], "<<", 2))
+		if ((str[i] == '\'' && !is_quoted(full_str, str, i))
+			|| ft_strnstr(&str[i], "<<", 2))
 		{
 			skip_unexpandable(str, &i);
 			i--;
@@ -69,22 +67,6 @@ static char	*get_pos(char *str, char *old, char *full_str)
 			i++;
 	}
 	return (NULL);
-}
-
-static int	get_len(char *str, char *old, char *new)
-{
-	int		len;
-	char	*pos;
-
-	len = ft_strlen(str);
-	pos = get_pos(str, old, str);
-	while (pos)
-	{
-		len -= ft_strlen(old);
-		len += ft_strlen(new);
-		pos = get_pos(pos + 1, old, str);
-	}
-	return (len);
 }
 
 static void	replace(char *str, char *new_str, char *old, char *new)

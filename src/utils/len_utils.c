@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:44:10 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 15:44:11 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/07 21:18:17 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,20 @@ int	get_arg_number(char **args)
 	while (args[i])
 		i++;
 	return (i);
+}
+
+int	get_len(char *str, char *old, char *new)
+{
+	int		len;
+	char	*pos;
+
+	len = ft_strlen(str);
+	pos = get_pos(str, old, str);
+	while (pos)
+	{
+		len -= ft_strlen(old);
+		len += ft_strlen(new);
+		pos = get_pos(pos + 1, old, str);
+	}
+	return (len);
 }
