@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:36:42 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 17:26:01 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:52:25 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	init_chev(t_chev *chev, int *last)
 		if ((chev->type == outt || chev->type == outa) && last[1] < 0)
 			return (print_errors(chev->file));
 		if (chev->type == here)
+		{
 			last[0] = chev->fd;
+			printf("init chev: here %d\n", last[0]);
+		}
 		else if (chev->type == in)
 			last[0] = open(chev->file, O_RDONLY);
 		if (chev->type == in && last[0] < 0)
