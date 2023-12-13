@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   conxita.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/13 19:27:55 by blvilarn          #+#    #+#             */
+/*   Updated: 2023/12/13 19:27:56 by blvilarn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../conxita.h"
 
 char	*get_prompt(t_conxita *all)
@@ -62,7 +74,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc > 1)
 		return (printf("Too many arguments\n"));
-	//print_conxita();
+	print_conxita();
 	init_all(&all, env);
 	term_init();
 	while ("Conxita")
