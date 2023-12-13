@@ -1,6 +1,6 @@
 #include "../../conxita.h"
 
-static char	*get_prompt(t_conxita *all)
+char	*get_prompt(t_conxita *all)
 {
 	char	*prompt;
 	char	*str;
@@ -15,7 +15,10 @@ static char	*get_prompt(t_conxita *all)
 	if (!prompt)
 	{
 		if (isatty(STDIN_FILENO))
-			write(2, "exit\n", 6);
+		{
+			printf(LINE_DEL);
+			printf("%s %s\n", str, "exit");
+		}
 		exit(all->exit);
 	}
 	free(str);

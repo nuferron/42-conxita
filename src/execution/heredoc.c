@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:41:33 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 17:56:26 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:46:05 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ int	here_doc_wrapper(char *key)
 		here_doc(key, pipe_h);
 	pid_code = ft_waitpid(pid, 1);
 	set_signals_noninteractive();
+	close(pipe_h[1]);
 	if (pid_code == 2)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		pid_code = -1;
+		close(pipe_h[0]);
+		return (-1);
 	}
-	close(pipe_h[1]);
 	return (pipe_h[0]);
 }
 

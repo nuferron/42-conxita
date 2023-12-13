@@ -1,26 +1,5 @@
 #include "../../conxita.h"
 
-static int	prompt_preprocessor(char *prompt, t_env *env);
-
-int	handle_prompt(char *prompt, t_conxita *all)
-{
-	if (!ft_strncmp(prompt, "", 2))
-		return (-1);
-	if (prompt_preprocessor(prompt, all->env) < 0)
-	{
-		all->exit = 258;
-		return (-1);
-	}
-	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
-	if (!all->token)
-		return (0);
-	if (!token_to_cmd(all, cmd_count(all->token, 0) + 1))
-		return (-1);
-	all->redir = init_redir();
-	all->exit = lets_execute(all, all->cmd->len);
-	return (0);
-}
-
 static int	check_prompt_errors(char *prompt)
 {
 	int		i;
@@ -48,16 +27,29 @@ static int	check_prompt_errors(char *prompt)
 	return (0);
 }
 
-static int	prompt_preprocessor(char *prompt, t_env *env)
+static int	prompt_preprocessor(char *prompt)
 {
-	if (!prompt)
-	{
-		free_env(env);
-		printf("exit\n");
-		exit(0);
-	}
 	add_history(prompt);
 	if (check_prompt_errors(prompt) == -1)
 		return (-1);
+	return (0);
+}
+
+int	handle_prompt(char *prompt, t_conxita *all)
+{
+	if (!ft_strncmp(prompt, "", 2))
+		return (-1);
+	if (prompt_preprocessor(prompt) < 0)
+	{
+		all->exit = 258;
+		return (-1);
+	}
+	all->token = glorified_ft_split(ft_strtrim(prompt, " "), all);
+	if (!all->token)
+		return (0);
+	if (!token_to_cmd(all, cmd_count(all->token, 0) + 1))
+		return (-1);
+	all->redir = init_redir();
+	all->exit = lets_execute(all, all->cmd->len);
 	return (0);
 }

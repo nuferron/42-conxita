@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 18:01:50 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:41:23 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
 
-#define LINE_DEL	"\33[2K\r"
+#define LINE_DEL	"\33[A"
 #define SYNTAX		"syntax error near unexpected token "
 
 enum	e_arg_type
@@ -143,8 +143,9 @@ char	*replace_variable(char *str, char *old, char *new);
 void	skip_unexpandable(char *str, int *i);
 char	*get_pos(char *str, char *old, char *full_str);
 
-/*Conxita Handler*/
+/*Conxita*/
 void	print_conxita(void);
+char	*get_prompt(t_conxita *all);
 
 /*Utils*/
 void	b_invert(bool *b);
