@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:41:33 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 17:18:57 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:40:05 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	here_doc(char *key, int *pipe_h)
 	{
 		set_signals_noninteractive();
 		if (ft_strlen(key) == ft_strlen(line)
-			&& ft_strncmp(line, key, ft_strlen(key) - 1) == 0)
+			&& ft_strncmp(line, key, ft_strlen(key)) == 0)
 			break ;
 		write(pipe_h[1], line, ft_strlen(line));
 		write(pipe_h[1], "\n", 1);
