@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 16:50:37 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:01:50 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #include "libs/readline/readline.h"
 #include "libs/readline/history.h"
 
-#define LINE_DEL	"\012"
+#define LINE_DEL	"\33[2K\r"
 #define SYNTAX		"syntax error near unexpected token "
 
 enum	e_arg_type
@@ -120,6 +120,7 @@ typedef struct s_env
 void	set_signals_interactive(void);
 void	set_signals_noninteractive(void);
 void	set_signals_heredoc(void);
+void	set_signals_ignore_all(void);
 
 /*Signal Utils*/
 void	signal_reset_prompt(int signo);

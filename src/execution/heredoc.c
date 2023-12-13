@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:41:33 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 17:40:05 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:56:26 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	here_doc_wrapper(char *key)
 	if (pipe(pipe_h) == -1)
 		return (print_errors(NULL));
 	pid = fork();
+	set_signals_ignore_all();
 	if (pid == 0)
 		here_doc(key, pipe_h);
 	pid_code = ft_waitpid(pid, 1);
+	set_signals_noninteractive();
 	if (pid_code == 2)
 	{
 		write(1, "\n", 1);
