@@ -6,25 +6,20 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 16:10:25 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/12/07 22:13:03 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:14:56 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../conxita.h"
 
-static void	signal_reset_prompt(int signo)
+void	set_signals_heredoc(void)
 {
-	(void)signo;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	struct sigaction	act;
 
-static void	signal_print_newline(int signal)
-{
-	(void)signal;
-	rl_on_new_line();
+	ft_memset(&act, 0, sizeof(act));
+	act.sa_handler = &signal_heredoc;
+	sigaction(SIGINT, &act, NULL);
+	sigaction(SIGQUIT, &act, NULL);
 }
 
 void	set_signals_interactive(void)

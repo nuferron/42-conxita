@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chev_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:43:28 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 15:43:29 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:18:07 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_chev	*new_chev(char *file, char *type)
 	else if (!ft_strncmp(type, "<<", 3))
 	{
 		node->type = here;
-		node->fd = here_doc(file);
+		node->fd = here_doc_wrapper(file);
 	}
 	else if (!ft_strncmp(type, ">", 2))
 		node->type = outt;

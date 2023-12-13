@@ -6,35 +6,54 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:41:33 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 21:53:33 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:18:57 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../conxita.h"
 
-/*Replicates the heredoc functionality (<<)*/
-int	here_doc(char *key)
+int	here_doc_wrapper(char *key)
 {
-	char	*line;
-	int		pipe_h[2];
+	int	pipe_h[2];
+	int	pid;
+	int	pid_code;
 
 	if (pipe(pipe_h) == -1)
 		return (print_errors(NULL));
-	//set_signals_heredoc();
-	set_signals_interactive();
+	pid = fork();
+	if (pid == 0)
+		here_doc(key, pipe_h);
+	pid_code = ft_waitpid(pid, 1);
+	if (pid_code == 2)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		pid_code = -1;
+	}
+	close(pipe_h[1]);
+	return (pipe_h[0]);
+}
+
+/*Replicates the heredoc functionality (<<)*/
+int	here_doc(char *key, int *pipe_h)
+{
+	char	*line;
+
+	set_signals_heredoc();
 	line = readline("> ");
-	set_signals_noninteractive();
 	while (line)
 	{
+		set_signals_noninteractive();
 		if (ft_strlen(key) == ft_strlen(line)
 			&& ft_strncmp(line, key, ft_strlen(key) - 1) == 0)
 			break ;
 		write(pipe_h[1], line, ft_strlen(line));
 		write(pipe_h[1], "\n", 1);
 		free(line);
+		set_signals_heredoc();
 		line = readline("> ");
 	}
 	free(line);
-	close(pipe_h[1]);
-	return (pipe_h[0]);
+	exit (pipe_h[0]);
 }

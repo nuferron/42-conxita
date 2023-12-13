@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 21:48:05 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/13 16:50:37 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,12 @@ void	set_signals_interactive(void);
 void	set_signals_noninteractive(void);
 void	set_signals_heredoc(void);
 
+/*Signal Utils*/
+void	signal_reset_prompt(int signo);
+void	signal_print_newline(int signal);
+void	signal_heredoc(int signal);
+
+
 /*Prompt Handler*/
 int		handle_prompt(char *prompt, t_conxita *all);
 
@@ -184,7 +190,8 @@ t_chev	*new_chev(char *file, char *type);
 /*Execution*/
 int		lets_execute(t_conxita *all, int len);
 int		exec_heredoc(t_cmd *cmd, char *key);
-int		here_doc(char *key);
+int		here_doc(char *key, int *pipe_h);
+int		here_doc_wrapper(char *key);
 int		ft_waitpid(int pid, int len);
 int		redirections(t_cmd *cmd, t_redir *redir);
 int		init_chev(t_chev *chev, int	*last);
