@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:36:42 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 19:02:03 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/14 10:33:41 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	redirections(t_cmd *cmd, t_redir *redir)
 	close(redir->fd_pipe[1]);
 	if (cmd->chev && init_chev(cmd->chev, cmd->last) == -1)
 		return (-1);
-	if (cmd->chev->type == here && cmd->last[0] == -1)
+	if (cmd->chev && cmd->chev->type == here && cmd->last[0] == -1)
 		exit(1);
 	if (cmd->last[0] > 0 && dup2(cmd->last[0], 0) == -1)
 		exit(-print_errors(NULL));
