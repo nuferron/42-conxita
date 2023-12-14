@@ -57,7 +57,7 @@ leaks: ${NAME}
 	leaks -atExit -- ./${NAME}
 
 exec: ${NAME}
-	./conxita
+	./${NAME}
 
 norm:
 	make -s -C ${LIB} norm
