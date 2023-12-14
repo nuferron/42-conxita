@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 19:28:39 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/12/14 11:20:21 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/14 11:37:35 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	prompt_preprocessor(char *prompt)
 
 int	handle_prompt(char *prompt, t_conxita *all)
 {
-	g_signal = 0;
+	g_last_signal = 0;
 	if (!ft_strncmp(prompt, "", 2))
 		return (-1);
 	if (prompt_preprocessor(prompt) < 0)
@@ -64,7 +64,7 @@ int	handle_prompt(char *prompt, t_conxita *all)
 		return (-1);
 	all->redir = init_redir();
 	all->exit = lets_execute(all, all->cmd->len);
-	if (g_signal)
+	if (g_last_signal)
 		all->exit = 131;
 	return (0);
 }

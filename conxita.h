@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/14 11:20:41 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/14 11:28:23 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 //Global variable [FOR SIGNALS]
 
-int	g_signal = 0;
+int	g_last_signal;
 
 enum	e_arg_type
 {
