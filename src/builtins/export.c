@@ -6,7 +6,7 @@
 /*   By: nuferron <nuferron@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:48:37 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/07 21:22:21 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:22:04 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	update_env(t_env **env, char *arg)
 		{
 			free(tmp->value);
 			tmp->value = splitting_env(arg, 1);
+			tmp->show = 1;
 			if (!tmp->key)
 				exit(-print_errors(NULL));
 		}
