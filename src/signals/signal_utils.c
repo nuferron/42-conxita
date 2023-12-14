@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:01:28 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/12/13 17:51:27 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/14 11:21:27 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	signal_reset_prompt(int signo)
 
 void	signal_print_newline(int signal)
 {
-	(void)signal;
+	if (signal == SIGKILL)
+		g_signal = SIGKILL;
 	rl_on_new_line();
 }
 
