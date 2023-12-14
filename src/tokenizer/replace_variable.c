@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 19:30:17 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/12/13 19:30:18 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:30:12 by blvilarn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ int	is_quoted(char *full, char *str, int i)
 char	*get_pos(char *str, char *old, char *full_str)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (str[i])
 	{
 		if ((str[i] == '\'' && !is_quoted(full_str, str, i))
@@ -68,13 +66,8 @@ char	*get_pos(char *str, char *old, char *full_str)
 			skip_unexpandable(str, &i);
 			i--;
 		}
-		while (str[i] == old[j])
-		{
-			i++;
-			if (old[++j] == '\0')
-				return (&str[i - j]);
-		}
-		j = 0;
+		if (ft_strnstr(&str[i], old, ft_strlen(old)))
+			return (&str[i]);
 		if (str[i])
 			i++;
 	}
