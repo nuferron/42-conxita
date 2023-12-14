@@ -6,7 +6,7 @@
 /*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:35:09 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/14 11:28:23 by nuferron         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:25:53 by nuferron         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 //Global variable [FOR SIGNALS]
 
-int	g_last_signal;
+int						g_last_signal;
 
 enum	e_arg_type
 {
@@ -130,7 +130,6 @@ void	set_signals_ignore_all(void);
 void	signal_reset_prompt(int signo);
 void	signal_print_newline(int signal);
 void	signal_heredoc(int signal);
-
 
 /*Prompt Handler*/
 int		handle_prompt(char *prompt, t_conxita *all);
