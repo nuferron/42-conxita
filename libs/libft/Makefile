@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+         #
+#    By: blai <blai@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/21 15:43:54 by blvilarn          #+#    #+#              #
-#    Updated: 2023/12/07 00:15:01 by nuferron         ###   ########.fr        #
+#    Updated: 2023/12/22 04:22:37 by blai             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRC = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen
 	  ft_endswith.c get_next_line.c get_next_line_utils.c ft_printf.c str_utils.c int_utils.c \
 	  ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
 	  ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_strjoin_free.c ft_atod.c ft_iswhitespace.c ft_isnum.c \
-	  ft_memcontains.c ft_atol.c ft_strreplace.c ft_atoll.c
+	  ft_memcontains.c ft_atol.c ft_strreplace.c ft_atoll.c dpf_char.c dpf_flags.c dpf_hex_cap.c \
+	  dpf_hex_min.c dpf_hexadecimal.c dpf_len_functions.c dpf_num.c dpf_padding.c dpf_percentage.c \
+	  dpf_pointers.c dpf_precision.c dpf_sign.c dpf_string.c dpf_unsigned_num.c ft_dprintf.c
 
 OBJS = $(SRC:.c=.o)
 
@@ -44,11 +46,8 @@ all: $(NAME)
 
 $(NAME) : $(OBJS)
 	ar -rcs $(NAME) $(OBJS)
-	make -s -C ft_dprintf bonus
-	cp ft_dprintf/libftprintf.a ${NAME}
 
 norm:
-	make -C ft_dprintf norm --no-print-directory
 	printf "${WHITE}LIBFT${RESET}\n"
 	norminette $(SRC) ${HEADER} | grep -v "OK" \
 	| awk '{if($$2 == "Error!") print "${RED}"$$1" "$$2; \
@@ -56,10 +55,8 @@ norm:
 
 clean:
 	rm -f $(OBJS)
-	make -C ft_dprintf clean --no-print-directory
 
 fclean: 	clean
-		make -C ft_dprintf fclean --no-print-directory
 		if [ -e ${NAME} ] || [ -e do_bonus ] ; then \
 			rm -rf ${NAME} do_bonus ; \
 		fi

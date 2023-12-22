@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_variable.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blai <blai@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 19:30:17 by blvilarn          #+#    #+#             */
-/*   Updated: 2023/12/14 12:30:12 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/22 04:01:04 by blai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,13 @@ void	skip_unexpandable(char *str, int *i)
 	}
 }
 
-int	is_quoted(char *full, char *str, int i)
+int	is_quoted(char *full, int i)
 {
 	int		j;
-	int		len;
 	bool	quotes;
 	bool	simple;
 
 	j = 0;
-	len = ft_strlen(full) - ft_strlen(str) + i;
 	quotes = false;
 	simple = false;
 	while (full[j] && j < i)
@@ -60,7 +58,7 @@ char	*get_pos(char *str, char *old, char *full_str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] == '\'' && !is_quoted(full_str, str, i))
+		if ((str[i] == '\'' && !is_quoted(full_str, i))
 			|| ft_strnstr(&str[i], "<<", 2))
 		{
 			skip_unexpandable(str, &i);

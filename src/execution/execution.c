@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blvilarn <blvilarn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blai <blai@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 15:37:00 by nuferron          #+#    #+#             */
-/*   Updated: 2023/12/13 17:26:31 by blvilarn         ###   ########.fr       */
+/*   Updated: 2023/12/22 04:35:20 by blai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	exec_multiple_cmd(t_conxita *all, int len)
 				exit(1);
 			exit(exec_cmd(&(all->cmd[i]), all));
 		}
+		set_signals_ignore_all();
 		close(all->redir->fd_pipe[1]);
 		close(all->redir->fdr_aux);
 		all->redir->fdr_aux = all->redir->fd_pipe[0];
@@ -102,12 +103,13 @@ int	exec_one_builtin(t_conxita *all)
 int	lets_execute(t_conxita *all, int len)
 {
 	pid_t	pid;
-	int		i;
+	int		status;
 
-	i = -1;
 	if (len == 1 && all->cmd->cmd && is_builtin(all->cmd->cmd[0]))
 		return (exec_one_builtin(all));
 	pid = exec_multiple_cmd(all, len);
 	close(all->redir->fdr_aux);
-	return (ft_waitpid(pid, len));
+	status = ft_waitpid(pid, len);
+	set_signals_noninteractive();
+	return (status);
 }
